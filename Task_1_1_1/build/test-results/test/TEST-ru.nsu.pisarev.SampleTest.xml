@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.nsu.pisarev.SampleTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-09-01T03:14:25" hostname="ASUS_VIVOBOOK_A" time="0.061">
+  <properties/>
+  <testcase name="doINeedToCheckDefaultConstructor()" classname="ru.nsu.pisarev.SampleTest" time="0.039"/>
+  <testcase name="checkMain()" classname="ru.nsu.pisarev.SampleTest" time="0.014"/>
+  <testcase name="checkPrinting()" classname="ru.nsu.pisarev.SampleTest" time="0.003"/>
+  <system-out><![CDATA[Hello world!
+Hello world!
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
