@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="39bfe208-2050-48b2-a6e2-2a57c2f4522b" name="Changes" comment="Pisarev Artem">
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/nsu/pisarev/my_heapsort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/nsu/pisarev/my_heapsort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/nsu/pisarev/SampleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/nsu/pisarev/SampleTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="39bfe208-2050-48b2-a6e2-2a57c2f4522b" name="Changes" comment="Pisarev Artem" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,6 +24,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -135,7 +135,31 @@
       <option name="project" value="LOCAL" />
       <updated>1757296792318</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Pisarev Artem">
+      <option name="closed" value="true" />
+      <created>1757296886991</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1757296886991</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Pisarev Artem">
+      <option name="closed" value="true" />
+      <created>1757297042723</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1757297042723</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Pisarev Artem">
+      <option name="closed" value="true" />
+      <created>1757297105847</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1757297105847</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
