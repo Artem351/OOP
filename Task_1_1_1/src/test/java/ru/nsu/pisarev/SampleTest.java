@@ -11,7 +11,6 @@ class SampleTest {
 
     @Test
     void checkSortedArr() {
-
         int[] sortedArr = {1,2,3,4,5,6,100};
         my_heapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
