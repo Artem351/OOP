@@ -15,9 +15,9 @@ class SampleTest {
         my_heapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
 
-        int[] checksortedArr = {1,2,3,4,5,6,100};
+        int[] checkSortedArr = {1,2,3,4,5,6,100};
         for (int i=0;i<lenArr;i++)
-            if (sortedArr[i] !=checksortedArr[i])
+            if (sortedArr[i] != checkSortedArr[i])
                 fail();
         assertTrue(true);
     }
@@ -27,9 +27,9 @@ class SampleTest {
         my_heapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
 
-        int[] checksortedArr = {1,2,3,4,5,6,100};
+        int[] checkSortedArr = {1,2,3,4,5,6,100};
         for (int i=0;i<lenArr;i++)
-            if (sortedArr[i] !=checksortedArr[i])
+            if (sortedArr[i] != checkSortedArr[i])
                 fail();
         assertTrue(true);
     }
@@ -40,9 +40,9 @@ class SampleTest {
         my_heapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
 
-        int[] checksortedArr = {1,2,3,4,98,99,100};
+        int[] checkSortedArr = {1,2,3,4,98,99,100};
         for (int i=0;i<lenArr;i++)
-            if (sortedArr[i] !=checksortedArr[i])
+            if (sortedArr[i] != checkSortedArr[i])
                 fail();
         assertTrue(true);
     }
@@ -52,9 +52,9 @@ class SampleTest {
         my_heapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
 
-        int[] checksortedArr = {1,2,3,98,99,100};
+        int[] checkSortedArr = {1,2,3,98,99,100};
         for (int i=0;i<lenArr;i++)
-            if (sortedArr[i] !=checksortedArr[i])
+            if (sortedArr[i] != checkSortedArr[i])
                 fail();
         assertTrue(true);
     }
