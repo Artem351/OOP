@@ -1,10 +1,11 @@
 package ru.nsu.pisarev;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class SampleTest {
 
@@ -94,9 +95,5 @@ class SampleTest {
                 fail();
             }
         assertTrue(true);
-    }
-    @Test
-    void doINeedToCheckDefaultConstructor() {
-        final var sampleInstance = new my_heapsort();
     }
 }
