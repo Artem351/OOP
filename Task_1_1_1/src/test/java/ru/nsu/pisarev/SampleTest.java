@@ -2,23 +2,101 @@ package ru.nsu.pisarev;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SampleTest {
 
     @Test
-    void checkMain() {
-        Sample.main(new String[] {});
+    void checkSortedArr() {
+        int[] sortedArr = {1,2,3,4,5,6,100};
+        my_heapsort.heapsort(sortedArr);
+        int lenArr = sortedArr.length;
+
+        int[] checksortedArr = {1,2,3,4,5,6,100};
+        for (int i=0;i<lenArr;i++)
+            if (sortedArr[i] !=checksortedArr[i])
+                fail();
+        assertTrue(true);
+    }
+    @Test
+    void checkReverseArr() {
+        int[] sortedArr = {100,6,5,4,3,2,1};
+        my_heapsort.heapsort(sortedArr);
+        int lenArr = sortedArr.length;
+
+        int[] checksortedArr = {1,2,3,4,5,6,100};
+        for (int i=0;i<lenArr;i++)
+            if (sortedArr[i] !=checksortedArr[i])
+                fail();
         assertTrue(true);
     }
 
     @Test
-    void checkPrinting() {
-        Sample.printHelloWorld();
-    }
+    void checkChessArr() {
+        int[] sortedArr = {1,100,2,99,3,98,4};
+        my_heapsort.heapsort(sortedArr);
+        int lenArr = sortedArr.length;
 
+        int[] checksortedArr = {1,2,3,4,98,99,100};
+        for (int i=0;i<lenArr;i++)
+            if (sortedArr[i] !=checksortedArr[i])
+                fail();
+        assertTrue(true);
+    }
+    @Test
+    void checkEvenLengthArr() {
+        int[] sortedArr = {1,100,2,99,3,98};
+        my_heapsort.heapsort(sortedArr);
+        int lenArr = sortedArr.length;
+
+        int[] checksortedArr = {1,2,3,98,99,100};
+        for (int i=0;i<lenArr;i++)
+            if (sortedArr[i] !=checksortedArr[i])
+                fail();
+        assertTrue(true);
+    }
+    @Test
+    void checkLargeArr() {
+        int size = 1_000_000;
+        int[] sortedArr = new int[size];
+        Random random =new Random();
+        for(int i = 0;i<size;i++)
+        {
+            sortedArr[i] = random.nextInt(10_000_000);
+        }
+        my_heapsort.heapsort(sortedArr);
+        int lenArr = sortedArr.length;
+
+        for (int i=0;i<lenArr-1;i++)
+            if (sortedArr[i] >sortedArr[i+1]){
+                System.out.println("error on "+i+"symbol.\n Need: "+sortedArr[i+1]+",but it is:"+sortedArr[i]);
+                fail();
+            }
+        assertTrue(true);
+    }
+    @Test
+    void checkCloneArr() {
+        int size = 1_000_000;
+        int[] sortedArr = new int[size];
+        Random random =new Random();
+        for(int i = 0;i<size;i++)
+        {
+            sortedArr[i] = random.nextInt(100);
+        }
+        my_heapsort.heapsort(sortedArr);
+        int lenArr = sortedArr.length;
+
+        for (int i=0;i<lenArr-1;i++)
+            if (sortedArr[i] >sortedArr[i+1]){
+                System.out.println("error on "+i+"symbol.\n Need: "+sortedArr[i+1]+",but it is:"+sortedArr[i]);
+                fail();
+            }
+        assertTrue(true);
+    }
     @Test
     void doINeedToCheckDefaultConstructor() {
-        final var sampleInstance = new Sample();
+        final var sampleInstance = new my_heapsort();
     }
 }
