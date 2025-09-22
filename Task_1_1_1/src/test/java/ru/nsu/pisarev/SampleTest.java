@@ -12,7 +12,7 @@ class SampleTest {
     @Test
     void checkSortedArr() {
         int[] sortedArr = {1,2,3,4,5,6,100};
-        my_heapsort.heapsort(sortedArr);
+        MyHeapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
 
         int[] checkSortedArr = {1,2,3,4,5,6,100};
@@ -24,7 +24,7 @@ class SampleTest {
     @Test
     void checkReverseArr() {
         int[] sortedArr = {100,6,5,4,3,2,1};
-        my_heapsort.heapsort(sortedArr);
+        MyHeapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
 
         int[] checkSortedArr = {1,2,3,4,5,6,100};
@@ -37,7 +37,7 @@ class SampleTest {
     @Test
     void checkChessArr() {
         int[] sortedArr = {1,100,2,99,3,98,4};
-        my_heapsort.heapsort(sortedArr);
+        MyHeapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
 
         int[] checkSortedArr = {1,2,3,4,98,99,100};
@@ -49,7 +49,7 @@ class SampleTest {
     @Test
     void checkEvenLengthArr() {
         int[] sortedArr = {1,100,2,99,3,98};
-        my_heapsort.heapsort(sortedArr);
+        MyHeapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
 
         int[] checkSortedArr = {1,2,3,98,99,100};
@@ -67,7 +67,7 @@ class SampleTest {
         {
             sortedArr[i] = random.nextInt(10_000_000);
         }
-        my_heapsort.heapsort(sortedArr);
+        MyHeapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
 
         for (int i=0;i<lenArr-1;i++)
@@ -86,7 +86,7 @@ class SampleTest {
         {
             sortedArr[i] = random.nextInt(100);
         }
-        my_heapsort.heapsort(sortedArr);
+        MyHeapsort.heapsort(sortedArr);
         int lenArr = sortedArr.length;
 
         for (int i=0;i<lenArr-1;i++)
