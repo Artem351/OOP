@@ -25,4 +25,20 @@ class SampleTest {
         }
         assertTrue(true);
     }
+    
+    @Test
+    void checkCardCreation(){
+        Card card = new Card(2,"Four","Type");
+        if (card.cardName!="Four" || card.points!=4 || card.cardSuit!="Type")
+            fail();
+        assertTrue(true);
+    }
+
+    @Test
+    void checkCardGetPoints() {
+        Card card = new Card(2,"Four","Type");
+        if (card.getPoints()!=4)
+            fail();
+        assertTrue(true);
+    }
 }
