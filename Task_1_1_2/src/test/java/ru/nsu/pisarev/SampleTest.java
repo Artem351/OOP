@@ -27,6 +27,19 @@ class SampleTest {
     }
     
     @Test
+    void checkSecondGame(){
+        String simulatedInput = "1 0 9 1 0 9 1 0 9 1 0 9 1 0 9 0 9 0 0";
+        InputStream originalIn = System.in;
+        try {
+            System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+            Runner.main(new String[]{});
+        } finally {
+            System.setIn(originalIn);
+        }
+        assertTrue(true);
+    }
+    
+    @Test
     void checkCardCreation(){
         Card card = new Card(2,"Four","Type");
         if (card.cardName!="Four" || card.points!=4 || card.cardSuit!="Type")
@@ -42,3 +55,4 @@ class SampleTest {
         assertTrue(true);
     }
 }
+
