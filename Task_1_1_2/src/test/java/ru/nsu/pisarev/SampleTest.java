@@ -54,5 +54,20 @@ class SampleTest {
             fail();
         assertTrue(true);
     }
+    @Test
+    void dealerNeedPickCards() {
+        Card c1 = new Card(0,"Two-Ten","Type1");
+        Card c2 = new Card(0,"Two-Ten","Type2");
+        Card[] cards = new Card[]{c1,c2};
+        Dealer dealer = new Dealer(cards);
+        if (!dealer.needPickCards())
+            fail();
+        c1.setPoints(10);
+        c2.setPoints(10);
+        if(dealer.needPickCards())
+            fail();
+        assertTrue(true);
+    }
 }
+
 
