@@ -1,12 +1,8 @@
 package ru.nsu.pisarev;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class Runner {
-    final static String[] SUIT_ARRAY = {"Пики","Черви","Бубны","Трефы","d","a","g","h"};
-    final static String[] NAMES_ARRAY = {"Двойка","Тройка","Четвёрка","Пятёрка","Шестёрка","Семёрка","Восьмёрка","Девятка","Десятка",
-            "Валет","Дама","Король","Туз"};
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -17,19 +13,16 @@ public class Runner {
         while (true) {
             boolean isEnd = false;
             System.out.println("Раунд " + roundNumber);
-            Card pcard = createCard();
-            Card pcard2 = createCard();
-            Card[] playerCards = new Card[10];
-            playerCards[0] = pcard;
-            playerCards[1] = pcard2;
-            Player player = new Player(playerCards);
+            Player player = Game.createPlayer();
+            //TODO
             Card dcard = createCard();
             Card dcard2 = createCard();
             Card[] dealerCards = new Card[10];
             dealerCards[0] = dcard;
             dealerCards[1] = dcard2;
             Dealer dealer = new Dealer(dealerCards);
-            playerCards[0].changeAceValue(playerCards);
+
+            player.changeAceValue();
             printCardsDealerAndPlayer(player, dealer, isEnd);
             int inp=1;
             int pSum=playerCards[0].sumCards(playerCards);
@@ -92,7 +85,7 @@ public class Runner {
 
 
     private static int winPlayer(Player player,Dealer dealer){
-        int playerSum= player.playerCards[0].sumCards(player.playerCards);
+        int playerSum= player.cards[0].sumCards(player.cards);
         int dealerSum = dealer.dealerCards[0].sumCards(dealer.dealerCards);
         if (playerSum<=21 && dealerSum>21)
             return 1;
@@ -104,53 +97,5 @@ public class Runner {
             return 0;
         return playerSum > dealerSum ? 1: (playerSum==dealerSum ?2:0);
 
-    }
-    private static void printCardsDealerAndPlayer(Player player,Dealer dealer,boolean isEnd){
-
-        if (!isEnd){
-            player.showCards();
-            dealer.showCardsBeforeOpen();
-        }
-        else{
-            dealer.showFirstCardOpen();
-            player.showCards();
-            dealer.showDealerCardsAfterOpen();
-            boolean decision = false;
-            decision = dealer.needPickCards();
-            while(decision) {
-                if (decision){
-                    System.out.println();
-                    System.out.print("Дилер открывает карту:");
-                    Card dnewcard = createCard();
-                    dnewcard.showCard();
-                    int i=-1;
-                    for (Card dealerCard : dealer.dealerCards) {
-                        i++;
-                        if (dealerCard==null)
-                            break;
-                    }
-                    dealer.dealerCards[i]=dnewcard;
-                    System.out.println();
-                }
-                player.showCards();
-                dealer.showDealerCardsAfterOpen();
-                decision = dealer.needPickCards();
-            }
-        }
-    }
-
-
-    private static Card createCard(){
-        Random rd = new Random();
-        int typeId = rd.nextInt(4);
-        int nameId = rd.nextInt(13);
-        Card card = new Card(nameId, NAMES_ARRAY[nameId] ,SUIT_ARRAY[typeId]);
-        return card;
-    }
-    private static Card createCard(int nameId){
-        Random rd = new Random();
-        int typeId = rd.nextInt(4);
-        Card card = new Card(nameId, NAMES_ARRAY[nameId] ,SUIT_ARRAY[typeId]);
-        return card;
     }
 }
