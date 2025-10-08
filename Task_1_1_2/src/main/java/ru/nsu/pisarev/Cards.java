@@ -6,21 +6,8 @@ public class Cards {
     protected String cardSuit;
 
 
-    public void showCards(Card[] cards){
-        for (Card card : cards) {
-            if (card !=null)
-                card.showCard();
-        }
-    }
-    public void showSum(Card[] cards){
-        int sum=0;
-        for (Card card : cards) {
-            if (card != null)
-                sum+=card.points;
-        }
-        System.out.print(sum);
-    }
-    public int sumCards(Card[] cards) {
+
+    public static int sumCards(Card[] cards) {
         int sum = 0;
         for (Card card : cards) {
             if (card != null)
@@ -28,8 +15,8 @@ public class Cards {
         }
         return sum;
     }
-    public void changeAceValue(Card[] cards){
-        while (cards[0].sumCards(cards) > 21){
+    public static void changeAceValue(Card[] cards){
+        while (Cards.sumCards(cards) > 21){
             int countAce = 0;
             int countOnePointAce = 0;
             boolean firstAceInHand = false;
