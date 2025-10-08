@@ -18,21 +18,16 @@ public class Card extends Cards{
     public int getPoints() {
         return points;
     }
-
-    public String getCardName() {
+    public String getName() {
         return cardName;
     }
-
     public void setPoints(int points) {
-        if (points>=2)
+        if (points>=1)
             this.points = points;
         else {
             System.err.println("Invalid points");
-            this.points = 2;
+            this.points = 1;
         }
     }
 
-    public void showCard(){
-        System.out.print("<"+this.cardName+" "+this.cardSuit+" ("+this.points+")> ");
-    }
 }
