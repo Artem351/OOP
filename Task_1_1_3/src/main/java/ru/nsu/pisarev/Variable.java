@@ -1,4 +1,4 @@
-package TaskVault.task_1_1_3;
+package ru.nsu.pisarev;
 
 public class Variable extends Expression {
     private String var;
@@ -41,3 +41,4 @@ public class Variable extends Expression {
         return new Variable(this.var);
     }
 }
+
