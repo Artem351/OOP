@@ -1,4 +1,4 @@
-package TaskVault.task_1_1_3;
+package ru.nsu.pisarev;
 
 public abstract class Expression {
     public abstract void print();
@@ -6,3 +6,4 @@ public abstract class Expression {
     public abstract int eval(String vars);
     public abstract Expression simplification();
 }
+
