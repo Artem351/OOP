@@ -1,4 +1,4 @@
-package TaskVault.task_1_1_3;
+package ru.nsu.pisarev;
 
 public class Number extends Expression {
     private int n;
@@ -28,3 +28,4 @@ public class Number extends Expression {
         return new Number(this.getN());
     }
 }
+
