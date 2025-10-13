@@ -3,7 +3,7 @@ package ru.nsu.pisarev;
 public final class CardPrint {
 
     public static void showCard(Card card){
-        System.out.print("<"+card.cardName+" "+card.cardSuit+" ("+card.points+")> ");
+        System.out.print("<"+card.getName()+" "+card.getSuit()+" ("+card.getPoints()+")> ");
     }
     public static void showCards(Card[] cards){
         for (Card card : cards) {

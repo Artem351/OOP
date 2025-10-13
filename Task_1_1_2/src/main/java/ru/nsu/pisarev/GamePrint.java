@@ -5,17 +5,17 @@ public final class GamePrint {
 
         if (!isEnd){
             player.showCards();
-            DealerPrint.showCardsBeforeOpen(dealer,isEnd);
+            DealerPrinter.showCardsBeforeOpen(dealer,isEnd);
         }
         else{
-            DealerPrint.showFirstCardOpen(dealer);
+            DealerPrinter.showFirstCardOpen(dealer);
             player.showCards();
-            DealerPrint.printNeedAmountOfDealerCards(dealer,3);
-            DealerPrint.simulateOpenDealerAllCards(dealer);
+            DealerPrinter.printNeedAmountOfDealerCards(dealer,3);
+            DealerPrinter.simulateOpenDealerAllCards(dealer);
 
             System.out.println("Дилер завершает свой ход.");
             player.showCards();
-            DealerPrint.showDealerCardsAfterOpen(dealer);
+            DealerPrinter.showDealerCardsAfterOpen(dealer);
 
         }
     }

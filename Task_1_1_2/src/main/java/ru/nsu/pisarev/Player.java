@@ -1,7 +1,7 @@
 package ru.nsu.pisarev;
 
 public class Player {
-        public Card[] cards;
+    private Card[] cards;
 
     public Player(Card[] cards) {
         this.cards = cards;
@@ -9,13 +9,21 @@ public class Player {
 
     public void showCards(){
         System.out.print("Ваши карты:");
-        cards[0].showCards(cards);
+        CardPrint.showCards(cards);
         System.out.print(" => ");
-        cards[0].showSum(cards);
+        CardPrint.showSum(cards);
         System.out.println();
     }
 
     public void changeAceValue() {
-        cards[0].changeAceValue(cards);
+        Cards.changeAceValue(cards);
+    }
+
+    public int sumCards() {
+        return Cards.sumCards(cards);
+    }
+
+    public Card[] getCards() {
+        return cards;
     }
 }

@@ -3,9 +3,9 @@ package ru.nsu.pisarev;
 import java.util.Random;
 
 public class Game {
-    final static String[] SUIT_ARRAY = {"Пики","Черви","Бубны","Трефы"};
-    final static String[] NAMES_ARRAY = {"Двойка","Тройка","Четвёрка","Пятёрка","Шестёрка","Семёрка","Восьмёрка","Девятка","Десятка",
-            "Валет","Дама","Король","Туз"};
+    public static final String[] SUIT_ARRAY = {"Пики", "Черви", "Бубны", "Трефы"};
+    public static final String[] NAMES_ARRAY = {"Двойка", "Тройка", "Четвёрка", "Пятёрка", "Шестёрка", "Семёрка", "Восьмёрка", "Девятка", "Десятка",
+            "Валет", "Дама", "Король", "Туз"};
 
     private static final int MAXIMAL_CARDS = 20;
 
@@ -22,46 +22,47 @@ public class Game {
         cards[1] = createCard();
         Dealer dealer = new Dealer(cards);
         boolean decision = false;
-        decision = dealer.needPickCards();
-        while(decision) {
-            if (decision){
+        decision = dealer.moreCardsNeeded();
+        while (decision) {
+            if (decision) {
                 Card dnewcard = createCard();
-                int i=-1;
-                for (Card dealerCard : dealer.cards) {
+                int i = -1;
+                for (Card dealerCard : dealer.getCards()) {
                     i++;
-                    if (dealerCard==null)
+                    if (dealerCard == null)
                         break;
                 }
-                dealer.cards[i]=dnewcard;
+                dealer.getCards()[i] = dnewcard;
                 System.out.println();
             }
-            decision = dealer.needPickCards();
+            decision = dealer.moreCardsNeeded();
         }
         return dealer;
     }
-    public static Card AddCardPlayer(Player player){
-        Card pcardn = Game.createCard();
-        int i=-1;
-        for (Card card : player.cards) {
+
+    public static Card AddCardPlayer(Player player) {
+        Card playerCardN = Game.createCard();
+        int i = -1;
+        for (Card card : player.getCards()) {
             i++;
-            if (card ==null)
+            if (card == null)
                 break;
         }
-        player.cards[i]=pcardn;
+        player.getCards()[i] = playerCardN;
         player.changeAceValue();
-        return pcardn;
+        return playerCardN;
     }
 
-    private static Card createCard(){
+    private static Card createCard() {
         Random rd = new Random();
         int typeId = rd.nextInt(4);
         int nameId = rd.nextInt(13);
-        return new Card(nameId, NAMES_ARRAY[nameId] ,SUIT_ARRAY[typeId]);
+        return new Card(nameId, NAMES_ARRAY[nameId], SUIT_ARRAY[typeId]);
     }
 
-    static Card createCard(int nameId){
+    static Card createCard(int nameId) {
         Random rd = new Random();
         int typeId = rd.nextInt(4);
-        return new Card(nameId, NAMES_ARRAY[nameId] ,SUIT_ARRAY[typeId]);
+        return new Card(nameId, NAMES_ARRAY[nameId], SUIT_ARRAY[typeId]);
     }
 }

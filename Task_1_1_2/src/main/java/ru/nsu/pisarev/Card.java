@@ -1,28 +1,29 @@
 package ru.nsu.pisarev;
 
-public class Card extends Cards{
+public class Card {
+    private int points;
+    private String name;
+    private String suit;
 
-    public Card(int nameId,String cardName, String cardSuit) {
-        this.cardName = cardName;
-        this.cardSuit = cardSuit;
-        if (nameId<9)
-            this.points = nameId+2;
-        else
-        {
-            if (nameId<12)
+    public Card(int nameId, String name, String suit) {
+        this.name = name;
+        this.suit = suit;
+        if (nameId < 9)
+            this.points = nameId + 2;
+        else {
+            if (nameId < 12)
                 this.points = 10;
             else
                 this.points = 11;
         }
     }
+
     public int getPoints() {
         return points;
     }
-    public String getName() {
-        return cardName;
-    }
+
     public void setPoints(int points) {
-        if (points>=1)
+        if (points >= 1)
             this.points = points;
         else {
             System.err.println("Invalid points");
@@ -30,4 +31,11 @@ public class Card extends Cards{
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getSuit() {
+        return suit;
+    }
 }
