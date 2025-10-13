@@ -48,13 +48,12 @@ class SampleTest {
     @Test
     void checkCardGetPoints() {
         Card card = new Card(2, "Four", "Type");
-        if (card.getPoints() != 4)
-            fail();
+        assertEquals(4,card.getPoints());
         assertTrue(true);
     }
 
     @Test
-    void dealerNeedPickCards() {
+    void dealerMoreCardsNeeded() {
         Card c1 = new Card(0, "Two-Ten", "Type1");
         Card c2 = new Card(0, "Two-Ten", "Type2");
         Card[] cards = new Card[]{c1, c2};
@@ -68,5 +67,6 @@ class SampleTest {
         assertTrue(true);
     }
 }
+
 
 
