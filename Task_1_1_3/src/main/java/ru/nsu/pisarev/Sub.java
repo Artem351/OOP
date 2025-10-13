@@ -1,4 +1,4 @@
-package TaskVault.task_1_1_3;
+package ru.nsu.pisarev;
 
 public class Sub extends Expression {
     private Expression e1;
@@ -37,3 +37,4 @@ public class Sub extends Expression {
         return new Sub(expr1,expr2);
     }
 }
+
