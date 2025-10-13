@@ -1,4 +1,4 @@
-package TaskVault.task_1_1_3;
+package ru.nsu.pisarev;
 
 public class Mul extends Expression {
     private Expression e1;
@@ -49,3 +49,4 @@ public class Mul extends Expression {
         return new Mul(expr1,expr2);
     }
 }
+
