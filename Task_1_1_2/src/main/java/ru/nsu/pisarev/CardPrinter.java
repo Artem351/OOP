@@ -1,6 +1,6 @@
 package ru.nsu.pisarev;
 
-public final class CardPrint {
+public final class CardPrinter {
 
     public static void showCard(Card card){
         System.out.print("<"+card.getName()+" "+card.getSuit()+" ("+card.getPoints()+")> ");
@@ -21,7 +21,8 @@ public final class CardPrint {
         System.out.print(sum);
     }
 
-    private CardPrint() {
+    private CardPrinter() {
         throw new UnsupportedOperationException();
     }
 }
+
