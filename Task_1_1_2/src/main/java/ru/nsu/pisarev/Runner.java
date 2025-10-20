@@ -19,7 +19,7 @@ public class Runner {
 
             Dealer dealer = Game.createDealer();
 
-            GamePrint.printCardsDealerAndPlayer(player, dealer, isEnd);
+            GamePrinter.printCardsDealerAndPlayer(player, dealer, isEnd);
             int inp=1;
             int pSum= player.sumCards();
             int dSum;
@@ -30,16 +30,16 @@ public class Runner {
                 }while (inp!=1 && inp!=0);
                 if (inp == 1) {
                     Card newCard = Game.AddCardPlayer(player);
-                    GamePrint.printCardsDealerAndPlayer(player, dealer, isEnd);
+                    GamePrinter.printCardsDealerAndPlayer(player, dealer, isEnd);
                 } else {
                     System.out.println("--------------------------------");
                     isEnd = true;
                     dealer.changeAceValue();
-                    GamePrint.printCardsDealerAndPlayer(player, dealer, isEnd);
+                    GamePrinter.printCardsDealerAndPlayer(player, dealer, isEnd);
                 }
                 pSum=player.sumCards();
             }
-            int result = GamePrint.showPlayerRoundResult(player,dealer,playerWins,dealerWins);
+            int result = GamePrinter.showPlayerRoundResult(player,dealer,playerWins,dealerWins);
             if (result == 1)
                 playerWins+=1;
             else if (result == 0)
@@ -54,3 +54,4 @@ public class Runner {
 
 
 }
+
