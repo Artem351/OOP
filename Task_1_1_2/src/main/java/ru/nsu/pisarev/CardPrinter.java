@@ -8,7 +8,7 @@ public final class CardPrinter {
     public static void showCards(Card[] cards){
         for (Card card : cards) {
             if (card !=null)
-                CardPrint.showCard(card);
+                CardPrinter.showCard(card);
         }
     }
 
@@ -25,4 +25,5 @@ public final class CardPrinter {
         throw new UnsupportedOperationException();
     }
 }
+
 
