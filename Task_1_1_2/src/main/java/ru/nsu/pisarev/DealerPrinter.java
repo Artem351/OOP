@@ -24,7 +24,7 @@ public final class DealerPrinter {
             i++;
             if (i<amount){
 
-                CardPrint.showCard(card);
+                CardPrinter.showCard(card);
             }
             else{
                 break;
