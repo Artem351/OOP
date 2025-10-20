@@ -9,9 +9,9 @@ public class Player {
 
     public void showCards(){
         System.out.print("Ваши карты:");
-        CardPrint.showCards(cards);
+        CardPrinter.showCards(cards);
         System.out.print(" => ");
-        CardPrint.showSum(cards);
+        CardPrinter.showSum(cards);
         System.out.println();
     }
 
@@ -27,4 +27,5 @@ public class Player {
         return cards;
     }
 }
+
 
