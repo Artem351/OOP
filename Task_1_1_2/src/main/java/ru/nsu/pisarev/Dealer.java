@@ -8,9 +8,8 @@ public class Dealer {
     }
 
     public boolean moreCardsNeeded(){
-        int decision;
         Cards.changeAceValue(cards);
-        decision = Cards.sumCards(cards);
+        int decision = Cards.sumCards(cards);
         return decision<=16;
     }
 
@@ -26,3 +25,4 @@ public class Dealer {
         return cards;
     }
 }
+
