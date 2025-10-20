@@ -1,6 +1,6 @@
 package ru.nsu.pisarev;
 
-public final class GamePrint {
+public final class GamePrinter {
     static void printCardsDealerAndPlayer(Player player,Dealer dealer,boolean isEnd){
 
         if (!isEnd){
@@ -59,7 +59,8 @@ public final class GamePrint {
 
     }
 
-    private GamePrint() {
+    private GamePrinter() {
         throw new UnsupportedOperationException();
     }
 }
+
