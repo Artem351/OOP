@@ -5,7 +5,7 @@ public final class DealerPrinter {
         System.out.print("Карты дилера:");
         if (dealer.getCards()[0].getName().equals("Туз") && dealer.getCards()[0].getPoints()==1 && !isEnd){
             dealer.getCards()[0].setPoints(11);
-            CardPrint.showCard(dealer.getCards()[0]);
+            CardPrinter.showCard(dealer.getCards()[0]);
             dealer.getCards()[0].setPoints(1);
         }
 
@@ -14,7 +14,7 @@ public final class DealerPrinter {
     public static void showFirstCardOpen(Dealer dealer){
         System.out.print("Ход дилера\n--------\n");
         System.out.print("Дилер открывает закрытую карту:");
-        CardPrint.showCard(dealer.getCards()[1]);
+        CardPrinter.showCard(dealer.getCards()[1]);
         System.out.println();
     }
     public static void printNeedAmountOfDealerCards(Dealer dealer, int amount){
@@ -38,7 +38,7 @@ public final class DealerPrinter {
         int i=2;
         while (dealer.getCards()[i]!=null) {
             System.out.print("Дилер открывает карту:");
-            CardPrint.showCard(dealer.getCards()[i]);
+            CardPrinter.showCard(dealer.getCards()[i]);
             i++;
             System.out.println();
         }
@@ -46,7 +46,7 @@ public final class DealerPrinter {
 
     public static void showDealerCardsAfterOpen(Dealer dealer){
         System.out.print("Карты дилера:");
-        CardPrint.showCards(dealer.getCards());
+        CardPrinter.showCards(dealer.getCards());
         System.out.println("=> "+ Cards.sumCards(dealer.getCards()));
     }
 
