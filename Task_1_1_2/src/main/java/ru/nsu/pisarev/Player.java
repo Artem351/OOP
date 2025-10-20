@@ -1,7 +1,7 @@
 package ru.nsu.pisarev;
 
 public class Player {
-    private Card[] cards;
+    private final Card[] cards;
 
     public Player(Card[] cards) {
         this.cards = cards;
@@ -27,3 +27,4 @@ public class Player {
         return cards;
     }
 }
+
