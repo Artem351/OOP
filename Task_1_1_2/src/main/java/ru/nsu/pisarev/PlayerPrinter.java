@@ -3,7 +3,7 @@ package ru.nsu.pisarev;
 public final class PlayerPrinter {
     public void ShowPlayerNewCard(Card playerCardN){
         System.out.print("Вы открыли карту:");
-        CardPrint.showCard(playerCardN);
+        CardPrinter.showCard(playerCardN);
         System.out.println();
     }
 
@@ -11,4 +11,5 @@ public final class PlayerPrinter {
         throw new UnsupportedOperationException();
     }
 }
+
 
