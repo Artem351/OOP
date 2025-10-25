@@ -7,10 +7,10 @@ public class Dealer {
         this.cards = cards;
     }
 
-    public boolean moreCardsNeeded(){
+    public boolean moreCardsNeeded() {
         Cards.changeAceValue(cards);
         int decision = Cards.sumCards(cards);
-        return decision<=16;
+        return decision <= 16;
     }
 
     public void changeAceValue() {

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Objects;
 
 
 class SampleTest {
@@ -71,7 +70,7 @@ class SampleTest {
     @Test
     public void testShowPlayerNewCard(){
         Card playerCardN =  new Card(8, "Two-Ten", "Type1");
-        PlayerPrinter.ShowPlayerNewCard(playerCardN);
+        PlayerPrinter.showPlayerNewCard(playerCardN);
     }
     @Test
     public void testDealerPrinter(){

@@ -7,25 +7,19 @@ public class Game {
     public static final String[] NAMES_ARRAY = {"Двойка", "Тройка", "Четвёрка", "Пятёрка", "Шестёрка", "Семёрка", "Восьмёрка", "Девятка", "Десятка",
             "Валет", "Дама", "Король", "Туз"};
 
-    private static final int MAXIMAL_CARDS = 20;
+    public static final int MAXIMAL_CARDS = 20;
 
-    public static Player createPlayer() {
-        Card[] cards = new Card[MAXIMAL_CARDS];
-        cards[0] = createCard();
-        cards[1] = createCard();
-        return new Player(cards);
-    }
 
     public static Dealer createDealer() {
         Card[] cards = new Card[MAXIMAL_CARDS];
-        cards[0] = createCard();
-        cards[1] = createCard();
+        cards[0] = Card.createCard();
+        cards[1] = Card.createCard();
         Dealer dealer = new Dealer(cards);
         boolean decision = false;
         decision = dealer.moreCardsNeeded();
         while (decision) {
             if (decision) {
-                Card dnewcard = createCard();
+                Card dnewcard = Card.createCard();
                 int i = -1;
                 for (Card dealerCard : dealer.getCards()) {
                     i++;
@@ -40,8 +34,8 @@ public class Game {
         return dealer;
     }
 
-    public static Card AddCardPlayer(Player player) {
-        Card playerCardN = Game.createCard();
+    public static Card addPlayerCard(Player player) {
+        Card playerCardN = Card.createCard();
         int i = -1;
         for (Card card : player.getCards()) {
             i++;
@@ -53,16 +47,5 @@ public class Game {
         return playerCardN;
     }
 
-    private static Card createCard() {
-        Random rd = new Random();
-        int typeId = rd.nextInt(4);
-        int nameId = rd.nextInt(13);
-        return new Card(nameId, NAMES_ARRAY[nameId], SUIT_ARRAY[typeId]);
-    }
 
-    static Card createCard(int nameId) {
-        Random rd = new Random();
-        int typeId = rd.nextInt(4);
-        return new Card(nameId, NAMES_ARRAY[nameId], SUIT_ARRAY[typeId]);
-    }
 }
