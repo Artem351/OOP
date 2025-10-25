@@ -73,6 +73,27 @@ class SampleTest {
         Card playerCardN =  new Card(8, "Two-Ten", "Type1");
         PlayerPrinter.ShowPlayerNewCard(playerCardN);
     }
+    @Test
+    public void testDealerPrinter(){
+        Card c1 = new Card(0, Card.ACE, "Type1");
+        Card c2 = new Card(0, "Two", "Type2");
+        Card c3 = new Card(0, "Four", "Type3");
+        Card[] cards = new Card[]{c1,c2};
+        Dealer dealer = new Dealer(cards);
+        Card[] cards2 = new Card[]{c3,c2};
+        Dealer dealer2 = new Dealer(cards2);
+        DealerPrinter.showCardsBeforeOpen(dealer,false);
+        DealerPrinter.showCardsBeforeOpen(dealer,true);
+        DealerPrinter.showCardsBeforeOpen(dealer2,false);
+        DealerPrinter.showCardsBeforeOpen(dealer2,true);
+        DealerPrinter.showFirstCardOpen(dealer);
+        DealerPrinter.showFirstCardOpen(dealer2);
+        DealerPrinter.printNeedAmountOfDealerCards(dealer,100);
+        DealerPrinter.printNeedAmountOfDealerCards(dealer,0);
+        DealerPrinter.simulateOpenDealerAllCards(dealer);
+        DealerPrinter.showDealerCardsAfterOpen(dealer);
+    }
+
 }
 
 
