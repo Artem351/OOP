@@ -1,13 +1,16 @@
 package ru.nsu.pisarev;
 
 public final class DealerPrinter {
+    public final static String ACE = "Туз";
     public static void showCardsBeforeOpen(Dealer dealer, boolean isEnd){
         System.out.print("Карты дилера:");
-        if (dealer.getCards()[0].getName().equals("Туз") && dealer.getCards()[0].getPoints()==1 && !isEnd){
-            dealer.getCards()[0].setPoints(11);
+        if (dealer.getCards()[0].getName().equals(ACE) && dealer.getCards()[0].getPoints()==1 && !isEnd){
+            dealer.getCards()[0].increaseAceValue();
             CardPrinter.showCard(dealer.getCards()[0]);
-            dealer.getCards()[0].setPoints(1);
+            dealer.getCards()[0].decreaseAceValue();
         }
+        else
+            CardPrinter.showCard(dealer.getCards()[0]);
 
         System.out.println("<закрытая карта>");
     }

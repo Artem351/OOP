@@ -45,7 +45,7 @@ public class Runner {
             else if (result == 0)
                 dealerWins+=1;
             roundNumber+=1;
-            System.out.println("Введи \"0\", если хочешь уйти, и \"1\",чтобы остаться");
+            System.out.println("Введите \"0\", если желаете уйти, и \"1\",чтобы остаться");
             if (sc.nextInt() == 0)
                 break;
         }

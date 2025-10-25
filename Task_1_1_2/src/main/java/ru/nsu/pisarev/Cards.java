@@ -1,7 +1,8 @@
 package ru.nsu.pisarev;
 
+import static ru.nsu.pisarev.Card.ACE;
+
 public final class Cards {
-    public static final String ACE = "Туз";
 
     public static int sumCards(Card[] cards) {
         int sum = 0;
@@ -21,7 +22,7 @@ public final class Cards {
                 if (playerCard != null && playerCard.getName().equals(ACE)) {
                     countAce += 1;
                     if (playerCard.getPoints() > 1 && !firstAceInHand) {
-                        playerCard.setPoints(1);
+                        playerCard.decreaseAceValue();
                         countOnePointAce += 1;
                         firstAceInHand = true;
                     } else if (playerCard.getPoints() == 1 && !firstAceInHand) {

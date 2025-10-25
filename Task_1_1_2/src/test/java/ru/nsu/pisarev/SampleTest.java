@@ -60,8 +60,10 @@ class SampleTest {
         Dealer dealer = new Dealer(cards);
         if (!dealer.moreCardsNeeded())
             fail();
-        c1.setPoints(10);
-        c2.setPoints(10);
+        c1 = new Card(8, "Two-Ten", "Type1");
+        c2 = new Card(8, "Two-Ten", "Type2");
+        cards = new Card[]{c1, c2};
+        dealer = new Dealer(cards);
         if (dealer.moreCardsNeeded())
             fail();
         assertTrue(true);

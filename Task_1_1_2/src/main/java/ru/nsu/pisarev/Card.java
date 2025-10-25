@@ -1,9 +1,13 @@
 package ru.nsu.pisarev;
 
+
+import java.util.Objects;
+
 public class Card {
+    public static final String ACE = "Туз";
     private int points;
-    private String name;
-    private String suit;
+    private final String name;
+    private final String suit;
 
     public Card(int nameId, String name, String suit) {
         this.name = name;
@@ -22,15 +26,18 @@ public class Card {
         return points;
     }
 
-    public void setPoints(int points) {
-        if (points >= 1)
-            this.points = points;
-        else {
-            System.err.println("Invalid points");
+
+    public void decreaseAceValue() {
+        if (Objects.equals(this.name, ACE)){
             this.points = 1;
         }
     }
-
+    /*to show dealer first card-ace*/
+    public void increaseAceValue() {
+        if (Objects.equals(this.name, ACE)){
+            this.points = 11;
+        }
+    }
     public String getName() {
         return name;
     }
