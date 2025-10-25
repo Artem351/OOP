@@ -9,14 +9,9 @@ public class Add extends Expression {
     }
 
     @Override
-    public void print() {
-        System.out.print("(");
-        this.e1.print();
-        System.out.print("+");
-        this.e2.print();
-        System.out.print(")");
+    public String print() {
+        return "("+this.e1.print()+"+"+this.e2.print()+")";
     }
-
     @Override
     public Expression derivative(String var) {
         Expression eDerivative1 = this.e1.derivative(var);

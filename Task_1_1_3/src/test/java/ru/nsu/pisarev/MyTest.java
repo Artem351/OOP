@@ -1,29 +1,19 @@
 package ru.nsu.pisarev;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class Test {
+public class MyTest {
     @Test
     void checkExpressionPrint() {
         Expression e = new Add(new Number(3), new Mul(new Number(2),
                 new Variable("x"))); // (3+(2*x))
         String rightAnswer = "(3+(2*x))";
-        PrintStream originalOut = System.out;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(outputStream);
-        try {
-            System.setOut(printStream);
-            e.print();
-        } finally {
-            System.setOut(originalOut);
-        }
-        String output = outputStream.toString();
-        if (!output.equals(rightAnswer))
-            fail();
+        assertEquals(rightAnswer,e.print());
         assertTrue(true);
     }
 
@@ -32,19 +22,8 @@ public class Test {
         Expression e = new Add(new Number(3), new Mul(new Number(2),
                 new Variable("x"))); // (3+(2*x))
         Expression de = e.derivative("x");
-        String rightAnswer = "(3+(2*x))";
-        PrintStream originalOut = System.out;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(outputStream);
-        try {
-            System.setOut(printStream);
-            de.print();
-        } finally {
-            System.setOut(originalOut);
-        }
-        String output = outputStream.toString();
-        if (!output.equals(rightAnswer))
-            fail();
+        String rightAnswer = "(0+(0*x+2*1))";
+        assertEquals(rightAnswer,de.print());
         assertTrue(true);
     }
     @Test
@@ -82,3 +61,4 @@ public class Test {
         assertTrue(true);
     }
 }
+

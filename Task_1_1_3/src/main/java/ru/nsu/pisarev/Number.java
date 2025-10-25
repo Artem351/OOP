@@ -9,9 +9,8 @@ public class Number extends Expression {
         return n;
     }
 
-    @Override
-    public void print() {
-        System.out.print(this.n);
+    public String print() {
+        return Integer.toString(this.n);
     }
     @Override
     public Expression derivative(String var) {

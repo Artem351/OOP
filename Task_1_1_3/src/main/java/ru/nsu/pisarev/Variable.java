@@ -7,8 +7,8 @@ public class Variable extends Expression {
     }
 
     @Override
-    public void print() {
-        System.out.print(this.var);
+    public String print() {
+        return this.var;
     }
 
     @Override
