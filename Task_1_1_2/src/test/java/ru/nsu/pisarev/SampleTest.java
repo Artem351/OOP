@@ -68,6 +68,11 @@ class SampleTest {
             fail();
         assertTrue(true);
     }
+    @Test
+    public void testShowPlayerNewCard(){
+        Card playerCardN =  new Card(8, "Two-Ten", "Type1");
+        PlayerPrinter.ShowPlayerNewCard(playerCardN);
+    }
 }
 
 
