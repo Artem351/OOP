@@ -1,6 +1,6 @@
 package ru.nsu.pisarev;
 
-public class Sub extends Expression {
+public class Sub implements Expression {
     private Expression e1;
     private Expression e2;
     public Sub(Expression e1, Expression e2) {

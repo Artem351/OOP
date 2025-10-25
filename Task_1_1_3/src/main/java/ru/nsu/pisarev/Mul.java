@@ -1,6 +1,6 @@
 package ru.nsu.pisarev;
 
-public class Mul extends Expression {
+public class Mul implements Expression {
     private Expression e1;
     private Expression e2;
     public Mul(Expression e1, Expression e2) {

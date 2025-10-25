@@ -1,6 +1,6 @@
 package ru.nsu.pisarev;
 
-public class Number extends Expression {
+public class Number implements Expression {
     private int n;
     public Number(int n) {
         this.n = n;

@@ -1,6 +1,6 @@
 package ru.nsu.pisarev;
 
-public class Div extends Expression {
+public class Div implements Expression {
     private Expression e1;
     private Expression e2;
     public Div(Expression e1, Expression e2) {

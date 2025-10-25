@@ -1,6 +1,6 @@
 package ru.nsu.pisarev;
 
-public class Add extends Expression {
+public class Add implements Expression {
     private Expression e1;
     private Expression e2;
     public Add(Expression e1, Expression e2) {

@@ -1,6 +1,6 @@
 package ru.nsu.pisarev;
 
-public class Variable extends Expression {
+public class Variable implements Expression {
     private String var;
     public Variable(String var) {
         this.var = var;
