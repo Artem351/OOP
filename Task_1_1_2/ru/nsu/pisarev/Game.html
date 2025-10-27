@@ -31,6 +31,7 @@ loadScripts(document, 'script');</script>
 <div class="top-nav" id="navbar-top">
 <div class="skip-nav"><a href="#skip-navbar-top" title="Skip navigation links">Skip navigation links</a></div>
 <ul id="navbar-top-firstrow" class="nav-list" title="Navigation">
+<li><a href="../../../index.html">Overview</a></li>
 <li><a href="package-summary.html">Package</a></li>
 <li class="nav-bar-cell1-rev">Class</li>
 <li><a href="package-tree.html">Tree</a></li>
@@ -88,12 +89,15 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
-<div class="col-second even-row-color"><code><a href="#NAMES_ARRAY" class="member-name-link">NAMES_ARRAY</a></code></div>
+<div class="col-first even-row-color"><code>static final int</code></div>
+<div class="col-second even-row-color"><code><a href="#MAXIMAL_CARDS" class="member-name-link">MAXIMAL_CARDS</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
-<div class="col-second odd-row-color"><code><a href="#SUIT_ARRAY" class="member-name-link">SUIT_ARRAY</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#NAMES_ARRAY" class="member-name-link">NAMES_ARRAY</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-second even-row-color"><code><a href="#SUIT_ARRAY" class="member-name-link">SUIT_ARRAY</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -122,14 +126,11 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Card.html" title="class in ru.nsu.pisarev">Card</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#AddCardPlayer(ru.nsu.pisarev.Player)" class="member-name-link">AddCardPlayer</a><wbr>(<a href="Player.html" title="class in ru.nsu.pisarev">Player</a>&nbsp;player)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#addPlayerCard(ru.nsu.pisarev.Player)" class="member-name-link">addPlayerCard</a><wbr>(<a href="Player.html" title="class in ru.nsu.pisarev">Player</a>&nbsp;player)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Dealer.html" title="class in ru.nsu.pisarev">Dealer</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createDealer()" class="member-name-link">createDealer</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Player.html" title="class in ru.nsu.pisarev">Player</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createPlayer()" class="member-name-link">createPlayer</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -159,6 +160,20 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">NAMES_ARRAY</span></div>
 </section>
 </li>
+<li>
+<section class="detail" id="MAXIMAL_CARDS">
+<h3>MAXIMAL_CARDS</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">MAXIMAL_CARDS</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../constant-values.html#ru.nsu.pisarev.Game.MAXIMAL_CARDS">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -182,21 +197,15 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="createPlayer()">
-<h3>createPlayer</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Player.html" title="class in ru.nsu.pisarev">Player</a></span>&nbsp;<span class="element-name">createPlayer</span>()</div>
-</section>
-</li>
-<li>
 <section class="detail" id="createDealer()">
 <h3>createDealer</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Dealer.html" title="class in ru.nsu.pisarev">Dealer</a></span>&nbsp;<span class="element-name">createDealer</span>()</div>
 </section>
 </li>
 <li>
-<section class="detail" id="AddCardPlayer(ru.nsu.pisarev.Player)">
-<h3>AddCardPlayer</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Card.html" title="class in ru.nsu.pisarev">Card</a></span>&nbsp;<span class="element-name">AddCardPlayer</span><wbr><span class="parameters">(<a href="Player.html" title="class in ru.nsu.pisarev">Player</a>&nbsp;player)</span></div>
+<section class="detail" id="addPlayerCard(ru.nsu.pisarev.Player)">
+<h3>addPlayerCard</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Card.html" title="class in ru.nsu.pisarev">Card</a></span>&nbsp;<span class="element-name">addPlayerCard</span><wbr><span class="parameters">(<a href="Player.html" title="class in ru.nsu.pisarev">Player</a>&nbsp;player)</span></div>
 </section>
 </li>
 </ul>
