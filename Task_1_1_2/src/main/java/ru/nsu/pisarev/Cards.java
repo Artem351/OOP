@@ -4,17 +4,16 @@ import static ru.nsu.pisarev.Card.ACE;
 
 public final class Cards {
 
-    public static int sumCards(Card[] cards) {
+    public static int sumCards(Card[] cards, int cardsCount) {
         int sum = 0;
-        for (Card card : cards) {
-            if (card != null)
-                sum += card.getPoints();
+        for (int i = 0; i < cardsCount; i++) {
+            sum += cards[i].getPoints();
         }
         return sum;
     }
 
-    public static void changeAceValue(Card[] cards) {
-        while (Cards.sumCards(cards) > 21) {
+    public static void changeAceValue(Card[] cards, int cardsCount) {
+        while (Cards.sumCards(cards, cardsCount) > 21) {
             int countAce = 0;
             int countOnePointAce = 0;
             boolean firstAceInHand = false;

@@ -3,6 +3,8 @@ package ru.nsu.pisarev;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.pisarev.printer.DealerPrinter;
+import ru.nsu.pisarev.printer.PlayerPrinter;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -55,14 +57,14 @@ class SampleTest {
     void dealerMoreCardsNeeded() {
         Card c1 = new Card(0, "Two-Ten", "Type1");
         Card c2 = new Card(0, "Two-Ten", "Type2");
-        Card[] cards = new Card[]{c1, c2};
-        Dealer dealer = new Dealer(cards);
+        Dealer dealer = new Dealer();
+        dealer.addCards(c1, c2);
         if (!dealer.moreCardsNeeded())
             fail();
         c1 = new Card(8, "Two-Ten", "Type1");
         c2 = new Card(8, "Two-Ten", "Type2");
-        cards = new Card[]{c1, c2};
-        dealer = new Dealer(cards);
+        dealer = new Dealer();
+        dealer.addCards(c1, c2);
         if (dealer.moreCardsNeeded())
             fail();
         assertTrue(true);
@@ -77,22 +79,15 @@ class SampleTest {
         Card c1 = new Card(0, Card.ACE, "Type1");
         Card c2 = new Card(0, "Two", "Type2");
         Card c3 = new Card(0, "Four", "Type3");
-        Card[] cards = new Card[]{c1,c2};
-        Dealer dealer = new Dealer(cards);
-        Card[] cards2 = new Card[]{c3,c2};
-        Dealer dealer2 = new Dealer(cards2);
+        Dealer dealer = Dealer.create(c1, c2);
+        Dealer dealer2 = Dealer.create(c3, c2);
         DealerPrinter.showCardsBeforeOpen(dealer,false);
         DealerPrinter.showCardsBeforeOpen(dealer,true);
         DealerPrinter.showCardsBeforeOpen(dealer2,false);
         DealerPrinter.showCardsBeforeOpen(dealer2,true);
         DealerPrinter.showFirstCardOpen(dealer);
         DealerPrinter.showFirstCardOpen(dealer2);
-        DealerPrinter.printNeedAmountOfDealerCards(dealer,100);
-        DealerPrinter.printNeedAmountOfDealerCards(dealer,0);
-        DealerPrinter.simulateOpenDealerAllCards(dealer);
-        DealerPrinter.showDealerCardsAfterOpen(dealer);
     }
-
 }
 
 

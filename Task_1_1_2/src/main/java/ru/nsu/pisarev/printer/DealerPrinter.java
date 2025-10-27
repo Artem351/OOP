@@ -1,4 +1,8 @@
-package ru.nsu.pisarev;
+package ru.nsu.pisarev.printer;
+
+import ru.nsu.pisarev.Card;
+import ru.nsu.pisarev.Cards;
+import ru.nsu.pisarev.Dealer;
 
 public final class DealerPrinter {
     public final static String ACE = "Туз";
@@ -51,7 +55,7 @@ public final class DealerPrinter {
     public static void showDealerCardsAfterOpen(Dealer dealer) {
         System.out.print("Карты дилера:");
         CardPrinter.showCards(dealer.getCards());
-        System.out.println("=> " + Cards.sumCards(dealer.getCards()));
+        System.out.println("=> " + Cards.sumCards(dealer.getCards(), dealer.getCardsCount()));
     }
 
     private DealerPrinter() {

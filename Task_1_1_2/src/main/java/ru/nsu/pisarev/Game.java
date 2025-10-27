@@ -9,26 +9,15 @@ public class Game {
 
     public static final int MAXIMAL_CARDS = 20;
 
-
     public static Dealer createDealer() {
-        Card[] cards = new Card[MAXIMAL_CARDS];
-        cards[0] = Card.createCard();
-        cards[1] = Card.createCard();
-        Dealer dealer = new Dealer(cards);
-        boolean decision = false;
-        decision = dealer.moreCardsNeeded();
+        Dealer dealer = new Dealer();
+        dealer.addCard(Card.createCard());
+        dealer.addCard(Card.createCard());
+        boolean decision = dealer.moreCardsNeeded();
         while (decision) {
-            if (decision) {
-                Card dnewcard = Card.createCard();
-                int i = -1;
-                for (Card dealerCard : dealer.getCards()) {
-                    i++;
-                    if (dealerCard == null)
-                        break;
-                }
-                dealer.getCards()[i] = dnewcard;
-                System.out.println();
-            }
+            Card dNewCard = Card.createCard();
+            dealer.addCard(dNewCard);
+            System.out.println();
             decision = dealer.moreCardsNeeded();
         }
         return dealer;
@@ -36,16 +25,8 @@ public class Game {
 
     public static Card addPlayerCard(Player player) {
         Card playerCardN = Card.createCard();
-        int i = -1;
-        for (Card card : player.getCards()) {
-            i++;
-            if (card == null)
-                break;
-        }
-        player.getCards()[i] = playerCardN;
+        player.addCard(playerCardN);
         player.changeAceValue();
         return playerCardN;
     }
-
-
 }

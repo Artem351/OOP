@@ -1,5 +1,7 @@
 package ru.nsu.pisarev;
 
+import ru.nsu.pisarev.printer.GamePrinter;
+
 import java.util.Scanner;
 
 public class Runner {
