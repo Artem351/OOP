@@ -1,15 +1,7 @@
 package ru.nsu.pisarev;
 
-public class Variable implements Expression {
-    private String var;
-    public Variable(String var) {
-        this.var = var;
-    }
+public record Variable(String var) implements Expression {
 
-    @Override
-    public String print() {
-        return this.var;
-    }
 
     @Override
     public Expression derivative(String difVar) {
@@ -20,25 +12,30 @@ public class Variable implements Expression {
 
     @Override
     public int eval(String vars) {
-        int begin = vars.indexOf(this.var +"=");
-        if (begin==-1)
-            begin = vars.indexOf(this.var +" =");
-        begin+=this.var.length()+2;
+        int begin = vars.indexOf(this.var + "=");
+        if (begin == -1)
+            begin = vars.indexOf(this.var + " =");
+        begin += this.var.length() + 2;
         String substring = vars.substring(begin);
         int nextVar = substring.indexOf(';');
         String intSubstring;
         if (nextVar != -1)
-            intSubstring = substring.substring(0,nextVar);
+            intSubstring = substring.substring(0, nextVar);
         else
-            intSubstring= substring;
-        intSubstring= intSubstring.replaceAll("^\\s+", "");
-        int parsedInt = Integer.parseInt(intSubstring);
-        return parsedInt;
+            intSubstring = substring;
+        intSubstring = intSubstring.replaceAll("^\\s+", "");
+        return Integer.parseInt(intSubstring);
+
     }
 
     @Override
     public Expression simplification() {
         return new Variable(this.var);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + var + ")";
     }
 }
 

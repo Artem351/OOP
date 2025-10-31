@@ -1,17 +1,7 @@
 package ru.nsu.pisarev;
 
-public class Number implements Expression {
-    private int n;
-    public Number(int n) {
-        this.n = n;
-    }
-    public int getN() {
-        return n;
-    }
+public record Number(int n) implements Expression {
 
-    public String print() {
-        return Integer.toString(this.n);
-    }
     @Override
     public Expression derivative(String var) {
         return new Number(0);
@@ -24,7 +14,13 @@ public class Number implements Expression {
 
     @Override
     public Expression simplification() {
-        return new Number(this.getN());
+        return new Number(this.n());
+    }
+
+
+    @Override
+    public String toString() {
+        return Integer.toString(n);
     }
 }
 

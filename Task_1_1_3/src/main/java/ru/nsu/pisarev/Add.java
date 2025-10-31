@@ -1,13 +1,6 @@
 package ru.nsu.pisarev;
 
-public class Add implements Expression {
-    private final Expression e1;
-    private final Expression e2;
-
-    public Add(Expression e1, Expression e2) {
-        this.e1 = e1;
-        this.e2 = e2;
-    }
+public record Add(Expression e1, Expression e2) implements Expression {
 
     @Override
     public Expression derivative(String var) {
@@ -23,13 +16,18 @@ public class Add implements Expression {
     }
 
     @Override
-    public Expression simplification() {
-        Expression expr1 = e1.simplification();
-        Expression expr2 = e2.simplification();
-        if (expr1 instanceof Number && expr2 instanceof Number) {
-            return new Number(((Number) expr1).getN() + ((Number) expr2).getN());
+    public Expression simplification() throws RuntimeException {
+        try {
+            Expression expr1 = e1.simplification();
+            Expression expr2 = e2.simplification();
+            if (expr1 instanceof Number && expr2 instanceof Number) {
+                return new Number(((Number) expr1).n() + ((Number) expr2).n());
+            }
+            return new Add(expr1, expr2);
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
         }
-        return new Add(expr1, expr2);
     }
 
     @Override

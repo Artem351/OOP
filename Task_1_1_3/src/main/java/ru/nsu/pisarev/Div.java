@@ -1,13 +1,6 @@
 package ru.nsu.pisarev;
 
-public class Div implements Expression {
-    private final Expression e1;
-    private final Expression e2;
-
-    public Div(Expression e1, Expression e2) {
-        this.e1 = e1;
-        this.e2 = e2;
-    }
+public record Div(Expression e1, Expression e2) implements Expression {
 
     @Override
     public Expression derivative(String var) {
@@ -38,7 +31,7 @@ public class Div implements Expression {
         Expression expr1 = this.e1.simplification();
         Expression expr2 = this.e2.simplification();
         if (expr1 instanceof Number && expr2 instanceof Number) {
-            return new Number(((Number) expr1).getN() / ((Number) expr2).getN());
+            return new Number(((Number) expr1).n() / ((Number) expr2).n());
         }
         return new Div(expr1, expr2);
     }
