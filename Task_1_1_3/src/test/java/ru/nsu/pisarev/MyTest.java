@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 public class MyTest {
     @Test
@@ -36,7 +34,7 @@ public class MyTest {
             fail();
         Expression e4 = new Div(new Variable("x"), new Variable("y"));
         try {
-            result = e4.eval("x = 1; y = 0");
+            e4.eval("x = 1; y = 0");
         } catch(ArithmeticException e){
             System.out.println(e.getMessage());
         }
