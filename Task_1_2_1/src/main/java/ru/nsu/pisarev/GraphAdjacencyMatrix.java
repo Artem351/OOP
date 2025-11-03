@@ -98,9 +98,6 @@ public class GraphAdjacencyMatrix implements GraphInterface {
             throw new NoSuchElementException("Invalid vertex index: " + vertex);
         }
     }
-    public int getSize() {
-        return size;
-    }
 
     @Override
     public void readFromFile(String filePath) {
