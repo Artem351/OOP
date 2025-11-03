@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 
 public class GraphIncidenceMatrix implements GraphInterface {
-    private boolean[][] graph; // строки — рёбра, столбцы — вершины
+    private boolean[][] graph; // rows - edges, columns - vertexes
     private int sizeVertexes;
     private int sizeEdges;
 
