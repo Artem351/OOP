@@ -8,7 +8,7 @@ import java.util.List;
 
 
 
-public class GraphAdjacencyMatrix implements GraphInterface {
+public class GraphAdjacencyMatrix implements Graph {
     private boolean[][] graph;
     private int size;
 
@@ -26,7 +26,7 @@ public class GraphAdjacencyMatrix implements GraphInterface {
      * @param vertex2 index of the second vertex
      */
     @Override
-    public void addEdge(int vertex1, int vertex2) throws NoSuchElementException{
+    public void addEdge(int vertex1, int vertex2) throws NoGraphElementException {
         checkVertexIndex(vertex1);
         checkVertexIndex(vertex2);
         graph[vertex1][vertex2] = true;
@@ -38,7 +38,7 @@ public class GraphAdjacencyMatrix implements GraphInterface {
      * @param vertex2 index of the second vertex
      */
     @Override
-    public void deleteEdge(int vertex1, int vertex2) throws NoSuchElementException{
+    public void deleteEdge(int vertex1, int vertex2) throws NoGraphElementException {
         checkVertexIndex(vertex1);
         checkVertexIndex(vertex2);
         graph[vertex1][vertex2] = false;
@@ -60,7 +60,7 @@ public class GraphAdjacencyMatrix implements GraphInterface {
      * @param vertex index of the vertex to delete
      */
     @Override
-    public void deleteVertex(int vertex) throws NoSuchElementException{
+    public void deleteVertex(int vertex) throws NoGraphElementException {
         checkVertexIndex(vertex);
         boolean[][] newGraph = new boolean[size - 1][size - 1];
 
@@ -83,7 +83,7 @@ public class GraphAdjacencyMatrix implements GraphInterface {
      * @param vertex index of the vertex
      */
     @Override
-    public List<Integer> getAdjacencyVertexList(int vertex) throws NoSuchElementException{
+    public List<Integer> getAdjacentVertices(int vertex) throws NoGraphElementException {
         checkVertexIndex(vertex);
         List<Integer> adjacencyList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -93,29 +93,25 @@ public class GraphAdjacencyMatrix implements GraphInterface {
         }
         return adjacencyList;
     }
-    private void checkVertexIndex(int vertex) throws NoSuchElementException{
+    private void checkVertexIndex(int vertex) throws NoGraphElementException {
         if (vertex < 0 || vertex >= size) {
-            throw new NoSuchElementException("Invalid vertex index: " + vertex);
+            throw new NoGraphElementException("Invalid vertex index: " + vertex);
         }
     }
 
     @Override
-    public void readFromFile(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.isBlank())
-                    continue;
-                String[] parts = line.trim().split("\\s+");
-                int[] numbers = Arrays.stream(parts)
-                        .mapToInt(Integer::parseInt)
-                        .toArray();
-                addVertex(numbers[0]);
-                for(int i=1;i<numbers.length;i++)
-                    addEdge(numbers[0],numbers[i]);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public void read(BufferedReader br) throws IOException, NoGraphElementException {
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.isBlank())
+                continue;
+            String[] parts = line.trim().split("\\s+");
+            int[] numbers = Arrays.stream(parts)
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            addVertex(numbers[0]);
+            for(int i=1;i<numbers.length;i++)
+                addEdge(numbers[0],numbers[i]);
         }
     }
 }

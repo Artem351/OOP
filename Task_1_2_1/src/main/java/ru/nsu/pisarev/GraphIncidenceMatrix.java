@@ -4,7 +4,7 @@ import java.util.List;
 import java.io.*;
 import java.util.*;
 
-public class GraphIncidenceMatrix implements GraphInterface {
+public class GraphIncidenceMatrix implements Graph {
     private boolean[][] graph; // rows - edges, columns - vertexes
     private int sizeVertexes;
     private int sizeEdges;
@@ -18,31 +18,27 @@ public class GraphIncidenceMatrix implements GraphInterface {
     }
 
     @Override
-    public void readFromFile(String fileName) {
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            List<int[]> edges = new ArrayList<>();
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.isBlank()) continue;
-                String[] parts = line.trim().split("\\s+");
-                if (parts.length >= 2) {
-                    int v1 = Integer.parseInt(parts[0]);
-                    int v2 = Integer.parseInt(parts[1]);
-                    edges.add(new int[]{v1, v2});
-                }
+    public void read(BufferedReader br) throws IOException, NoGraphElementException {
+        List<int[]> edges = new ArrayList<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.isBlank()) continue;
+            String[] parts = line.trim().split("\\s+");
+            if (parts.length >= 2) {
+                int v1 = Integer.parseInt(parts[0]);
+                int v2 = Integer.parseInt(parts[1]);
+                edges.add(new int[]{v1, v2});
             }
-            for (int[] e : edges) {
-                addEdge(e[0], e[1]);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("File read error: " + e.getMessage());
+        }
+        for (int[] e : edges) {
+            addEdge(e[0], e[1]);
         }
     }
 
     @Override
-    public void addEdge(int vertex1, int vertex2) {
-        checkVertexIndex(vertex1);
-        checkVertexIndex(vertex2);
+    public void addEdge(int vertex1, int vertex2) throws NoGraphElementException {
+        validate(vertex1);
+        validate(vertex2);
 
         boolean[][] newGraph = Arrays.copyOf(graph, sizeEdges + 1);
         newGraph[sizeEdges] = new boolean[sizeVertexes];
@@ -83,8 +79,8 @@ public class GraphIncidenceMatrix implements GraphInterface {
     }
 
     @Override
-    public void deleteVertex(int vertex) {
-        checkVertexIndex(vertex);
+    public void deleteVertex(int vertex) throws NoGraphElementException {
+        validate(vertex);
 
         boolean[][] newGraph = new boolean[sizeEdges][sizeVertexes - 1];
         for (int i = 0; i < sizeEdges; i++) {
@@ -99,8 +95,8 @@ public class GraphIncidenceMatrix implements GraphInterface {
     }
 
     @Override
-    public List<Integer> getAdjacencyVertexList(int vertex) {
-        checkVertexIndex(vertex);
+    public List<Integer> getAdjacentVertices(int vertex) throws NoGraphElementException {
+        validate(vertex);
 
         Set<Integer> adj = new HashSet<>();
         for (int i = 0; i < sizeEdges; i++) {
@@ -112,9 +108,9 @@ public class GraphIncidenceMatrix implements GraphInterface {
         }
         return new ArrayList<>(adj);
     }
-    private void checkVertexIndex(int vertex) throws NoSuchElementException{
+    private void validate(int vertex) throws NoGraphElementException {
         if (vertex < 0 || vertex >= sizeVertexes) {
-            throw new NoSuchElementException("Invalid vertex index: " + vertex);
+            throw new NoGraphElementException("Invalid vertex index: " + vertex);
         }
     }
 }
