@@ -4,12 +4,12 @@ import java.util.List;
 import java.io.*;
 import java.util.*;
 
-public class GraphIncidenceMatrix implements Graph {
+public class IncidenceMatrixGraph implements Graph {
     private boolean[][] graph; // rows - edges, columns - vertexes
     private int sizeVertexes;
     private int sizeEdges;
 
-    public GraphIncidenceMatrix(int verticesAmount) {
+    public IncidenceMatrixGraph(int verticesAmount) {
         if (verticesAmount < 0)
             throw new IllegalArgumentException("Vertex count can't be negative");
         graph = new boolean[0][verticesAmount];

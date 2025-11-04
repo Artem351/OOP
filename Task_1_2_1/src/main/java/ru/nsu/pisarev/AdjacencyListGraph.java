@@ -16,7 +16,9 @@ public class AdjacencyListGraph implements Graph {
      * The vertex identifier can be any integer
      */
     @Override
-    public void addVertex(int vertex) {
+    public void addVertex(int vertex) throws IllegalStateException {
+        if (graph.containsKey(vertex))
+            throw new IllegalStateException();
         graph.putIfAbsent(vertex, new ArrayList<>());
     }
 

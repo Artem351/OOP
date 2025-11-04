@@ -1,6 +1,5 @@
 package ru.nsu.pisarev;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,12 +7,12 @@ import java.util.List;
 
 
 
-public class GraphAdjacencyMatrix implements Graph {
+public class AdjacencyMatrixGraph implements Graph {
     private boolean[][] graph;
     private int size;
 
 
-    public GraphAdjacencyMatrix(int verticesAmount) {
+    public AdjacencyMatrixGraph(int verticesAmount) {
         if (verticesAmount < 0) {
             throw new IllegalArgumentException("Vertex count can't be negative");
         }

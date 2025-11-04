@@ -11,10 +11,10 @@ import java.io.*;
 import java.util.*;
 
 
-public class MyTest {
+public class GraphTest {
 
     @Test
-    public void checkGraphAdjacencyListBasic() {
+    public void checkGraphAdjacencyListBasic() throws NoGraphElementException {
         AdjacencyListGraph graph = new AdjacencyListGraph();
 
         graph.addVertex(10);
@@ -44,8 +44,8 @@ public class MyTest {
     }
 
     @Test
-    public void checkGraphAdjacencyMatrixBasic() {
-        GraphAdjacencyMatrix graph = new GraphAdjacencyMatrix(3);
+    public void checkGraphAdjacencyMatrixBasic() throws NoGraphElementException {
+        AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(3);
         graph.addEdge(0, 1);
         graph.addEdge(1, 2);
 
@@ -61,8 +61,8 @@ public class MyTest {
     }
 
     @Test
-    public void checkGraphAdjacencyMatrixDeleteVertex() {
-        GraphAdjacencyMatrix graph = new GraphAdjacencyMatrix(4);
+    public void checkGraphAdjacencyMatrixDeleteVertex() throws NoGraphElementException {
+        AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(4);
         graph.addEdge(0, 1);
         graph.addEdge(2, 3);
         graph.deleteVertex(1);
@@ -71,8 +71,8 @@ public class MyTest {
     }
 
     @Test
-    public void checkGraphIncidenceMatrixBasic() {
-        GraphIncidenceMatrix graph = new GraphIncidenceMatrix(4);
+    public void checkGraphIncidenceMatrixBasic() throws NoGraphElementException {
+        IncidenceMatrixGraph graph = new IncidenceMatrixGraph(4);
         graph.addEdge(0, 1);
         graph.addEdge(1, 2);
         graph.addEdge(2, 3);
@@ -89,8 +89,8 @@ public class MyTest {
     }
 
     @Test
-    public void checkGraphIncidenceMatrixDeleteVertex() {
-        GraphIncidenceMatrix graph = new GraphIncidenceMatrix(3);
+    public void checkGraphIncidenceMatrixDeleteVertex() throws NoGraphElementException {
+        IncidenceMatrixGraph graph = new IncidenceMatrixGraph(3);
         graph.addEdge(0, 1);
         graph.addEdge(1, 2);
         graph.deleteVertex(1);
@@ -100,14 +100,14 @@ public class MyTest {
 
     @Test
     public void checkGraphIncidenceMatrixExceptions() {
-        GraphIncidenceMatrix graph = new GraphIncidenceMatrix(2);
+        IncidenceMatrixGraph graph = new IncidenceMatrixGraph(2);
         assertThrows(NoGraphElementException.class, () -> graph.addEdge(0, 5));
         assertThrows(NoGraphElementException.class, () -> graph.getAdjacentVertices(10));
         assertThrows(NoGraphElementException.class, () -> graph.deleteVertex(99));
     }
 
     @Test
-    public void checkReadFromFileAdjacencyList() throws IOException {
+    public void checkReadFromFileAdjacencyList() throws IOException, NoGraphElementException {
         File tmp = File.createTempFile("graphList", ".txt");
         try (FileWriter w = new FileWriter(tmp)) {
             w.write("1\n");
@@ -118,34 +118,37 @@ public class MyTest {
             w.write("2 4\n");
         }
         AdjacencyListGraph graph = new AdjacencyListGraph();
-        graph.read(tmp.getAbsolutePath());
+        BufferedReader br = new BufferedReader(new FileReader(tmp.getAbsolutePath()));
+        graph.read(br);
 
         assertTrue(graph.getAdjacentVertices(1).containsAll(List.of(2, 3)));
         assertTrue(graph.getAdjacentVertices(2).contains(4));
     }
 
     @Test
-    public void checkReadFromFileAdjacencyMatrix() throws IOException {
+    public void checkReadFromFileAdjacencyMatrix() throws IOException, NoGraphElementException {
         File tmp = File.createTempFile("graphMatrix", ".txt");
         try (FileWriter w = new FileWriter(tmp)) {
             w.write("0 1\n1 2\n2 3\n");
         }
-        GraphAdjacencyMatrix graph = new GraphAdjacencyMatrix(4);
-        graph.readFromFile(tmp.getAbsolutePath());
+        AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(4);
+        BufferedReader br = new BufferedReader(new FileReader(tmp.getAbsolutePath()));
+        graph.read(br);
         assertTrue(graph.getAdjacentVertices(0).contains(1));
         assertTrue(graph.getAdjacentVertices(1).contains(2));
     }
 
     @Test
-    public void checkReadFromFileIncidenceMatrix() throws IOException {
+    public void checkReadFromFileIncidenceMatrix() throws IOException, NoGraphElementException {
         File tmp = File.createTempFile("graphInc", ".txt");
         try (FileWriter w = new FileWriter(tmp)) {
             w.write("0 1\n");
             w.write("1 2\n");
             w.write("2 3\n");
         }
-        GraphIncidenceMatrix graph = new GraphIncidenceMatrix(4);
-        graph.readFromFile(tmp.getAbsolutePath());
+        IncidenceMatrixGraph graph = new IncidenceMatrixGraph(4);
+        BufferedReader br = new BufferedReader(new FileReader(tmp.getAbsolutePath()));
+        graph.read(br);
         assertTrue(graph.getAdjacentVertices(1).contains(2));
         assertTrue(graph.getAdjacentVertices(0).contains(1));
     }

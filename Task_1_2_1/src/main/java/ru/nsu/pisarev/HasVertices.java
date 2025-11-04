@@ -14,7 +14,7 @@ public interface HasVertices {
      *
      * @throws IllegalStateException if the vertex already exists
      */
-    void addVertex(int vertex) throws NoGraphElementException;
+    void addVertex(int vertex) throws IllegalStateException;
 
     /**
      * Deletes a vertex and all its associated edges from the graph.
