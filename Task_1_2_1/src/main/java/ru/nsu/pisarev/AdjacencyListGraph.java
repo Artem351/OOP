@@ -12,14 +12,23 @@ public class AdjacencyListGraph implements Graph {
 
     private final Map<Integer, List<Integer>> graph = new HashMap<>();
 
-    /*
-     * The vertex identifier can be any integer
+    /**
+     * Adds a new vertex to the graph.
+
+     * If the vertex already exists in the graph, the method prints an error message
+     * to the standard error stream and throws an {@link IllegalArgumentException}.
+     * Otherwise, it adds the vertex with an empty adjacency list.
+
+     * @param vertex the vertex to add
+     * @throws IllegalArgumentException if the vertex already exists in the graph
      */
     @Override
-    public void addVertex(int vertex) throws IllegalStateException {
-        if (graph.containsKey(vertex))
-            throw new IllegalStateException();
-        graph.putIfAbsent(vertex, new ArrayList<>());
+    public void addVertex(int vertex) throws IllegalArgumentException {
+        if (graph.containsKey(vertex)) {
+            System.err.println("Graph contains vertex:"+vertex);
+            throw new IllegalArgumentException();
+        }
+        graph.put(vertex, new ArrayList<>());
     }
 
     @Override
@@ -50,7 +59,7 @@ public class AdjacencyListGraph implements Graph {
         deleteEdgeForward(vertex2, vertex1);
     }
 
-    public void deleteEdgeForward(int vertex1, int vertex2) throws NoGraphElementException {
+    private void deleteEdgeForward(int vertex1, int vertex2) throws NoGraphElementException {
         validate(vertex1);
         validate(vertex2);
         graph.get(vertex1).remove(Integer.valueOf(vertex2));
@@ -69,21 +78,6 @@ public class AdjacencyListGraph implements Graph {
         }
     }
 
-    @Override
-    public void read(BufferedReader br) throws IOException, NoGraphElementException {
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.isBlank())
-                continue;
-            String[] parts = line.trim().split("\\s+");
-            int[] numbers = Arrays.stream(parts)
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-            addVertex(numbers[0]);
-            for (int i = 1; i < numbers.length; i++)
-                addEdge(numbers[0], numbers[i]);
-        }
-    }
 
     @Override
     public String toString() {
