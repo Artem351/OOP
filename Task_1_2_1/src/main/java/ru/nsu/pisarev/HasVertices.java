@@ -12,9 +12,9 @@ public interface HasVertices {
      *
      * @param vertex the identifier of the vertex to add
      *
-     * @throws IllegalStateException if the vertex already exists
+     * @throws IllegalArgumentException if the vertex already exists
      */
-    void addVertex(int vertex) throws IllegalStateException;
+    void addVertex(int vertex) throws IllegalArgumentException;
 
     /**
      * Deletes a vertex and all its associated edges from the graph.

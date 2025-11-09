@@ -1,8 +1,12 @@
 package ru.nsu.pisarev;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.HashSet;
 
 public class IncidenceMatrixGraph implements Graph {
     private boolean[][] graph; // rows - edges, columns - vertexes
@@ -17,23 +21,34 @@ public class IncidenceMatrixGraph implements Graph {
         sizeEdges = 0;
     }
 
+
     @Override
-    public void read(BufferedReader br) throws IOException, NoGraphElementException {
-        List<int[]> edges = new ArrayList<>();
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.isBlank()) continue;
-            String[] parts = line.trim().split("\\s+");
-            if (parts.length >= 2) {
-                int v1 = Integer.parseInt(parts[0]);
-                int v2 = Integer.parseInt(parts[1]);
-                edges.add(new int[]{v1, v2});
+    public void addVertex(int vertex) {
+        if (vertex != sizeVertexes)
+            throw new IllegalArgumentException("Can only add vertex at end index = " + sizeVertexes);
+
+        for (int i = 0; i < sizeEdges; i++) {
+            graph[i] = Arrays.copyOf(graph[i], sizeVertexes + 1);
+        }
+        sizeVertexes++;
+    }
+
+    @Override
+    public void deleteVertex(int vertex) throws NoGraphElementException {
+        validate(vertex);
+
+        boolean[][] newGraph = new boolean[sizeEdges][sizeVertexes - 1];
+        for (int i = 0; i < sizeEdges; i++) {
+            int idx = 0;
+            for (int j = 0; j < sizeVertexes; j++) {
+                if (j == vertex) continue;
+                newGraph[i][idx++] = graph[i][j];
             }
         }
-        for (int[] e : edges) {
-            addEdge(e[0], e[1]);
-        }
+        sizeVertexes--;
+        graph = newGraph;
     }
+
 
     @Override
     public void addEdge(int vertex1, int vertex2) throws NoGraphElementException {
@@ -68,33 +83,6 @@ public class IncidenceMatrixGraph implements Graph {
     }
 
     @Override
-    public void addVertex(int vertex) {
-        if (vertex != sizeVertexes)
-            throw new IllegalArgumentException("Can only add vertex at end index = " + sizeVertexes);
-
-        for (int i = 0; i < sizeEdges; i++) {
-            graph[i] = Arrays.copyOf(graph[i], sizeVertexes + 1);
-        }
-        sizeVertexes++;
-    }
-
-    @Override
-    public void deleteVertex(int vertex) throws NoGraphElementException {
-        validate(vertex);
-
-        boolean[][] newGraph = new boolean[sizeEdges][sizeVertexes - 1];
-        for (int i = 0; i < sizeEdges; i++) {
-            int idx = 0;
-            for (int j = 0; j < sizeVertexes; j++) {
-                if (j == vertex) continue;
-                newGraph[i][idx++] = graph[i][j];
-            }
-        }
-        sizeVertexes--;
-        graph = newGraph;
-    }
-
-    @Override
     public List<Integer> getAdjacentVertices(int vertex) throws NoGraphElementException {
         validate(vertex);
 
@@ -108,6 +96,26 @@ public class IncidenceMatrixGraph implements Graph {
         }
         return new ArrayList<>(adj);
     }
+
+    @Override
+    public void read(BufferedReader br) throws IOException, NoGraphElementException {
+        List<int[]> edges = new ArrayList<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.isBlank()) continue;
+            String[] parts = line.trim().split("\\s+");
+            if (parts.length >= 2) {
+                int v1 = Integer.parseInt(parts[0]);
+                int v2 = Integer.parseInt(parts[1]);
+                edges.add(new int[]{v1, v2});
+            }
+        }
+        for (int[] e : edges) {
+            addEdge(e[0], e[1]);
+        }
+    }
+
+
     private void validate(int vertex) throws NoGraphElementException {
         if (vertex < 0 || vertex >= sizeVertexes) {
             throw new NoGraphElementException("Invalid vertex index: " + vertex);
