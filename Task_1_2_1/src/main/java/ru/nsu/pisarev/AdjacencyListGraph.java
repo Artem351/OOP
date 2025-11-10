@@ -41,8 +41,7 @@ public class AdjacencyListGraph implements Graph {
 
     @Override
     public void addEdge(int vertex1, int vertex2) throws NoGraphElementException {
-        validate(vertex1);
-        validate(vertex2);
+        validate(vertex1, vertex2);
         graph.get(vertex1).add(vertex2);
         graph.get(vertex2).add(vertex1);
     }
@@ -50,15 +49,13 @@ public class AdjacencyListGraph implements Graph {
 
     @Override
     public void deleteEdge(int vertex1, int vertex2) throws NoGraphElementException {
-        validate(vertex1);
-        validate(vertex2);
+        validate(vertex1, vertex2);
         deleteEdgeForward(vertex1, vertex2);
         deleteEdgeForward(vertex2, vertex1);
     }
 
     private void deleteEdgeForward(int vertex1, int vertex2) throws NoGraphElementException {
-        validate(vertex1);
-        validate(vertex2);
+        validate(vertex1, vertex2);
         graph.get(vertex1).remove(Integer.valueOf(vertex2));
     }
 
@@ -69,9 +66,11 @@ public class AdjacencyListGraph implements Graph {
         return graph.get(vertex);
     }
 
-    private void validate(int vertex) throws NoGraphElementException {
-        if (!graph.containsKey(vertex)) {
-            throw new NoGraphElementException("Vertex doesn't exist:" + vertex);
+    private void validate(int... vertices) throws NoGraphElementException {
+        for (int vertex : vertices) {
+            if (!graph.containsKey(vertex)) {
+                throw new NoGraphElementException("Vertex doesn't exist:" + vertex);
+            }
         }
     }
 
