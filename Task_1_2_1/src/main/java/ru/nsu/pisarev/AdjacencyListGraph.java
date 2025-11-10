@@ -1,9 +1,12 @@
 package ru.nsu.pisarev;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 public class AdjacencyListGraph implements Graph {
 
@@ -54,16 +57,39 @@ public class AdjacencyListGraph implements Graph {
         deleteEdgeForward(vertex2, vertex1);
     }
 
-    private void deleteEdgeForward(int vertex1, int vertex2) throws NoGraphElementException {
-        validate(vertex1, vertex2);
-        graph.get(vertex1).remove(Integer.valueOf(vertex2));
-    }
+
 
 
     @Override
     public List<Integer> getAdjacentVertices(int vertex) throws NoGraphElementException {
         validate(vertex);
         return graph.get(vertex);
+    }
+
+    @Override
+    public void read(BufferedReader reader) throws IOException, NoGraphElementException {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.isBlank())
+                continue;
+            String[] parts = line.trim().split("\\s+");
+            int[] numbers = Arrays.stream(parts)
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            if (!graph.containsKey(numbers[0]))
+                addVertex(numbers[0]);
+            for (int i = 1; i < numbers.length; i++)
+                addEdge(numbers[0], numbers[i]);
+        }
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "GraphAdjacencyList{" +
+                "graph=" + graph +
+                '}';
     }
 
     private void validate(int... vertices) throws NoGraphElementException {
@@ -73,12 +99,8 @@ public class AdjacencyListGraph implements Graph {
             }
         }
     }
-
-
-    @Override
-    public String toString() {
-        return "GraphAdjacencyList{" +
-                "graph=" + graph +
-                '}';
+    private void deleteEdgeForward(int vertex1, int vertex2) throws NoGraphElementException {
+        validate(vertex1, vertex2);
+        graph.get(vertex1).remove(Integer.valueOf(vertex2));
     }
 }
