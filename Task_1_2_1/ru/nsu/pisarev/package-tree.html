@@ -53,19 +53,14 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" class="type-name-link external-link" title="class or interface in java.lang">Object</a>
 <ul>
-<li class="circle">ru.nsu.pisarev.<a href="GraphAdjacencyList.html" class="type-name-link" title="class in ru.nsu.pisarev">GraphAdjacencyList</a> (implements ru.nsu.pisarev.<a href="GraphInterface.html" title="interface in ru.nsu.pisarev">GraphInterface</a>)</li>
-<li class="circle">ru.nsu.pisarev.<a href="GraphAdjacencyMatrix.html" class="type-name-link" title="class in ru.nsu.pisarev">GraphAdjacencyMatrix</a> (implements ru.nsu.pisarev.<a href="GraphInterface.html" title="interface in ru.nsu.pisarev">GraphInterface</a>)</li>
-<li class="circle">ru.nsu.pisarev.<a href="GraphIncidenceMatrix.html" class="type-name-link" title="class in ru.nsu.pisarev">GraphIncidenceMatrix</a> (implements ru.nsu.pisarev.<a href="GraphInterface.html" title="interface in ru.nsu.pisarev">GraphInterface</a>)</li>
-<li class="circle">ru.nsu.pisarev.<a href="Runner.html" class="type-name-link" title="class in ru.nsu.pisarev">Runner</a></li>
+<li class="circle">ru.nsu.pisarev.<a href="AdjacencyListGraph.html" class="type-name-link" title="class in ru.nsu.pisarev">AdjacencyListGraph</a> (implements ru.nsu.pisarev.<a href="Graph.html" title="interface in ru.nsu.pisarev">Graph</a>)</li>
+<li class="circle">ru.nsu.pisarev.<a href="AdjacencyMatrixGraph.html" class="type-name-link" title="class in ru.nsu.pisarev">AdjacencyMatrixGraph</a> (implements ru.nsu.pisarev.<a href="Graph.html" title="interface in ru.nsu.pisarev">Graph</a>)</li>
+<li class="circle">ru.nsu.pisarev.<a href="IncidenceMatrixGraph.html" class="type-name-link" title="class in ru.nsu.pisarev">IncidenceMatrixGraph</a> (implements ru.nsu.pisarev.<a href="Graph.html" title="interface in ru.nsu.pisarev">Graph</a>)</li>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" class="type-name-link external-link" title="class or interface in java.lang">Throwable</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Exception.html" class="type-name-link external-link" title="class or interface in java.lang">Exception</a>
 <ul>
-<li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/RuntimeException.html" class="type-name-link external-link" title="class or interface in java.lang">RuntimeException</a>
-<ul>
-<li class="circle">ru.nsu.pisarev.<a href="NoSuchElementException.html" class="type-name-link" title="class in ru.nsu.pisarev">NoSuchElementException</a></li>
-</ul>
-</li>
+<li class="circle">ru.nsu.pisarev.<a href="NoGraphElementException.html" class="type-name-link" title="class in ru.nsu.pisarev">NoGraphElementException</a></li>
 </ul>
 </li>
 </ul>
@@ -77,14 +72,24 @@ loadScripts(document, 'script');</script>
 <section class="hierarchy">
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
-<li class="circle">ru.nsu.pisarev.<a href="EdgeInterface.html" class="type-name-link" title="interface in ru.nsu.pisarev">EdgeInterface</a>
+<li class="circle">ru.nsu.pisarev.<a href="HasEdges.html" class="type-name-link" title="interface in ru.nsu.pisarev">HasEdges</a>
 <ul>
-<li class="circle">ru.nsu.pisarev.<a href="GraphInterface.html" class="type-name-link" title="interface in ru.nsu.pisarev">GraphInterface</a> (also extends ru.nsu.pisarev.<a href="VertexInterface.html" title="interface in ru.nsu.pisarev">VertexInterface</a>)</li>
+<li class="circle">ru.nsu.pisarev.<a href="CanRead.html" class="type-name-link" title="interface in ru.nsu.pisarev">CanRead</a> (also extends ru.nsu.pisarev.<a href="HasVertices.html" title="interface in ru.nsu.pisarev">HasVertices</a>)
+<ul>
+<li class="circle">ru.nsu.pisarev.<a href="Graph.html" class="type-name-link" title="interface in ru.nsu.pisarev">Graph</a> (also extends ru.nsu.pisarev.<a href="HasEdges.html" title="interface in ru.nsu.pisarev">HasEdges</a>, ru.nsu.pisarev.<a href="HasVertices.html" title="interface in ru.nsu.pisarev">HasVertices</a>)</li>
 </ul>
 </li>
-<li class="circle">ru.nsu.pisarev.<a href="VertexInterface.html" class="type-name-link" title="interface in ru.nsu.pisarev">VertexInterface</a>
+<li class="circle">ru.nsu.pisarev.<a href="Graph.html" class="type-name-link" title="interface in ru.nsu.pisarev">Graph</a> (also extends ru.nsu.pisarev.<a href="CanRead.html" title="interface in ru.nsu.pisarev">CanRead</a>, ru.nsu.pisarev.<a href="HasVertices.html" title="interface in ru.nsu.pisarev">HasVertices</a>)</li>
+</ul>
+</li>
+<li class="circle">ru.nsu.pisarev.<a href="HasVertices.html" class="type-name-link" title="interface in ru.nsu.pisarev">HasVertices</a>
 <ul>
-<li class="circle">ru.nsu.pisarev.<a href="GraphInterface.html" class="type-name-link" title="interface in ru.nsu.pisarev">GraphInterface</a> (also extends ru.nsu.pisarev.<a href="EdgeInterface.html" title="interface in ru.nsu.pisarev">EdgeInterface</a>)</li>
+<li class="circle">ru.nsu.pisarev.<a href="CanRead.html" class="type-name-link" title="interface in ru.nsu.pisarev">CanRead</a> (also extends ru.nsu.pisarev.<a href="HasEdges.html" title="interface in ru.nsu.pisarev">HasEdges</a>)
+<ul>
+<li class="circle">ru.nsu.pisarev.<a href="Graph.html" class="type-name-link" title="interface in ru.nsu.pisarev">Graph</a> (also extends ru.nsu.pisarev.<a href="HasEdges.html" title="interface in ru.nsu.pisarev">HasEdges</a>, ru.nsu.pisarev.<a href="HasVertices.html" title="interface in ru.nsu.pisarev">HasVertices</a>)</li>
+</ul>
+</li>
+<li class="circle">ru.nsu.pisarev.<a href="Graph.html" class="type-name-link" title="interface in ru.nsu.pisarev">Graph</a> (also extends ru.nsu.pisarev.<a href="CanRead.html" title="interface in ru.nsu.pisarev">CanRead</a>, ru.nsu.pisarev.<a href="HasEdges.html" title="interface in ru.nsu.pisarev">HasEdges</a>)</li>
 </ul>
 </li>
 </ul>
