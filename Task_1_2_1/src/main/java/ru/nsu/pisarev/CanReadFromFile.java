@@ -3,7 +3,7 @@ package ru.nsu.pisarev;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public interface CanRead extends HasVertices, HasEdges {
+public interface CanReadFromFile extends HasVertices, HasEdges {
 
     /**
      * Reads graph data from the given BufferedReader and initializes
