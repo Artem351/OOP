@@ -13,7 +13,7 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
     private static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
-    HashEntry<K, V>[] table;
+    private HashEntry<K, V>[] table;
     private int size;
     private final float loadFactor;
     private int threshold;
@@ -21,10 +21,12 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
 
     @SuppressWarnings("unchecked")
     public HashTable(int initialCapacity, float loadFactor) {
-        if (initialCapacity <= 0)
+        if (initialCapacity <= 0) {
             throw new IllegalArgumentException("Initial capacity must be > 0");
-        if (loadFactor <= 0 || Float.isNaN(loadFactor))
+        }
+        if (loadFactor <= 0 || Float.isNaN(loadFactor)) {
             throw new IllegalArgumentException("Invalid load factor");
+        }
 
         this.table = (HashEntry<K, V>[]) new HashEntry[roundUpToPowerOfTwo(initialCapacity)];
         this.loadFactor = loadFactor;
@@ -38,18 +40,10 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         this(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR);
     }
 
-    private static int roundUpToPowerOfTwo(int v) {
-        int r = 1;
-        while (r < v)
-            r <<= 1;
-        return r;
+    public HashEntry<K, V>[] getTable() {
+        return table;
     }
 
-    private int indexFor(Object key, int length) {
-        int h = key.hashCode();
-        h ^= (h >>> 16);
-        return h & (length - 1);
-    }
 
     /* Adds a new key-value pair. Throws exception if key already exists. */
     public void put(K key, V value) {
@@ -57,8 +51,9 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         ensureCapacity();
         int idx = indexFor(key, table.length);
         for (HashEntry<K, V> e = table[idx]; e != null; e = e.next) {
-            if (e.key.equals(key))
+            if (e.key.equals(key)) {
                 throw new IllegalArgumentException("Key already exists: " + key);
+            }
         }
         table[idx] = new HashEntry<>(key, value, table[idx]);
         size++;
@@ -84,8 +79,9 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         Objects.requireNonNull(key, "Key must not be null");
         int idx = indexFor(key, table.length);
         for (HashEntry<K, V> e = table[idx]; e != null; e = e.next) {
-            if (e.key.equals(key))
+            if (e.key.equals(key)) {
                 return e.value;
+            }
         }
         return null;
     }
@@ -97,10 +93,12 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         HashEntry<K, V> prev = null;
         for (HashEntry<K, V> e = table[idx]; e != null; prev = e, e = e.next) {
             if (e.key.equals(key)) {
-                if (prev == null)
+                if (prev == null) {
                     table[idx] = e.next;
-                else
+                }
+                else {
                     prev.next = e.next;
+                }
                 size--;
                 modCount++;
                 return e.value;
@@ -122,9 +120,74 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         return size == 0;
     }
 
+
+    @Override
+    public Iterator<Map.Entry<K, V>> iterator() {
+        return new HashTableIterator<>(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o){
+            return true;
+        }
+        if (!(o instanceof HashTable<?, ?> other)) {
+            return false;
+        }
+        if (this.size != other.size) {
+            return false;
+        }
+
+        for (Map.Entry<K, V> e : this) {
+            Object otherValue = other.get(e.getKey());
+            if (!Objects.equals(e.getValue(), otherValue)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int h = 0;
+        for (Map.Entry<K, V> e : this)
+            h += e.hashCode();
+        return h;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("{");
+        boolean first = true;
+        for (Map.Entry<K, V> e : this) {
+            if (!first) {
+                sb.append(", ");
+            }
+            sb.append(e.getKey()).append("=").append(e.getValue());
+            first = false;
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
+
+    private static int roundUpToPowerOfTwo(int v) {
+        int r = 1;
+        while (r < v)
+            r <<= 1;
+        return r;
+    }
+
+    private int indexFor(Object key, int length) {
+        int h = key.hashCode();
+        h ^= (h >>> 16);
+        return h & (length - 1);
+    }
+
     private void ensureCapacity() {
-        if (size + 1 > threshold)
+        if (size + 1 > threshold) {
             resize(table.length * 2);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -144,45 +207,5 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         table = nw;
         threshold = (int) (newCapacity * loadFactor);
         modCount++;
-    }
-
-    @Override
-    public Iterator<Map.Entry<K, V>> iterator() {
-        return new HashTableIterator<>(this);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof HashTable<?, ?> other)) return false;
-        if (this.size != other.size) return false;
-
-        for (Map.Entry<K, V> e : this) {
-            Object otherValue = other.get(e.getKey());
-            if (!Objects.equals(e.getValue(), otherValue))
-                return false;
-        }
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int h = 0;
-        for (Map.Entry<K, V> e : this)
-            h += e.hashCode();
-        return h;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("{");
-        boolean first = true;
-        for (Map.Entry<K, V> e : this) {
-            if (!first) sb.append(", ");
-            sb.append(e.getKey()).append("=").append(e.getValue());
-            first = false;
-        }
-        sb.append("}");
-        return sb.toString();
     }
 }

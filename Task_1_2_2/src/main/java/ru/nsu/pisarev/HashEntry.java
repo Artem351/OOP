@@ -36,10 +36,12 @@ public class HashEntry<K, V> implements Map.Entry<K, V> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (!(o instanceof Map.Entry))
+        }
+        if (!(o instanceof Map.Entry)) {
             return false;
+        }
         return Objects.equals(key, ((Map.Entry<?, ?>) o).getKey()) && Objects.equals(value,  ((Map.Entry<?, ?>) o).getValue());
     }
 

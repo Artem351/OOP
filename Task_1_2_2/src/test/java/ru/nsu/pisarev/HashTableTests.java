@@ -13,7 +13,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class HashTableTest {
+public class HashTableTests {
 
     private HashTable<String, Number> table;
 
@@ -29,7 +29,6 @@ public class HashTableTest {
         assertEquals(1, table.get("one"));
         assertEquals(2, table.get("two"));
     }
-
     @Test
     void testPutDuplicateKeyThrows() {
         table.put("one", 1);
@@ -197,6 +196,119 @@ public class HashTableTest {
         assertThrows(NullPointerException.class, () -> table.put(null, 1));
         assertThrows(NullPointerException.class, () -> table.get(null));
         assertThrows(NullPointerException.class, () -> table.remove(null));
+    }
+
+
+    /* Test large HashTable*/
+    @Test
+    void testLargeIterationCompleteness() {
+        HashTable<String, Integer> table = new HashTable<>();
+
+        int N = 200_000;
+        for (int i = 0; i < N; i++) {
+            table.put("k" + i, i);
+        }
+
+        boolean[] seen = new boolean[N];
+        int count = 0;
+
+        for (Map.Entry<String, Integer> e : table) {
+            String k = e.getKey();
+            assertNotNull(k);
+
+            assertTrue(k.startsWith("k"));
+            int idx = Integer.parseInt(k.substring(1));
+
+            assertFalse(seen[idx]);
+            seen[idx] = true;
+            count++;
+        }
+
+        assertEquals(N, count);
+        for (boolean b : seen) assertTrue(b);
+    }
+
+
+    @Test
+    void testIteratorAfterMassRemovals() {
+        HashTable<String, Integer> table = new HashTable<>();
+
+        int N = 200_000;
+        for (int i = 0; i < N; i++)
+            table.put("num" + i, i);
+
+
+        for (int i = 0; i < N / 2; i++)
+            table.remove("num" + i);
+
+        int iterCount = 0;
+        for (Map.Entry<String, Integer> e : table) {
+            int v = e.getValue();
+            assertTrue(v >= N / 2);
+            iterCount++;
+        }
+
+        assertEquals(N / 2, iterCount);
+    }
+
+
+    @Test
+    void testIteratorRemove() {
+        HashTable<String, Integer> table = new HashTable<>();
+
+        for (int i = 0; i < 200_000; i++)
+            table.put("x" + i, i);
+
+        Iterator<Map.Entry<String, Integer>> it = table.iterator();
+
+        int removed = 0;
+        while (it.hasNext()) {
+            Map.Entry<String, Integer> e = it.next();
+            if (e.getValue() % 100 == 0) {
+                it.remove();
+                removed++;
+            }
+        }
+
+        assertEquals(2_000, removed);
+        assertEquals(200_000 - 2_000, table.size());
+
+        for (int i = 0; i < 200_000; i++) {
+            if (i % 100 == 0)
+                assertNull(table.get("x" + i));
+            else
+                assertEquals(i, table.get("x" + i));
+        }
+    }
+
+
+    @Test
+    void testFailFastOnModification() {
+        HashTable<String, Integer> table = new HashTable<>();
+        for (int i = 0; i < 200_000; i++)
+            table.put("k" + i, i);
+
+        Iterator<Map.Entry<String, Integer>> it = table.iterator();
+
+        assertThrows(ConcurrentModificationException.class, () -> {
+            table.remove("k2000");
+            it.next();
+        });
+    }
+
+
+    @Test
+    void testFailFastOnPut() {
+        HashTable<String, Integer> table = new HashTable<>();
+        for (int i = 0; i < 200_000; i++)
+            table.put("z" + i, i);
+
+        Iterator<Map.Entry<String, Integer>> it = table.iterator();
+
+        assertThrows(ConcurrentModificationException.class, () -> {
+            table.put("newKey", 123);
+            it.hasNext();
+        });
     }
 }
 

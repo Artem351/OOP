@@ -37,9 +37,9 @@ public class HashTableIterator<K, V> implements Iterator<Map.Entry<K, V>> {
         }
         current = null;
         bucketIndex++;
-        while (bucketIndex < table.table.length) {
-            if (table.table[bucketIndex] != null) {
-                current = table.table[bucketIndex];
+        while (bucketIndex < table.getTable().length) {
+            if (table.getTable()[bucketIndex] != null) {
+                current = table.getTable()[bucketIndex];
                 return;
             }
             bucketIndex++;
