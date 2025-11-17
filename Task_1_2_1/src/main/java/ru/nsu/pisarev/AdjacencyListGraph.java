@@ -32,6 +32,11 @@ public class AdjacencyListGraph implements Graph {
     }
 
     @Override
+    public boolean hasVertex(int vertex) {
+        return graph.containsKey(vertex);
+    }
+
+    @Override
     public void deleteVertex(int vertex) throws NoGraphElementException {
         validate(vertex);
         for (Integer i : graph.get(vertex)) {
@@ -65,25 +70,6 @@ public class AdjacencyListGraph implements Graph {
         validate(vertex);
         return graph.get(vertex);
     }
-
-    @Override
-    public void read(BufferedReader reader) throws IOException, NoGraphElementException {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (line.isBlank())
-                continue;
-            String[] parts = line.trim().split("\\s+");
-            int[] numbers = Arrays.stream(parts)
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-            if (!graph.containsKey(numbers[0]))
-                addVertex(numbers[0]);
-            for (int i = 1; i < numbers.length; i++)
-                addEdge(numbers[0], numbers[i]);
-        }
-    }
-
-
 
     @Override
     public String toString() {

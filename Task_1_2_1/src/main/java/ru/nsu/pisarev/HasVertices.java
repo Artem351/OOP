@@ -16,6 +16,8 @@ public interface HasVertices {
      */
     void addVertex(int vertex) throws IllegalArgumentException;
 
+    boolean hasVertex(int vertex);
+
     /**
      * Deletes a vertex and all its associated edges from the graph.
      *
