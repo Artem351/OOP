@@ -2,6 +2,10 @@ package ru.nsu.pisarev;
 
 import org.junit.jupiter.api.Test;
 
+import ru.nsu.pisarev.reader.AdjacencyListReader;
+import ru.nsu.pisarev.reader.AdjacencyMatrixReader;
+import ru.nsu.pisarev.reader.IncidenceMatrixReader;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
@@ -121,10 +125,9 @@ public class GraphTest {
             w.write("1 2 3\n");
             w.write("2 4\n");
         }
-        AdjacencyListGraph graph = new AdjacencyListGraph();
         BufferedReader br = new BufferedReader(new FileReader(tmp.getAbsolutePath()));
-        graph.read(br);
-
+        AdjacencyListReader graphReader = new AdjacencyListReader(br);
+        AdjacencyListGraph graph = graphReader.read();
         assertTrue(graph.getAdjacentVertices(1).containsAll(List.of(2, 3)));
         assertTrue(graph.getAdjacentVertices(2).contains(4));
     }
@@ -135,9 +138,9 @@ public class GraphTest {
         try (FileWriter w = new FileWriter(tmp)) {
             w.write("0 1\n1 2\n2 3\n");
         }
-        AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(4);
         BufferedReader br = new BufferedReader(new FileReader(tmp.getAbsolutePath()));
-        graph.read(br);
+        AdjacencyMatrixReader graphReader = new AdjacencyMatrixReader(br);
+        AdjacencyMatrixGraph graph = graphReader.read();
         assertTrue(graph.getAdjacentVertices(0).contains(1));
         assertTrue(graph.getAdjacentVertices(1).contains(2));
     }
@@ -150,9 +153,10 @@ public class GraphTest {
             w.write("1 2\n");
             w.write("2 3\n");
         }
-        IncidenceMatrixGraph graph = new IncidenceMatrixGraph(4);
         BufferedReader br = new BufferedReader(new FileReader(tmp.getAbsolutePath()));
-        graph.read(br);
+        IncidenceMatrixReader graphReader = new IncidenceMatrixReader(br);
+        IncidenceMatrixGraph graph = graphReader.read();
+
         assertTrue(graph.getAdjacentVertices(1).contains(2));
         assertTrue(graph.getAdjacentVertices(0).contains(1));
     }

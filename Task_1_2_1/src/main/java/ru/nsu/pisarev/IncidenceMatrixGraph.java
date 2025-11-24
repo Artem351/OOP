@@ -1,7 +1,5 @@
 package ru.nsu.pisarev;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -16,9 +14,9 @@ public class IncidenceMatrixGraph implements Graph {
     public IncidenceMatrixGraph(int verticesAmount) {
         if (verticesAmount < 0)
             throw new IllegalArgumentException("Vertex count can't be negative");
-        graph = new boolean[0][verticesAmount];
         sizeVertexes = verticesAmount;
         sizeEdges = 0;
+        graph = new boolean[sizeEdges][sizeVertexes];
     }
 
 
@@ -31,6 +29,11 @@ public class IncidenceMatrixGraph implements Graph {
             graph[i] = Arrays.copyOf(graph[i], sizeVertexes + 1);
         }
         sizeVertexes++;
+    }
+
+    @Override
+    public boolean hasVertex(int vertex) {
+        return 0 < vertex && vertex < sizeVertexes;
     }
 
     @Override
@@ -52,10 +55,21 @@ public class IncidenceMatrixGraph implements Graph {
 
     @Override
     public void addEdge(int vertex1, int vertex2) throws NoGraphElementException {
-        validate(vertex1);
-        validate(vertex2);
+        validateEdge(vertex1,vertex2);
 
-        boolean[][] newGraph = Arrays.copyOf(graph, sizeEdges + 1);
+        boolean[][] newGraph = new boolean[sizeEdges+1][sizeVertexes];
+        int counter1 = 0;
+        int counter2;
+        for (boolean[] booleans : graph) {
+            counter2 = 0;
+            for (boolean b : booleans) {
+                newGraph[counter1][counter2]=b;
+                counter2++;
+            }
+            counter1++;
+        }
+
+
         newGraph[sizeEdges] = new boolean[sizeVertexes];
         newGraph[sizeEdges][vertex1] = true;
         newGraph[sizeEdges][vertex2] = true;
@@ -97,25 +111,22 @@ public class IncidenceMatrixGraph implements Graph {
         return new ArrayList<>(adj);
     }
 
-    @Override
-    public void read(BufferedReader br) throws IOException, NoGraphElementException {
-        List<int[]> edges = new ArrayList<>();
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.isBlank()) continue;
-            String[] parts = line.trim().split("\\s+");
-            if (parts.length >= 2) {
-                int v1 = Integer.parseInt(parts[0]);
-                int v2 = Integer.parseInt(parts[1]);
-                edges.add(new int[]{v1, v2});
-            }
+
+
+    private void validateEdge(int vertex1,int vertex2) throws NoGraphElementException {
+        if (vertex1 == sizeVertexes){
+            sizeVertexes++;
         }
-        for (int[] e : edges) {
-            addEdge(e[0], e[1]);
+        else{
+            validate(vertex1);
+        }
+        if (vertex2 == sizeVertexes){
+            sizeVertexes++;
+        }
+        else{
+            validate(vertex2);
         }
     }
-
-
     private void validate(int vertex) throws NoGraphElementException {
         if (vertex < 0 || vertex >= sizeVertexes) {
             throw new NoGraphElementException("Invalid vertex index: " + vertex);

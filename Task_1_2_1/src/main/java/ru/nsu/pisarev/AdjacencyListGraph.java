@@ -1,5 +1,8 @@
 package ru.nsu.pisarev;
 
+import ru.nsu.pisarev.reader.AdjacencyListReader;
+import ru.nsu.pisarev.reader.GraphReader;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
 
-public class AdjacencyListGraph implements Graph {
+public class AdjacencyListGraph implements Graph  {
 
     private final Map<Integer, List<Integer>> graph = new HashMap<>();
 
@@ -28,6 +31,7 @@ public class AdjacencyListGraph implements Graph {
             System.err.println("Graph contains vertex:"+vertex);
             throw new IllegalArgumentException();
         }
+
         graph.put(vertex, new ArrayList<>());
     }
 
