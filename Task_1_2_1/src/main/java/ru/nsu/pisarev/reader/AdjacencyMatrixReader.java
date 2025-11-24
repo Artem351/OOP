@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class AdjacencyMatrixReader {
+public class AdjacencyMatrixReader implements GraphReader<AdjacencyMatrixGraph>, AutoCloseable {
 
     private final BufferedReader reader;
 
@@ -31,5 +31,10 @@ public class AdjacencyMatrixReader {
                 graph.addEdge(numbers[0], numbers[i]);
         }
         return graph;
+    }
+
+    @Override
+    public void close() throws Exception {
+        reader.close();
     }
 }

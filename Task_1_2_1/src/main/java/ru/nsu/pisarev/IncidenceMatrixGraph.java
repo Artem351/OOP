@@ -7,7 +7,11 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class IncidenceMatrixGraph implements Graph {
-    private boolean[][] graph; // rows - edges, columns - vertexes
+    /**
+     * Graph representation
+     * rows - edges, columns - vertexes
+     */
+    private boolean[][] graph;
     private int sizeVertexes;
     private int sizeEdges;
 
