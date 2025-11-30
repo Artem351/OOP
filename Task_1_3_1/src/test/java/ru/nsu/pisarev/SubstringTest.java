@@ -49,7 +49,7 @@ public class SubstringTest {
         Files.writeString(f.toPath(), sb.toString(), StandardCharsets.UTF_8);
 
         List<Long> res = SubstringFinder.find(f.getAbsolutePath(), substring);
-        long expectedIdx = (long) (chunk.length() * 1000 + "tailA".length());
+        long expectedIdx = (chunk.length() * 1000 + "tailA".length());
         assertEquals(1, res.size(), "Should find the single inserted substring");
         assertEquals(expectedIdx, res.get(0).longValue());
     }
