@@ -143,8 +143,12 @@ public class SubstringFinderTest {
             while (matcher.find()) {
                 matcherPositions.add((long) matcher.start());
             }
-            assertEquals(new HashSet<>(matcherPositions).size(), new HashSet<>(positions).size());
+            matcherPositions.sort(null);
+            positions.sort(null);
+
+            assertEquals(matcherPositions, positions);
             assertEquals(new HashSet<>(matcherPositions), new HashSet<>(positions));
+            assertEquals(new HashSet<>(matcherPositions).size(), new HashSet<>(positions).size());
         }
     }
 
