@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public final class SubstringFinder {
-    static final int BUF_CHARS = 8192;
+    static final int BUF_CHARS = 16;
 
     public static List<Long> find(InputStreamReader reader, String substring) throws IOException {
         if (substring == null || substring.isEmpty()) {

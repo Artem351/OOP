@@ -1,19 +1,30 @@
 package ru.nsu.pisarev;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,10 +33,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 
-public class SubstringTest {
+public class SubstringFinderTest {
+
+    @TempDir static File tempDir;
+    private static File f;
+    private static String s;
 
     @Test
-    public void exampleTest(@TempDir File tempDir) throws IOException {
+    public void exampleTest() throws IOException {
         File f = new File(tempDir, "input.txt");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(f, StandardCharsets.UTF_8))) {
             bw.write("абракадабра");
@@ -41,7 +56,7 @@ public class SubstringTest {
     }
 
     @Test
-    public void substringBufferBoundaryTest(@TempDir File tempDir) throws IOException {
+    public void substringBufferBoundaryTest() throws IOException {
         File f = new File(tempDir, "boundary.txt");
         String chunk = "xxxx";
         String substring = "abcdXYZ";
@@ -65,7 +80,7 @@ public class SubstringTest {
     }
 
     @Test
-    public void largeGeneratedFileTest(@TempDir File tempDir) throws IOException {
+    public void largeGeneratedFileTest() throws IOException {
         File f = new File(tempDir, "large.txt");
         String substring = "key";
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(f, StandardCharsets.UTF_8))) {
@@ -98,5 +113,40 @@ public class SubstringTest {
     public void emptySubstringShouldThrow() {
         assertThrows(IllegalArgumentException.class, () -> SubstringFinder.find(null, ""));
     }
+
+    @BeforeAll
+    static void before() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 1_000_000; i++) {
+            if (Math.random() > 0.5) {
+                sb.append("a");
+            } else {
+                sb.append("b");
+            }
+        }
+        s = sb.toString();
+        f = new File(tempDir, "boundary.txt");
+        Files.writeString(f.toPath(), sb.toString(), StandardCharsets.UTF_8);
+    }
+    
+    
+    @ParameterizedTest
+    @ValueSource( strings = {
+            "aa", "ab", "aab", "ababa"})
+    void largeRepeatTest(String pattern) throws IOException {
+        try (InputStreamReader reader = new InputStreamReader(
+                new FileInputStream(f), StandardCharsets.UTF_8)) {
+            List<Long> positions = SubstringFinder.find(reader, pattern);
+            Matcher matcher = Pattern.compile(pattern).matcher(s);
+            List<Long> matcherPositions = new ArrayList<>();
+
+            while (matcher.find()) {
+                matcherPositions.add((long) matcher.start());
+            }
+            assertEquals(new HashSet<>(matcherPositions).size(), new HashSet<>(positions).size());
+            assertEquals(new HashSet<>(matcherPositions), new HashSet<>(positions));
+        }
+    }
+
 }
 
