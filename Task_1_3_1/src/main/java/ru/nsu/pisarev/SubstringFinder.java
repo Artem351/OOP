@@ -12,7 +12,7 @@ import java.util.List;
 public final class SubstringFinder {
     static final int BUF_CHARS = 8192;
 
-    public static List<Long> find(String filename, String substring) throws IOException {
+    public static List<Long> find(InputStreamReader reader, String substring) throws IOException {
         if (substring == null || substring.isEmpty()) {
             throw new IllegalArgumentException("substring must be non-null and non-empty");
         }
@@ -23,29 +23,25 @@ public final class SubstringFinder {
         List<Long> result = new ArrayList<>();
         char[] buf = new char[BUF_CHARS];
 
-        try (InputStreamReader reader = new InputStreamReader(
-                new FileInputStream(filename), StandardCharsets.UTF_8)) {
-
-            long totalProcessedBeforeChunk = 0L;
-            int matched = 0;
-            int read;
-            while ((read = reader.read(buf, 0, buf.length)) != -1) {
-                for (int i = 0; i < read; i++) {
-                    char c = buf[i];
-                    while (matched > 0 && substringCharArray[matched] != c) {
-                        matched = lps[matched - 1];
-                    }
-                    if (substringCharArray[matched] == c) {
-                        matched++;
-                    }
-                    if (matched == strLength) {
-                        long startIndex = totalProcessedBeforeChunk + i - strLength + 1;
-                        result.add(startIndex);
-                        matched = lps[matched - 1];
-                    }
+        long totalProcessedBeforeChunk = 0L;
+        int matched = 0;
+        int read;
+        while ((read = reader.read(buf, 0, buf.length)) != -1) {
+            for (int i = 0; i < read; i++) {
+                char c = buf[i];
+                while (matched > 0 && substringCharArray[matched] != c) {
+                    matched = lps[matched - 1];
                 }
-                totalProcessedBeforeChunk += read;
+                if (substringCharArray[matched] == c) {
+                    matched++;
+                }
+                if (matched == strLength) {
+                    long startIndex = totalProcessedBeforeChunk + i - strLength + 1;
+                    result.add(startIndex);
+                    matched = lps[matched - 1];
+                }
             }
+            totalProcessedBeforeChunk += read;
         }
 
         return result;

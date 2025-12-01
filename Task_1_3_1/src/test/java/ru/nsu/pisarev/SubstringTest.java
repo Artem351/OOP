@@ -6,8 +6,10 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Arrays;
@@ -29,9 +31,13 @@ public class SubstringTest {
             bw.write("абракадабра");
         }
 
-        List<Long> res = SubstringFinder.find(f.getAbsolutePath(), "бра");
-        List<Long> expected = Arrays.asList(1L, 8L);
-        assertEquals(expected, res);
+        try (InputStreamReader reader = new InputStreamReader(
+                new FileInputStream(f), StandardCharsets.UTF_8)) {
+
+            List<Long> res = SubstringFinder.find(reader, "бра");
+            List<Long> expected = Arrays.asList(1L, 8L);
+            assertEquals(expected, res);
+        }
     }
 
     @Test
@@ -48,10 +54,14 @@ public class SubstringTest {
         sb.append("tailB");
         Files.writeString(f.toPath(), sb.toString(), StandardCharsets.UTF_8);
 
-        List<Long> res = SubstringFinder.find(f.getAbsolutePath(), substring);
-        long expectedIdx = (chunk.length() * 1000 + "tailA".length());
-        assertEquals(1, res.size(), "Should find the single inserted substring");
-        assertEquals(expectedIdx, res.get(0).longValue());
+        try (InputStreamReader reader = new InputStreamReader(
+                new FileInputStream(f), StandardCharsets.UTF_8)) {
+            List<Long> res = SubstringFinder.find(reader, substring);
+
+            long expectedIdx = (chunk.length() * 1000 + "tailA".length());
+            assertEquals(1, res.size(), "Should find the single inserted substring");
+            assertEquals(expectedIdx, res.get(0).longValue());
+        }
     }
 
     @Test
@@ -68,21 +78,25 @@ public class SubstringTest {
                 }
             }
         }
+        try (InputStreamReader reader = new InputStreamReader(
+                new FileInputStream(f), StandardCharsets.UTF_8)) {
 
-        List<Long> res = SubstringFinder.find(f.getAbsolutePath(), substring);
-        assertFalse(res.isEmpty());
-        byte[] fileBytes = Files.readAllBytes(f.toPath());
-        String fileContent = new String(fileBytes, StandardCharsets.UTF_8);
-        for (Long idx : res) {
-            long start = idx;
-            assertTrue(start >= 0 && start + substring.length() <= fileContent.length());
-            assertEquals(substring, fileContent.substring((int) start, (int) start + substring.length()));
+            List<Long> res = SubstringFinder.find(reader, substring);
+
+            assertFalse(res.isEmpty());
+            byte[] fileBytes = Files.readAllBytes(f.toPath());
+            String fileContent = new String(fileBytes, StandardCharsets.UTF_8);
+            for (Long idx : res) {
+                long start = idx;
+                assertTrue(start >= 0 && start + substring.length() <= fileContent.length());
+                assertEquals(substring, fileContent.substring((int) start, (int) start + substring.length()));
+            }
         }
     }
 
     @Test
     public void emptySubstringShouldThrow() {
-        assertThrows(IllegalArgumentException.class, () -> SubstringFinder.find("whatever", ""));
+        assertThrows(IllegalArgumentException.class, () -> SubstringFinder.find(null, ""));
     }
 }
 
