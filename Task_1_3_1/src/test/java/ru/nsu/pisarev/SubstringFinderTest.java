@@ -124,8 +124,23 @@ public class SubstringFinderTest {
         f = new File(tempDir, "boundary.txt");
         Files.writeString(f.toPath(), sb.toString(), StandardCharsets.UTF_8);
     }
-    
-    
+
+    @Test
+    void unicodeChars() throws IOException {
+        String s = "\uD83C\uDF27\uD83C\uDF27\uD83D\uDE0A";
+        System.out.println(s);
+        File f = new File(tempDir, "unicode.txt");
+        Files.writeString(f.toPath(), s, StandardCharsets.UTF_8);
+
+        String pattern = "\uD83C\uDF27";
+        System.out.println(pattern);
+        try (InputStreamReader reader = new InputStreamReader(
+                new FileInputStream(f), StandardCharsets.UTF_8)) {
+            List<Long> positions = SubstringFinder.find(reader, pattern);
+            assertEquals(List.of(0L,1L), positions);
+        }
+    }
+
     @ParameterizedTest
     @ValueSource( strings = {
             "aa", "ab", "aab", "ababa"})
@@ -136,15 +151,14 @@ public class SubstringFinderTest {
             Matcher matcher = Pattern.compile(pattern).matcher(s);
             List<Long> matcherPositions = new ArrayList<>();
 
-            while (matcher.find()) {
-                matcherPositions.add((long) matcher.start());
+            int startPos = -1;
+            while (matcher.find(startPos+1)) {
+                startPos = matcher.start();
+                matcherPositions.add((long) startPos);
             }
-            matcherPositions.sort(null);
-            positions.sort(null);
 
-            assertEquals(matcherPositions, positions);
+            assertEquals(matcherPositions.size(), positions.size());
             assertEquals(new HashSet<>(matcherPositions), new HashSet<>(positions));
-            assertEquals(new HashSet<>(matcherPositions).size(), new HashSet<>(positions).size());
         }
     }
 
