@@ -136,7 +136,7 @@ public class SubstringFinderTest {
         System.out.println(pattern);
         try (InputStreamReader reader = new InputStreamReader(
                 new FileInputStream(f), StandardCharsets.UTF_8)) {
-            List<Long> positions = SubstringFinder.find(reader, pattern);
+            List<Long> positions = SubstringFinder.find_utf8(reader, pattern);
             assertEquals(List.of(0L,1L), positions);
         }
     }
