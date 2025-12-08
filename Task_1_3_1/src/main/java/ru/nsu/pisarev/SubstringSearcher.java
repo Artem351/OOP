@@ -47,7 +47,7 @@ public final class SubstringSearcher {
         }
         int[] substringCharArray = substring.codePoints().toArray();
         int strLength = substringCharArray.length;
-        int[] lps = buildLps_utf8(substringCharArray);
+        int[] lps = buildLpsUtf8(substringCharArray);
 
         List<Long> result = new ArrayList<>();
         char[] buf = new char[BUF_CHARS];
@@ -96,7 +96,7 @@ public final class SubstringSearcher {
         return lps;
     }
 
-    private static int[] buildLps_utf8(int[] substring) {
+    private static int[] buildLpsUtf8(int[] substring) {
         int strLength = substring.length;
         int[] lps = new int[strLength];
         int len = 0;
