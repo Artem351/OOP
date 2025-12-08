@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public final class SubstringFinder {
+public final class SubstringSearcher {
     static final int BUF_CHARS = 8192;
 
     public static List<Long> find(InputStreamReader reader, String substring) throws IOException {
@@ -112,7 +112,7 @@ public final class SubstringFinder {
         return lps;
     }
 
-    private SubstringFinder() {
+    private SubstringSearcher() {
         throw new UnsupportedOperationException();
     }
 }
