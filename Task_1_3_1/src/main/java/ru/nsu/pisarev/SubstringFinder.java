@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public final class SubstringFinder {
     static final int BUF_CHARS = 8192;
 
@@ -42,7 +41,7 @@ public final class SubstringFinder {
         return result;
     }
 
-    public static List<Long> find_utf8(InputStreamReader reader, String substring) throws IOException {
+    public static List<Long> findUtf8(InputStreamReader reader, String substring) throws IOException {
         if (substring == null || substring.isEmpty()) {
             throw new IllegalArgumentException("substring must be non-null and non-empty");
         }
@@ -96,6 +95,7 @@ public final class SubstringFinder {
         }
         return lps;
     }
+
     private static int[] buildLps_utf8(int[] substring) {
         int strLength = substring.length;
         int[] lps = new int[strLength];
@@ -111,6 +111,7 @@ public final class SubstringFinder {
         }
         return lps;
     }
+
     private SubstringFinder() {
         throw new UnsupportedOperationException();
     }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.api.parallel.ResourceLock;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -32,8 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class SubstringFinderTest {
 
     @TempDir static File tempDir;
-    private static File f;
-    private static String s;
 
     @Test
     public void exampleTest() throws IOException {
@@ -110,21 +109,6 @@ public class SubstringFinderTest {
         assertThrows(IllegalArgumentException.class, () -> SubstringFinder.find(null, ""));
     }
 
-    @BeforeAll
-    static void before() throws IOException {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 1_000_000; i++) {
-            if (Math.random() > 0.5) {
-                sb.append("a");
-            } else {
-                sb.append("b");
-            }
-        }
-        s = sb.toString();
-        f = new File(tempDir, "boundary.txt");
-        Files.writeString(f.toPath(), sb.toString(), StandardCharsets.UTF_8);
-    }
-
     @Test
     void unicodeChars() throws IOException {
         String s = "\uD83C\uDF27\uD83C\uDF27\uD83D\uDE0A";
@@ -136,7 +120,7 @@ public class SubstringFinderTest {
         System.out.println(pattern);
         try (InputStreamReader reader = new InputStreamReader(
                 new FileInputStream(f), StandardCharsets.UTF_8)) {
-            List<Long> positions = SubstringFinder.find_utf8(reader, pattern);
+            List<Long> positions = SubstringFinder.findUtf8(reader, pattern);
             assertEquals(List.of(0L,1L), positions);
         }
     }
@@ -145,10 +129,22 @@ public class SubstringFinderTest {
     @ValueSource( strings = {
             "aa", "ab", "aab", "ababa"})
     void largeRepeatTest(String pattern) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 1_000_000; i++) {
+            if (Math.random() > 0.5) {
+                sb.append("a");
+            } else {
+                sb.append("b");
+            }
+        }
+        String largeFileString = sb.toString();
+        File largeFile = new File(tempDir, pattern + "boundary.txt");
+        Files.writeString(largeFile.toPath(), sb.toString(), StandardCharsets.UTF_8);
+
         try (InputStreamReader reader = new InputStreamReader(
-                new FileInputStream(f), StandardCharsets.UTF_8)) {
+                new FileInputStream(largeFile), StandardCharsets.UTF_8)) {
             List<Long> positions = SubstringFinder.find(reader, pattern);
-            Matcher matcher = Pattern.compile(pattern).matcher(s);
+            Matcher matcher = Pattern.compile(pattern).matcher(largeFileString);
             List<Long> matcherPositions = new ArrayList<>();
 
             int startPos = -1;
