@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 
-public class SubstringFinderTest {
+public class SubstringSearcherTest {
 
     @TempDir static File tempDir;
 
@@ -44,7 +44,7 @@ public class SubstringFinderTest {
         try (InputStreamReader reader = new InputStreamReader(
                 new FileInputStream(f), StandardCharsets.UTF_8)) {
 
-            List<Long> res = SubstringFinder.find(reader, "бра");
+            List<Long> res = SubstringSearcher.find(reader, "бра");
             List<Long> expected = Arrays.asList(1L, 8L);
             assertEquals(expected, res);
         }
@@ -66,7 +66,7 @@ public class SubstringFinderTest {
 
         try (InputStreamReader reader = new InputStreamReader(
                 new FileInputStream(f), StandardCharsets.UTF_8)) {
-            List<Long> res = SubstringFinder.find(reader, substring);
+            List<Long> res = SubstringSearcher.find(reader, substring);
 
             long expectedIdx = (chunk.length() * 1000 + "tailA".length());
             assertEquals(1, res.size(), "Should find the single inserted substring");
@@ -91,7 +91,7 @@ public class SubstringFinderTest {
         try (InputStreamReader reader = new InputStreamReader(
                 new FileInputStream(f), StandardCharsets.UTF_8)) {
 
-            List<Long> res = SubstringFinder.find(reader, substring);
+            List<Long> res = SubstringSearcher.find(reader, substring);
 
             assertFalse(res.isEmpty());
             byte[] fileBytes = Files.readAllBytes(f.toPath());
@@ -106,7 +106,7 @@ public class SubstringFinderTest {
 
     @Test
     public void emptySubstringShouldThrow() {
-        assertThrows(IllegalArgumentException.class, () -> SubstringFinder.find(null, ""));
+        assertThrows(IllegalArgumentException.class, () -> SubstringSearcher.find(null, ""));
     }
 
     @Test
@@ -120,7 +120,7 @@ public class SubstringFinderTest {
         System.out.println(pattern);
         try (InputStreamReader reader = new InputStreamReader(
                 new FileInputStream(f), StandardCharsets.UTF_8)) {
-            List<Long> positions = SubstringFinder.findUtf8(reader, pattern);
+            List<Long> positions = SubstringSearcher.findUtf8(reader, pattern);
             assertEquals(List.of(0L,1L), positions);
         }
     }
@@ -143,7 +143,7 @@ public class SubstringFinderTest {
 
         try (InputStreamReader reader = new InputStreamReader(
                 new FileInputStream(largeFile), StandardCharsets.UTF_8)) {
-            List<Long> positions = SubstringFinder.find(reader, pattern);
+            List<Long> positions = SubstringSearcher.find(reader, pattern);
             Matcher matcher = Pattern.compile(pattern).matcher(largeFileString);
             List<Long> matcherPositions = new ArrayList<>();
 
