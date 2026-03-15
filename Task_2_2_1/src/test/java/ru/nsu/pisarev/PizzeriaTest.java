@@ -102,11 +102,11 @@ public class PizzeriaTest {
 
         Config cfg = Config.fromFile("test_config.json");
 
-        assertEquals(2, cfg.n, "Config: bakers = 2");
-        assertEquals(1, cfg.m, "Config: carriers = 1");
-        assertEquals(5, cfg.t, "Config: warehouseSize = 5");
-        assertEquals(Arrays.asList(3, 2), cfg.bakerSpeeds, "Config: bakerSpeeds = [3,2]");
-        assertEquals(List.of(4), cfg.carrierCapacities, "Config: carrierCapacities = [4]");
+        assertEquals(2, cfg.n(), "Config: bakers = 2");
+        assertEquals(1, cfg.m(), "Config: carriers = 1");
+        assertEquals(5, cfg.t(), "Config: warehouseSize = 5");
+        assertEquals(Arrays.asList(3, 2), cfg.bakerSpeeds(), "Config: bakerSpeeds = [3,2]");
+        assertEquals(List.of(4), cfg.carrierCapacities(), "Config: carrierCapacities = [4]");
 
         java.nio.file.Files.deleteIfExists(path);
     }

@@ -16,15 +16,12 @@ public class Carrier implements Runnable{
         orderList = new ArrayList<>(capacity);
     }
 
-    public int getCapacity() {
-        return capacity;
-    }
     public void deliverLoop() throws InterruptedException{
         while (pizzeria.running || warehouse.getAmountOfPizzas()>0) {
             deliver();
         }
     }
-    public void deliver() throws InterruptedException {
+    public void deliver() {
 
         while(orderList.size()<capacity){
             Order order = warehouse.takePizza();

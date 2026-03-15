@@ -7,7 +7,6 @@ import java.util.Queue;
 public class Pizzeria {
     private final int N;//production
     private final int M;//delivery
-    private final int T;//warehouse
     private final Warehouse warehouse;
     private final Queue<Order> orderQueue=new LinkedList<>();
     private final List<Integer> speeds;
@@ -17,10 +16,12 @@ public class Pizzeria {
     public Pizzeria(int n, int m, int t,List<Integer> speeds,List<Integer> capacities) {
         N = n;
         M = m;
-        T = t;
-        this.warehouse = new Warehouse(T);
+        //warehouse
+        this.warehouse = new Warehouse(t);
         this.speeds=speeds;
         this.capacities=capacities;
+        startBakers();
+        startCarriers();
     }
 
     public synchronized void addOrder(Order order){
@@ -62,16 +63,5 @@ public class Pizzeria {
             Thread t = new Thread(carrier);
             t.start();
         }
-    }
-    public int getN() {
-        return N;
-    }
-
-    public int getM() {
-        return M;
-    }
-
-    public int getT() {
-        return T;
     }
 }

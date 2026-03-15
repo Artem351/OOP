@@ -15,9 +15,6 @@ public class Warehouse {
         this.orderList = new ArrayList<>();
     }
 
-    public int getT() {
-        return T;
-    }
     public synchronized int getAmountOfPizzas(){
         return currentAmount;
     }
