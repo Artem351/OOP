@@ -3,37 +3,38 @@ package ru.nsu.pisarev;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Carrier implements Runnable{
+public class Carrier implements Runnable {
     private final int capacity;
-    private final List<Order> orderList;
+    private final List<Order> orderList; // list of orders to be delivered by the current carrier
     private final Pizzeria pizzeria;
     private final Warehouse warehouse;
 
-    public Carrier(int capacity,Pizzeria pizzeria,Warehouse warehouse) {
-        this.capacity  = capacity;
+    public Carrier(int capacity, Pizzeria pizzeria, Warehouse warehouse) {
+        this.capacity = capacity;
         this.warehouse = warehouse;
-        this.pizzeria= pizzeria;
+        this.pizzeria = pizzeria;
         orderList = new ArrayList<>(capacity);
     }
 
-    public void deliverLoop() throws InterruptedException{
-        while (pizzeria.running || warehouse.getAmountOfPizzas()>0) {
+    public void deliverLoop() throws InterruptedException {
+        while (pizzeria.running || warehouse.getAmountOfPizzas() > 0) {
             deliver();
         }
     }
+
     public void deliver() {
 
-        while(orderList.size()<capacity){
+        while (orderList.size() < capacity) {
             Order order = warehouse.takePizza();
-            if (order == null){
+            if (order == null) {
                 break;
             }
             orderList.add(order);
             order.setStatus(OrderStatus.DELIVERING);
             System.out.println(order);
         }
-        while(!orderList.isEmpty()) {
-            Order order= orderList.remove(orderList.size() - 1);
+        while (!orderList.isEmpty()) {
+            Order order = orderList.remove(orderList.size() - 1);
             order.setStatus(OrderStatus.DELIVERED);
             System.out.println(order);
         }
@@ -41,9 +42,9 @@ public class Carrier implements Runnable{
 
     @Override
     public void run() {
-        try{
+        try {
             deliverLoop();
-        }catch (InterruptedException e){
+        } catch (InterruptedException e) {
             System.err.println(e.getMessage());
             Thread.currentThread().interrupt();
         }

@@ -1,13 +1,14 @@
 package ru.nsu.pisarev;
 
 public class Order {
-    private  static int idCounter = 0;
+    private static int idCounter = 0;
     private final int id;
     private OrderStatus status;
 
     private static synchronized int getNextId() {
         return idCounter++;
     }
+
     public Order() {
         this.id = getNextId();
         this.status = OrderStatus.NEW;
@@ -27,6 +28,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return id+" "+status;
+        return id + " " + status;
     }
 }

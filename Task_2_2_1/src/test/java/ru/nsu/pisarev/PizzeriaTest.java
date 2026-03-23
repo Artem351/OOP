@@ -7,11 +7,15 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PizzeriaTest {
     @Test
-    public  void testOrderCreation() {
+    public void testOrderCreation() {
         Order order = new Order();
         assertSame(OrderStatus.NEW, order.getStatus());
         assertTrue(order.getId() > 0);
@@ -21,10 +25,10 @@ public class PizzeriaTest {
     public void testOrderStatusChange() {
         Order order = new Order();
         order.setStatus(OrderStatus.BAKING);
-        assertSame(OrderStatus.BAKING,order.getStatus());
+        assertSame(OrderStatus.BAKING, order.getStatus());
 
         order.setStatus(OrderStatus.READY);
-        assertSame(OrderStatus.READY,order.getStatus());
+        assertSame(OrderStatus.READY, order.getStatus());
     }
 
     @Test
@@ -42,15 +46,15 @@ public class PizzeriaTest {
         Warehouse w = new Warehouse(3);
         Order order = new Order();
 
-        w.tryPut(order);
+        w.putWithWait(order);
         assertEquals(1, w.getAmountOfPizzas());
     }
 
     @Test
     public void testWarehousePutWhenFull() {
         Warehouse w = new Warehouse(2);
-        w.tryPut(new Order());
-        w.tryPut(new Order());
+        w.putWithWait(new Order());
+        w.putWithWait(new Order());
 
         assertEquals(2, w.getAmountOfPizzas());
     }
@@ -61,8 +65,8 @@ public class PizzeriaTest {
         Order o1 = new Order();
         Order o2 = new Order();
 
-        w.tryPut(o1);
-        w.tryPut(o2);
+        w.putWithWait(o1);
+        w.putWithWait(o2);
 
         Order taken = w.takePizza();
         assertNotNull(taken);
@@ -102,9 +106,9 @@ public class PizzeriaTest {
 
         Config cfg = Config.fromFile("test_config.json");
 
-        assertEquals(2, cfg.n(), "Config: bakers = 2");
-        assertEquals(1, cfg.m(), "Config: carriers = 1");
-        assertEquals(5, cfg.t(), "Config: warehouseSize = 5");
+        assertEquals(2, cfg.amountOfBakers(), "Config: bakers = 2");
+        assertEquals(1, cfg.amountOfCarriers(), "Config: carriers = 1");
+        assertEquals(5, cfg.warehouseCapacity(), "Config: warehouseSize = 5");
         assertEquals(Arrays.asList(3, 2), cfg.bakerSpeeds(), "Config: bakerSpeeds = [3,2]");
         assertEquals(List.of(4), cfg.carrierCapacities(), "Config: carrierCapacities = [4]");
 

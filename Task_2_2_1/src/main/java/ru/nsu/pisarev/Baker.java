@@ -17,7 +17,7 @@ public record Baker(int speed, Pizzeria pizzeria, Warehouse warehouse) implement
         System.out.println(order);
         Thread.sleep(1000 / speed);
         order.setStatus(OrderStatus.READY);
-        warehouse.tryPut(order);
+        warehouse.putWithWait(order);
         System.out.println(order);
     }
 

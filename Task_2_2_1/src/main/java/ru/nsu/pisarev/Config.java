@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public record Config(int n, int m, int t, List<Integer> bakerSpeeds, List<Integer> carrierCapacities) {
+public record Config(int amountOfBakers, int amountOfCarriers, int warehouseCapacity, List<Integer> bakerSpeeds,
+                     List<Integer> carrierCapacities) {
     private static int extractInt(String key, String json) {
         Pattern p = Pattern.compile("\"" + key + "\":(\\d+)");
         Matcher m = p.matcher(json);
