@@ -1,46 +1,25 @@
 package ru.nsu.pisarev;
 
+
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-public record Config(int amountOfBakers, int amountOfCarriers, int warehouseCapacity, List<Integer> bakerSpeeds,
-                     List<Integer> carrierCapacities) {
-    private static int extractInt(String key, String json) {
-        Pattern p = Pattern.compile("\"" + key + "\":(\\d+)");
-        Matcher m = p.matcher(json);
-        if (m.find())
-            return Integer.parseInt(m.group(1));
-        throw new IllegalArgumentException("Key not found: " + key);
-    }
+public record Config(
+        @JsonProperty("bakers") int amountOfBakers,
+        @JsonProperty("carriers") int amountOfCarriers,
+        @JsonProperty("warehouseCapacity") int warehouseCapacity,
+        @JsonProperty("bakerSpeeds") List<Integer> bakerSpeeds,
+        @JsonProperty("carrierCapacities") List<Integer> carrierCapacities
+){
 
-    private static List<Integer> extractIntArray(String key, String json) {
-        Pattern p = Pattern.compile("\"" + key + "\":\\[([\\d,]*)");
-        Matcher m = p.matcher(json);
-        if (m.find()) {
-            String[] parts = m.group(1).split(",");
-            List<Integer> result = new ArrayList<>();
-            for (String part : parts) {
-                if (!part.isEmpty()) result.add(Integer.parseInt(part));
-            }
-            return result;
-        }
-        throw new IllegalArgumentException("Key not found: " + key);
-    }
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
+    @JsonCreator
     public static Config fromFile(String path) throws IOException {
-        String json = Files.readString(Paths.get(path)).replaceAll("\\s+", "");
-        return new Config(
-                extractInt("bakers", json),
-                extractInt("carriers", json),
-                extractInt("warehouseSize", json),
-                extractIntArray("bakerSpeeds", json),
-                extractIntArray("carrierCapacities", json)
-        );
+        return MAPPER.readValue(Paths.get(path).toFile(), Config.class);
     }
-
 }

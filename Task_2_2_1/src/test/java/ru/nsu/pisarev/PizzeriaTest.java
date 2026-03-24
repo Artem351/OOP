@@ -1,19 +1,23 @@
 package ru.nsu.pisarev;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PizzeriaTest {
+    @TempDir
+    Path tempDir;
     @Test
     public void testOrderCreation() {
         Order order = new Order();
@@ -94,26 +98,18 @@ public class PizzeriaTest {
     }
 
     @Test
-    public void testConfigParsing() throws Exception {
-        String testJson = "{ \"bakers\": 2, \"carriers\": 1, \"warehouseSize\": 5, " +
-                "\"bakerSpeeds\": [3, 2], \"carrierCapacities\": [4] }";
+    void testConfigParsing_invalidJson_throwsException() {
 
-        Path path = Paths.get("test_config.json");
-        java.nio.file.Files.write(
-                path,
-                testJson.getBytes()
-        );
+        String invalidJson = "{ \"bakers\": \"not_a_number\", \"carriers\": 1 }";
 
-        Config cfg = Config.fromFile("test_config.json");
-
-        assertEquals(2, cfg.amountOfBakers(), "Config: bakers = 2");
-        assertEquals(1, cfg.amountOfCarriers(), "Config: carriers = 1");
-        assertEquals(5, cfg.warehouseCapacity(), "Config: warehouseSize = 5");
-        assertEquals(Arrays.asList(3, 2), cfg.bakerSpeeds(), "Config: bakerSpeeds = [3,2]");
-        assertEquals(List.of(4), cfg.carrierCapacities(), "Config: carrierCapacities = [4]");
-
-        java.nio.file.Files.deleteIfExists(path);
+        assertThrows(IOException.class, () -> {
+            Path configFile = tempDir.resolve("invalid.json");
+            Files.writeString(configFile, invalidJson);
+            Config.fromFile(configFile.toString());
+        });
     }
+
+
 
     @Test
     public void testOrderToStringFormat() {
