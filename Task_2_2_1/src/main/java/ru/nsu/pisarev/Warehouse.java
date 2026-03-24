@@ -5,14 +5,13 @@ import java.util.List;
 
 
 public class Warehouse {
-    private final int T;
+    private final int capacity;
+    private final List<Order> orderList = new ArrayList<>();
     private int currentAmount;
-    private final List<Order> orderList;
 
-    public Warehouse(int t) {
-        T = t;
+    public Warehouse(int capacity) {
+        this.capacity = capacity;
         currentAmount = 0;
-        this.orderList = new ArrayList<>();
     }
 
     public synchronized int getAmountOfPizzas() {
@@ -20,7 +19,7 @@ public class Warehouse {
     }
 
     public synchronized void putWithWait(Order order) {
-        while (currentAmount >= T) {
+        while (warehouseIsFull()) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -31,11 +30,11 @@ public class Warehouse {
         }
         currentAmount += 1;
         orderList.add(order);
-        notifyAll();
+        notifyAllCouriers();
     }
 
     public synchronized Order takePizza() {
-        while (currentAmount == 0) {
+        while (warehouseIsEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -45,7 +44,19 @@ public class Warehouse {
             }
         }
         currentAmount -= 1;
-        notifyAll();
+        notifyAllCouriers();
         return orderList.remove(currentAmount);//orderToDeliver
     }
+
+    private boolean warehouseIsEmpty() {
+        return currentAmount == 0;
+    }
+
+    private void notifyAllCouriers() {
+        notifyAll();
+    }
+    private boolean warehouseIsFull() {
+        return currentAmount == capacity;
+    }
+
 }
