@@ -107,6 +107,12 @@ public class PizzeriaTest {
             Files.writeString(configFile, invalidJson);
             Config.fromFile(configFile.toString());
         });
+        try {
+            Path configFile = tempDir.resolve("invalid.json");
+            assertNotNull(Config.fromFile(configFile.toString()));
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
