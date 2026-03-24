@@ -76,7 +76,7 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">Config</span>(int&nbsp;n, int&nbsp;m, int&nbsp;t, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;bakerSpeeds, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;carrierCapacities)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">Config</span>(int&nbsp;amountOfBakers, int&nbsp;amountOfCarriers, int&nbsp;warehouseCapacity, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;bakerSpeeds, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;carrierCapacities)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 </section>
 <section class="summary">
@@ -89,9 +89,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,java.util.List,java.util.List)" class="member-name-link">Config</a><wbr>(int&nbsp;n,
- int&nbsp;m,
- int&nbsp;t,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,java.util.List,java.util.List)" class="member-name-link">Config</a><wbr>(int&nbsp;amountOfBakers,
+ int&nbsp;amountOfCarriers,
+ int&nbsp;warehouseCapacity,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;bakerSpeeds,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;carrierCapacities)</code></div>
 <div class="col-last even-row-color">
@@ -111,6 +111,16 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#amountOfBakers()" class="member-name-link">amountOfBakers</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <code>amountOfBakers</code> record component.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#amountOfCarriers()" class="member-name-link">amountOfCarriers</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <code>amountOfCarriers</code> record component.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bakerSpeeds()" class="member-name-link">bakerSpeeds</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -134,25 +144,15 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#m()" class="member-name-link">m</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <code>m</code> record component.</div>
+<div class="block">Returns a string representation of this record class.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#n()" class="member-name-link">n</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#warehouseCapacity()" class="member-name-link">warehouseCapacity</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <code>n</code> record component.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#t()" class="member-name-link">t</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <code>t</code> record component.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns a string representation of this record class.</div>
+<div class="block">Returns the value of the <code>warehouseCapacity</code> record component.</div>
 </div>
 </div>
 </div>
@@ -174,17 +174,17 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(int,int,int,java.util.List,java.util.List)">
 <h3>Config</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Config</span><wbr><span class="parameters">(int&nbsp;n,
- int&nbsp;m,
- int&nbsp;t,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Config</span><wbr><span class="parameters">(int&nbsp;amountOfBakers,
+ int&nbsp;amountOfCarriers,
+ int&nbsp;warehouseCapacity,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;bakerSpeeds,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;carrierCapacities)</span></div>
 <div class="block">Creates an instance of a <code>Config</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>n</code> - the value for the <code>n</code> record component</dd>
-<dd><code>m</code> - the value for the <code>m</code> record component</dd>
-<dd><code>t</code> - the value for the <code>t</code> record component</dd>
+<dd><code>amountOfBakers</code> - the value for the <code>amountOfBakers</code> record component</dd>
+<dd><code>amountOfCarriers</code> - the value for the <code>amountOfCarriers</code> record component</dd>
+<dd><code>warehouseCapacity</code> - the value for the <code>warehouseCapacity</code> record component</dd>
 <dd><code>bakerSpeeds</code> - the value for the <code>bakerSpeeds</code> record component</dd>
 <dd><code>carrierCapacities</code> - the value for the <code>carrierCapacities</code> record component</dd>
 </dl>
@@ -251,35 +251,35 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="n()">
-<h3>n</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">n</span>()</div>
-<div class="block">Returns the value of the <code>n</code> record component.</div>
+<section class="detail" id="amountOfBakers()">
+<h3>amountOfBakers</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">amountOfBakers</span>()</div>
+<div class="block">Returns the value of the <code>amountOfBakers</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <code>n</code> record component</dd>
+<dd>the value of the <code>amountOfBakers</code> record component</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="m()">
-<h3>m</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">m</span>()</div>
-<div class="block">Returns the value of the <code>m</code> record component.</div>
+<section class="detail" id="amountOfCarriers()">
+<h3>amountOfCarriers</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">amountOfCarriers</span>()</div>
+<div class="block">Returns the value of the <code>amountOfCarriers</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <code>m</code> record component</dd>
+<dd>the value of the <code>amountOfCarriers</code> record component</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="t()">
-<h3>t</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">t</span>()</div>
-<div class="block">Returns the value of the <code>t</code> record component.</div>
+<section class="detail" id="warehouseCapacity()">
+<h3>warehouseCapacity</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">warehouseCapacity</span>()</div>
+<div class="block">Returns the value of the <code>warehouseCapacity</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <code>t</code> record component</dd>
+<dd>the value of the <code>warehouseCapacity</code> record component</dd>
 </dl>
 </section>
 </li>
