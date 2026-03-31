@@ -5,7 +5,10 @@ import java.util.List;
 
 public class Carrier implements Runnable {
     private final int capacity;
-    private final List<Order> orderList; // list of orders to be delivered by the current carrier
+    /**
+     * list of orders to be delivered by the current carrier
+     */
+    private final List<Order> orderList;
     private final Pizzeria pizzeria;
     private final Warehouse warehouse;
 
