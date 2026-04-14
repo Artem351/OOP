@@ -1,6 +1,9 @@
 package ru.nsu.pisarev;
 
 public class Utils {
+    private Utils() {
+        // unsupported
+    }
     public boolean isPrime(long n) {
         if (n < 2) {
             return false;

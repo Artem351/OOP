@@ -25,7 +25,7 @@ public class MessageProtocol {
         out.flush();
     }
 
-    public static DataTransferObject receiveObject(ObjectInputStream in)
+    public static Object receiveObject(ObjectInputStream in)
             throws IOException, ClassNotFoundException {
 
         int length = in.readInt();
@@ -44,7 +44,7 @@ public class MessageProtocol {
         }
 
         try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
-            return (DataTransferObject) ois.readObject();
+            return ois.readObject();
         }
     }
 
