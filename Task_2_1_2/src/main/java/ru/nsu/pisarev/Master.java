@@ -1,6 +1,8 @@
 package ru.nsu.pisarev;
 
 
+import ru.nsu.pisarev.dto.*;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -92,10 +94,10 @@ public class Master {
     private void handleWorker(WorkerInfo worker) {
         try {
             MessageProtocol.sendObject(worker.getOut(),
-                    new DataTransferObject(DataTransferObject.Command.PONG, "init", worker.getId()));
+                    new Pong("init", worker.getId()));
             while (running && !foundNonPrime && !worker.getSocket().isClosed()) {
                 if (MessageProtocol.hasCompleteMessageHeader(worker.getSocket())) {
-                    DataTransferObject msg = MessageProtocol.receiveObject(worker.getIn());
+                    Object msg = MessageProtocol.receiveObject(worker.getIn());
                     processWorkerMessage(worker, msg);
                 }
                 if (worker.isIdle() && !pendingTasks.isEmpty() && !foundNonPrime) {
@@ -114,29 +116,23 @@ public class Master {
         }
     }
 
-    private void processWorkerMessage(WorkerInfo worker, DataTransferObject msg) {
+    private void processWorkerMessage(WorkerInfo worker, Object msg) {
         worker.setLastActivity(System.currentTimeMillis());
-
-        if (!processedMessageIds.add(msg.getMessageId())) {
-            System.out.println("Duplicate message ignored: " + msg.getMessageId());
-            return;
+        if (msg instanceof Heartbeat) {
+            worker.setIdle(true);
+            worker.setLastActivity(System.currentTimeMillis());
         }
-
-        switch (msg.getCommand()) {
-            case HEARTBEAT:
-                worker.setIdle(true);
-                worker.setLastActivity(System.currentTimeMillis());
-                break;
-            case RESULT:
-                handleResult(worker, msg);
-                break;
-            case ERROR:
-                System.err.println("Worker " + worker.getId() + " reported error for task " + msg.getTaskId());
-                requeueTask(msg.getTaskId());
-                worker.setIdle(true);
-                break;
-            case ACK:
-                break;
+        if (msg instanceof Result msgResult) {
+            handleResult(worker, msgResult);
+        }
+        if (msg instanceof ErrorDTO msgError) {
+            System.err.println("Worker " + worker.getId() + " reported error for task " + msgError.getTaskId());
+            requeueTask(msgError.getTaskId());
+            worker.setIdle(true);
+        }
+        if (msg instanceof Ack) {
+            //Nothing to do
+            return;
         }
     }
 
@@ -168,13 +164,11 @@ public class Master {
         if (task == null) {
             return;
         }
-
         task.setAssignedWorker(worker.getId());
         task.setAssignedTime(System.currentTimeMillis());
         activeTasks.put(task.getId(), task);
 
-        DataTransferObject dto = new DataTransferObject(
-                DataTransferObject.Command.ASSIGN_TASK, task.getId(), worker.getId());
+        DataTransferObject dto = new AssignTask(task.getId(), worker.getId());
         dto.setNumber(task.getNumber());
         dto.setSequenceNumber(task.getIndex());
 
@@ -272,7 +266,7 @@ public class Master {
         for (WorkerInfo worker : workers.values()) {
             try {
                 MessageProtocol.sendObject(worker.getOut(),
-                        new DataTransferObject(DataTransferObject.Command.SHUTDOWN, "all", worker.getId()));
+                        new Shutdown("all", worker.getId()));
             } catch (IOException ignored) {}
         }
     }

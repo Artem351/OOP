@@ -4,12 +4,6 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class DataTransferObject implements Serializable {
-
-    public enum Command {
-        PING, PONG, ASSIGN_TASK, RESULT, HEARTBEAT, SHUTDOWN, ERROR, ACK
-    }
-
-    private Command command;
     private String taskId;
     private int workerId;
 
@@ -27,8 +21,7 @@ public class DataTransferObject implements Serializable {
     /**
      * Constructor for maintenance messages
      */
-    public DataTransferObject(Command command, String taskId, int workerId) {
-        this.command = command;
+    public DataTransferObject(String taskId, int workerId) {
         this.taskId = taskId;
         this.workerId = workerId;
         this.timestamp = System.currentTimeMillis();
@@ -39,8 +32,7 @@ public class DataTransferObject implements Serializable {
     /**
      * Constructor for results
      */
-    public DataTransferObject(Command command, String taskId, int workerId, boolean isNonPrime, int number) {
-        this.command = command;
+    public DataTransferObject(String taskId, int workerId, boolean isNonPrime, int number) {
         this.taskId = taskId;
         this.workerId = workerId;
         this.isNonPrime = isNonPrime;
@@ -48,13 +40,6 @@ public class DataTransferObject implements Serializable {
         this.timestamp = System.currentTimeMillis();
         this.messageId = UUID.randomUUID().toString();
         this.retryCount = 0;
-    }
-
-    public Command getCommand() {
-        return command;
-    }
-    public void setCommand(Command command) {
-        this.command = command;
     }
 
     public String getTaskId() {

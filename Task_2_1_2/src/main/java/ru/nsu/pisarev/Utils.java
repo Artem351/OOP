@@ -1,10 +1,7 @@
 package ru.nsu.pisarev;
 
 public class Utils {
-    private Utils() {
-        // unsupported
-    }
-    public boolean isPrime(long n) {
+    public static boolean isPrime(long n) {
         if (n < 2) {
             return false;
         }
@@ -20,5 +17,10 @@ public class Utils {
             }
         }
         return true;
+    }
+
+    private Utils() {
+        // unsupported
+        throw new UnsupportedOperationException();
     }
 }

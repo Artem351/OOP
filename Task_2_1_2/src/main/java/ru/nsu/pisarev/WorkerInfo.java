@@ -13,7 +13,7 @@ public class WorkerInfo {
     private volatile long lastActivity;
     private volatile boolean idle = true;
 
-    WorkerInfo(int id, Socket socket) throws IOException {
+    public WorkerInfo(int id, Socket socket) throws IOException {
         this.id = id;
         this.socket = socket;
         this.out = new java.io.ObjectOutputStream(socket.getOutputStream());

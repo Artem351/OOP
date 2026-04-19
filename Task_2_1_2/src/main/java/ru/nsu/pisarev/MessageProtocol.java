@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 public class MessageProtocol {
 
     private static final int MAX_MESSAGE_SIZE = 10 * 1024 * 1024;
-    public static void sendObject(ObjectOutputStream out, DataTransferObject obj) throws IOException {
+    public static void sendObject(ObjectOutputStream out, Object obj) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
             oos.writeObject(obj);

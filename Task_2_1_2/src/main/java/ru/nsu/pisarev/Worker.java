@@ -1,4 +1,6 @@
 package ru.nsu.pisarev;
+import ru.nsu.pisarev.dto.*;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -6,7 +8,6 @@ public class Worker {
     private final int id;
     private final String masterHost;
     private final int masterPort;
-    private final Utils utils = new Utils();
     private volatile boolean running = true;
 
     private static final int HEARTBEAT_INTERVAL_MS = 3000;
@@ -35,8 +36,8 @@ public class Worker {
 
                 System.out.println("Worker " + id + " connected to Master");
 
-                DataTransferObject handshake = MessageProtocol.receiveObject(in);
-                if (handshake.getCommand() != DataTransferObject.Command.PONG) {
+                Object handshake = MessageProtocol.receiveObject(in);
+                if (!(handshake instanceof Pong)) {
                     System.err.println("Unexpected handshake from Master");
                     continue;
                 }
@@ -44,7 +45,7 @@ public class Worker {
                 Thread heartbeatThread = startHeartbeat(out);
 
                 while (running && !socket.isClosed()) {
-                    DataTransferObject msg = MessageProtocol.receiveObject(in);
+                    Object msg = MessageProtocol.receiveObject(in);
                     processMessage(msg, out);
                 }
                 heartbeatThread.interrupt();
@@ -80,7 +81,7 @@ public class Worker {
             while (running) {
                 try {
                     MessageProtocol.sendObject(out,
-                            new DataTransferObject(DataTransferObject.Command.HEARTBEAT, "hb", id));
+                            new Heartbeat("hb", id));
                     Thread.sleep(HEARTBEAT_INTERVAL_MS);
                 } catch (Exception e) {
                     break;
@@ -92,40 +93,40 @@ public class Worker {
         return t;
     }
 
-    private void processMessage(DataTransferObject msg, java.io.ObjectOutputStream out) {
+    private void processMessage(Object msg, java.io.ObjectOutputStream out) {
         try {
-            switch (msg.getCommand()) {
-                case ASSIGN_TASK:
-                    processTask(msg, out);
-                    break;
+            if (msg instanceof AssignTask msgAssignTask) {
+                processTask(msgAssignTask, out);
+            }
 
-                case SHUTDOWN:
-                    System.out.println("Worker " + id + " received SHUTDOWN");
-                    running = false;
-                    break;
-
-                case PING:
-                    MessageProtocol.sendObject(out,
-                            new DataTransferObject(DataTransferObject.Command.PONG, msg.getTaskId(), id));
-                    break;
+            if (msg instanceof Shutdown) {
+                System.out.println("Worker " + id + " received SHUTDOWN");
+                running = false;
+            }
+            if (msg instanceof Ping msgPing) {
+                MessageProtocol.sendObject(out,
+                        new Pong(msgPing.getTaskId(), id));
             }
         } catch (Exception e) {
             System.err.println("Worker " + id + " error processing message: " + e.getMessage());
-            sendError(msg.getTaskId(), out, e.getMessage());
+            if(msg instanceof DataTransferObject msgDTO) {
+                sendError(msgDTO.getTaskId(), out, e.getMessage());
+            }
         }
     }
 
-    private void processTask(DataTransferObject msg, java.io.ObjectOutputStream out) throws IOException {
+    private void processTask(Object msgObj, java.io.ObjectOutputStream out) throws IOException {
+        assert msgObj instanceof DataTransferObject;
+        DataTransferObject msg = (DataTransferObject) msgObj;
         int number = msg.getNumber();
         String taskId = msg.getTaskId();
 
         System.out.println("Worker " + id + " checking: " + number + " (task: " + taskId + ")");
 
-        boolean isPrime = utils.isPrime(number);
+        boolean isPrime = Utils.isPrime(number);
         boolean isNonPrime = !isPrime;
 
-        DataTransferObject result = new DataTransferObject(
-                DataTransferObject.Command.RESULT, taskId, id, isNonPrime, number);
+        DataTransferObject result = new Result(taskId, id, isNonPrime, number);
         result.setSequenceNumber(msg.getSequenceNumber());
 
         MessageProtocol.sendObject(out, result);
@@ -139,9 +140,8 @@ public class Worker {
 
     private void sendError(String taskId, java.io.ObjectOutputStream out, String error) {
         try {
-            DataTransferObject errorDto = new DataTransferObject(
-                    DataTransferObject.Command.ERROR, taskId, id);
-            MessageProtocol.sendObject(out, errorDto);
+            DataTransferObject errorDTO = new ErrorDTO(taskId, id);
+            MessageProtocol.sendObject(out, errorDTO);
         } catch (IOException e) {
             System.err.println("Failed to send error: " + e.getMessage());
         }
