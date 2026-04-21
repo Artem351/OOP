@@ -117,9 +117,8 @@ public class DistributedPrimeChecker {
     }
 
     private static boolean allPrime(int[] array) {
-        Utils utils = new Utils();
         for (int n : array) {
-            if (!utils.isPrime(n)) {
+            if (!Utils.isPrime(n)) {
                 return false;
             }
         }
