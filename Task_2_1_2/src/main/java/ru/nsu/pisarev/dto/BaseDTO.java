@@ -3,17 +3,11 @@ package ru.nsu.pisarev;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class DataTransferObject implements Serializable {
+public class BaseDTO implements Serializable {
     private String taskId;
     private int workerId;
 
-    /**
-     * number to check
-     */
-    private int number;
-    private Boolean isNonPrime;
     private long timestamp;
-    private int sequenceNumber;
     private String messageId;
     private String ackForMessageId;
     private int retryCount;
@@ -21,7 +15,7 @@ public class DataTransferObject implements Serializable {
     /**
      * Constructor for maintenance messages
      */
-    public DataTransferObject(String taskId, int workerId) {
+    public BaseDTO(String taskId, int workerId) {
         this.taskId = taskId;
         this.workerId = workerId;
         this.timestamp = System.currentTimeMillis();
@@ -32,7 +26,7 @@ public class DataTransferObject implements Serializable {
     /**
      * Constructor for results
      */
-    public DataTransferObject(String taskId, int workerId, boolean isNonPrime, int number) {
+    public BaseDTO(String taskId, int workerId, boolean isNonPrime, int number) {
         this.taskId = taskId;
         this.workerId = workerId;
         this.isNonPrime = isNonPrime;
@@ -56,13 +50,6 @@ public class DataTransferObject implements Serializable {
         this.workerId = workerId;
     }
 
-    public int getNumber() {
-        return number;
-    }
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
     public Boolean getNonPrime() {
         return isNonPrime;
     }
@@ -75,13 +62,6 @@ public class DataTransferObject implements Serializable {
     }
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public int getSequenceNumber() {
-        return sequenceNumber;
-    }
-    public void setSequenceNumber(int sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
     }
 
     public String getMessageId() {

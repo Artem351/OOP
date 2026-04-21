@@ -97,17 +97,15 @@ public class Worker {
         try {
             if (msg instanceof AssignTask msgAssignTask) {
                 processTask(msgAssignTask, out);
-            }
-
-            if (msg instanceof Shutdown) {
+            } else if (msg instanceof Shutdown) {
                 System.out.println("Worker " + id + " received SHUTDOWN");
                 running = false;
-            }
-            if (msg instanceof Ping msgPing) {
+            } else if (msg instanceof Ping msgPing) {
                 MessageProtocol.sendObject(out,
                         new Pong(msgPing.getTaskId(), id));
             }
         } catch (Exception e) {
+            //TODO chage t slf4j + log4j(lagback)
             System.err.println("Worker " + id + " error processing message: " + e.getMessage());
             if(msg instanceof DataTransferObject msgDTO) {
                 sendError(msgDTO.getTaskId(), out, e.getMessage());
@@ -115,11 +113,9 @@ public class Worker {
         }
     }
 
-    private void processTask(Object msgObj, java.io.ObjectOutputStream out) throws IOException {
-        assert msgObj instanceof DataTransferObject;
-        DataTransferObject msg = (DataTransferObject) msgObj;
-        int number = msg.getNumber();
-        String taskId = msg.getTaskId();
+    private void processTask(AssignTask assignTask, java.io.ObjectOutputStream out) throws IOException {
+        int number = assignTask.getNumber();
+        String taskId = assignTask.getTaskId();
 
         System.out.println("Worker " + id + " checking: " + number + " (task: " + taskId + ")");
 
@@ -127,7 +123,7 @@ public class Worker {
         boolean isNonPrime = !isPrime;
 
         DataTransferObject result = new Result(taskId, id, isNonPrime, number);
-        result.setSequenceNumber(msg.getSequenceNumber());
+        result.setSequenceNumber(assignTask.getSequenceNumber());
 
         MessageProtocol.sendObject(out, result);
 
