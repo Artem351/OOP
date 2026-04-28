@@ -1,5 +1,7 @@
 package ru.nsu.pisarev;
 
+import ru.nsu.pisarev.dto.BaseDTO;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,23 +11,25 @@ import java.io.ObjectOutputStream;
 public class MessageProtocol {
 
     private static final int MAX_MESSAGE_SIZE = 10 * 1024 * 1024;
-    public static void sendObject(ObjectOutputStream out, Object obj) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+    public static void sendObject(ObjectOutputStream out, BaseDTO obj) throws IOException {
+
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+
             oos.writeObject(obj);
-        }
 
-        byte[] data = baos.toByteArray();
-        if (data.length > MAX_MESSAGE_SIZE) {
-            throw new IOException("Message too large: " + data.length + " bytes");
-        }
+            byte[] data = baos.toByteArray();
+            if (data.length > MAX_MESSAGE_SIZE) {
+                throw new IOException("Message too large: " + data.length + " bytes");
+            }
 
-        out.writeInt(data.length);
-        out.write(data);
-        out.flush();
+            out.writeInt(data.length);
+            out.write(data);
+            out.flush();
+        }
     }
 
-    public static Object receiveObject(ObjectInputStream in)
+    public static BaseDTO receiveObject(ObjectInputStream in)
             throws IOException, ClassNotFoundException {
 
         int length = in.readInt();
@@ -44,7 +48,7 @@ public class MessageProtocol {
         }
 
         try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
-            return ois.readObject();
+            return (BaseDTO) ois.readObject();
         }
     }
 

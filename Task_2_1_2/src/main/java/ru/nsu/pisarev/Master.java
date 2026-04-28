@@ -3,10 +3,8 @@ package ru.nsu.pisarev;
 
 import ru.nsu.pisarev.dto.Ack;
 import ru.nsu.pisarev.dto.AssignTask;
-import ru.nsu.pisarev.dto.BaseDTO;
 import ru.nsu.pisarev.dto.ErrorDTO;
 import ru.nsu.pisarev.dto.Heartbeat;
-import ru.nsu.pisarev.dto.Ping;
 import ru.nsu.pisarev.dto.Pong;
 import ru.nsu.pisarev.dto.Result;
 import ru.nsu.pisarev.dto.Shutdown;
@@ -24,13 +22,12 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Master {
+    private final static int MAX_RETRIES = 3;
 
     private final int[] array;
     private final int port;
     private final int workerTimeoutMs = 15000;
     private final int taskTimeoutMs = 30000;
-    private final int maxRetries = 3;
-
     private ServerSocket serverSocket;
     private volatile boolean running = true;
     private volatile boolean foundNonPrime = false;
@@ -38,7 +35,6 @@ public class Master {
     private final BlockingQueue<Task> pendingTasks = new LinkedBlockingQueue<>();
     private final Map<Integer, WorkerInfo> workers = new ConcurrentHashMap<>();
     private final Map<String, Task> activeTasks = new ConcurrentHashMap<>();
-    private final Set<String> processedMessageIds = new ConcurrentSkipListSet<>();
 
     private final Object resultLock = new Object();
 
@@ -140,7 +136,6 @@ public class Master {
         }
         if (msg instanceof Ack) {
             //Nothing to do
-            return;
         }
     }
 
@@ -228,13 +223,13 @@ public class Master {
     private void requeueTask(String taskId) {
         Task task = activeTasks.remove(taskId);
         if (task != null) {
-            if (task.getAttempts() < maxRetries) {
+            if (task.getAttempts() < MAX_RETRIES) {
                 task.setAttempts(task.getAttempts()+1);
                 task.setAssignedWorker(-1);
                 boolean offer = pendingTasks.offer(task);
                 System.out.println("Task " + taskId + " re-queued (attempt " + task.getAttempts() + ")");
             } else {
-                System.err.println("Task " + taskId + " failed after " + maxRetries + " attempts");
+                System.err.println("Task " + taskId + " failed after " + MAX_RETRIES + " attempts");
             }
         }
     }
