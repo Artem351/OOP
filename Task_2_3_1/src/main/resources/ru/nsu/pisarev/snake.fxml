@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+
+<?import javafx.scene.layout.Region?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="rootPane"
+            fx:controller="ru.nsu.pisarev.controller.SnakeController"
+            style="-fx-background-color: #121212;">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 12 20 12 20;"
+              styleClass="toolbar">
+            <Label fx:id="scoreLabel" text="Length: 1"
+                   style="-fx-text-fill: #a0a0a0; -fx-font-size: 15px; -fx-font-weight: bold;"/>
+            <Label fx:id="statusLabel" text="Press «Start»"
+                   style="-fx-text-fill: #4fc3f7; -fx-font-size: 15px;"/>
+            <Label fx:id="levelLabel" text="Level 1"
+                   style="-fx-text-fill: #4fc3f7; -fx-font-size: 15px;"/>
+            <Button fx:id="startBtn" text="Start"
+                    style="-fx-font-size: 14px; -fx-padding: 6 16;"/>
+            <Button fx:id="nextLevelBtn" text="Next Level"
+                    style="-fx-font-size: 14px; -fx-padding: 8 16;"/>
+            <Button fx:id="pauseBtn" text="Pause/Resume"
+                    style="-fx-font-size: 14px; -fx-padding: 8 16;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="WASD / Arrows"
+                   style="-fx-text-fill: #666; -fx-font-size: 13px;"/>
+        </HBox>
+    </top>
+    <center>
+        <Canvas fx:id="gameCanvas" />
+    </center>
+</BorderPane>
