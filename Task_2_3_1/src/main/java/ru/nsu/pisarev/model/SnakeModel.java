@@ -1,6 +1,12 @@
-package ru.nsu.pisarev;
+package ru.nsu.pisarev.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class SnakeModel {
     private final int width, height;
@@ -13,15 +19,14 @@ public class SnakeModel {
     private List<Point> food = new ArrayList<>();
     private GameState state = GameState.READY;
     private final Random random = new Random();
-    private final SnakeController controller;
 
-    public SnakeModel(int width, int height, SnakeController controller) {
+
+    public SnakeModel(int width, int height) {
         this.width = width;
         this.height = height;
-        this.controller = controller;
     }
 
-    public void init() {
+    public void init(int level) {
         snake.clear();
         bodySet.clear();
         obstacles.clear();
@@ -32,25 +37,22 @@ public class SnakeModel {
         Point start = new Point(width / 2, height / 2);
         snake.add(start);
         bodySet.add(start);
-        //  100/24 ~ 4% obstacles
-        int obstacleCount = (width * height) * (controller.getLevelCounter()-1)/50;
+
+
+        int obstacleCount = (width * height) * Math.max(0, level - 1) / 50;
         placeRandomObstacles(obstacleCount);
 
-        for (int i = 0; i < foodCount; i++) spawnFood();
+        for (int i = 0; i < foodCount; i++) {
+            spawnFood();
+        }
     }
 
     private void placeRandomObstacles(int count) {
-        int placed = 0;
-        int attempts = 0;
-        int maxAttempts = count * 20;
-
+        int placed = 0, attempts = 0, maxAttempts = count * 20;
         while (placed < count && attempts < maxAttempts) {
             Point p = new Point(random.nextInt(width), random.nextInt(height));
-            if (!bodySet.contains(p) && !obstacles.contains(p)) {
-                if (Math.abs(p.x() - width / 2) <= 1 && Math.abs(p.y() - height / 2) <= 1) {
-                    attempts++;
-                    continue;
-                }
+            if (!bodySet.contains(p) && !obstacles.contains(p) &&
+                    !(Math.abs(p.x() - width / 2) <= 1 && Math.abs(p.y() - height / 2) <= 1)) {
                 obstacles.add(p);
                 placed++;
             }
@@ -62,21 +64,14 @@ public class SnakeModel {
         if (state != GameState.RUNNING) {
             return;
         }
+        Point newHead = calculateNextHead();
 
-        Point newHead = getPoint();
-        if (obstacles.contains(newHead)) {
+        if (obstacles.contains(newHead) || bodySet.contains(newHead)) {
             state = GameState.LOST;
             return;
         }
-        if (bodySet.contains(newHead)) {
-            state = GameState.LOST;
-            return;
-        }
-
 
         boolean ateFood = food.removeIf(f -> f.equals(newHead));
-
-
         snake.addFirst(newHead);
         bodySet.add(newHead);
 
@@ -91,23 +86,14 @@ public class SnakeModel {
         }
     }
 
-    private Point getPoint() {
+    private Point calculateNextHead() {
         Point head = snake.getFirst();
-        int x = head.x();
-        int y = head.y();
+        int x = head.x(), y = head.y();
         switch (direction) {
-            case UP:
-                y--;
-                break;
-            case DOWN:
-                y++;
-                break;
-            case LEFT:
-                x--;
-                break;
-            case RIGHT:
-                x++;
-                break;
+            case UP -> y--;
+            case DOWN -> y++;
+            case LEFT -> x--;
+            case RIGHT -> x++;
         }
         if (x < 0) {
             x = width - 1;
@@ -116,7 +102,6 @@ public class SnakeModel {
                 x = 0;
             }
         }
-
         if (y < 0) {
             y = height - 1;
         } else {
@@ -124,8 +109,8 @@ public class SnakeModel {
                 y = 0;
             }
         }
-        Point newHead = new Point(x, y);
-        return newHead;
+
+        return new Point(x, y);
     }
 
     public void setDirection(Direction dir) {
@@ -134,17 +119,14 @@ public class SnakeModel {
         }
         if (dir == Direction.UP && direction != Direction.DOWN) {
             direction = dir;
-        }
-        else {
+        } else {
             if (dir == Direction.DOWN && direction != Direction.UP) {
                 direction = dir;
-            }
-            else {
-                if (dir == Direction.LEFT && direction != Direction.RIGHT){
+            } else {
+                if (dir == Direction.LEFT && direction != Direction.RIGHT) {
                     direction = dir;
-                }
-                else {
-                    if (dir == Direction.RIGHT && direction != Direction.LEFT){
+                } else {
+                    if (dir == Direction.RIGHT && direction != Direction.LEFT) {
                         direction = dir;
                     }
                 }
@@ -156,7 +138,8 @@ public class SnakeModel {
         Point p;
         do {
             p = new Point(random.nextInt(width), random.nextInt(height));
-        } while (bodySet.contains(p) || obstacles.contains(p) || food.contains(p));
+        }
+        while (bodySet.contains(p) || obstacles.contains(p) || food.contains(p));
         food.add(p);
     }
 
@@ -188,11 +171,7 @@ public class SnakeModel {
         return snake.size();
     }
 
-    public void addObstacles(Set<Point> obs) {
-        obstacles.addAll(obs);
-    }
-
-    public int getFoodCount() {
-        return foodCount;
+    public void setState(GameState state) {
+        this.state = state;
     }
 }

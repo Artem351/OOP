@@ -1,4 +1,4 @@
-package ru.nsu.pisarev;
+package ru.nsu.pisarev.model;
 
 public record Point(int x, int y) {
 

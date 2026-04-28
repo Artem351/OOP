@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Region?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="rootPane"
-            fx:controller="ru.nsu.pisarev.SnakeController"
+            fx:controller="ru.nsu.pisarev.controller.SnakeController"
             style="-fx-background-color: #121212;">
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 12 20 12 20;"

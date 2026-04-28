@@ -1,4 +1,4 @@
-package ru.nsu.pisarev;
+package ru.nsu.pisarev.model;
 
 public enum GameState {
     READY,

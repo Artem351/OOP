@@ -1,6 +1,10 @@
-package ru.nsu.pisarev;
+package ru.nsu.pisarev.controller;
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
+import ru.nsu.pisarev.model.GameState;
+import ru.nsu.pisarev.model.SnakeModel;
+import ru.nsu.pisarev.view.SnakeView;
 
 public class GameLoop extends AnimationTimer {
     private final SnakeController controller;
@@ -9,8 +13,15 @@ public class GameLoop extends AnimationTimer {
     private final SnakeView view;
     private long stepInterval;
     private long lastUpdate = 0;
-
     private boolean running = false;
+
+    public GameLoop(SnakeController controller, Canvas canvas, SnakeModel model, SnakeView view, long stepInterval) {
+        this.controller = controller;
+        this.canvas = canvas;
+        this.model = model;
+        this.view = view;
+        this.stepInterval = stepInterval;
+    }
 
     @Override
     public void handle(long now) {
@@ -21,28 +32,19 @@ public class GameLoop extends AnimationTimer {
         if (now - lastUpdate >= stepInterval) {
             if (model.getState() == GameState.RUNNING) {
                 model.step();
-                controller.updateUI();
             }
-            view.render(canvas, model);
+            view.render(canvas, model.getWidth(), model.getHeight(),
+                    model.getSnake(), model.getObstacles(), model.getFood(), model.getState());
+            controller.updateUI();
             lastUpdate = now;
         }
     }
-
-    public GameLoop(SnakeController controller, Canvas canvas, SnakeModel model, SnakeView view, long stepInterval) {
-        this.controller = controller;
-        this.canvas = canvas;
-        this.model = model;
-        this.view = view;
-        this.stepInterval = stepInterval;
-    }
-
 
     @Override
     public void start() {
         running = true;
         super.start();
     }
-
 
     @Override
     public void stop() {
@@ -55,8 +57,8 @@ public class GameLoop extends AnimationTimer {
         return running;
     }
 
-    public void setSpeed(double speedFactor) {
-        this.stepInterval = Math.max(40_000_000, (long)(120_000_000 / speedFactor));
+    public void setSpeed(double factor) {
+        stepInterval = Math.max(40_000_000, (long) (120_000_000 / factor));
     }
 
     public void reset() {

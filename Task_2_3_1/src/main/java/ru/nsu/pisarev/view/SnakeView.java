@@ -1,35 +1,33 @@
-package ru.nsu.pisarev;
+package ru.nsu.pisarev.view;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import ru.nsu.pisarev.model.GameState;
+import ru.nsu.pisarev.model.Point;
 
 import java.util.List;
-
+import java.util.Set;
 
 public class SnakeView {
-    public void render(Canvas canvas, SnakeModel model) {
-        double w = canvas.getWidth();
-        double h = canvas.getHeight();
-        if (w <= 0 || h <= 0) {
+
+    public void render(Canvas canvas, int cols, int rows,
+                       List<Point> snake, Set<Point> obstacles,
+                       List<Point> food, GameState state) {
+        double w = canvas.getWidth(), h = canvas.getHeight();
+        if (w <= 0 || h <= 0){
             return;
         }
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        int cols = model.getWidth();
-        int rows = model.getHeight();
-
-
         double cellSize = Math.min(w / cols, h / rows);
         double offsetX = (w - cols * cellSize) / 2;
         double offsetY = (h - rows * cellSize) / 2;
 
-        //background
         gc.setFill(Color.rgb(18, 18, 22));
         gc.fillRect(0, 0, w, h);
 
-        //cells
         gc.setStroke(Color.rgb(35, 35, 45));
         gc.setLineWidth(1);
         for (int x = 0; x <= cols; x++) {
@@ -39,39 +37,31 @@ public class SnakeView {
             gc.strokeLine(offsetX, offsetY + y * cellSize, offsetX + cols * cellSize, offsetY + y * cellSize);
         }
 
-        gc.setFill(Color.rgb(90, 90, 100));
-        for (Point p : model.getObstacles()){
+        gc.setFill(Color.rgb(210, 45, 45));
+        for (Point p : obstacles) {
             drawRect(gc, p, cellSize, offsetX, offsetY);
         }
 
-        // food
         gc.setFill(Color.rgb(255, 160, 40));
-        for (Point p : model.getFood()) {
+        for (Point p : food) {
             drawOval(gc, p, cellSize, offsetX, offsetY);
         }
 
-        // snake
-        List<Point> snake = model.getSnake();
         if (!snake.isEmpty()) {
             gc.setFill(Color.rgb(80, 220, 100));
-            for (int i = 1; i < snake.size(); i++) {
+            for (int i = 1; i < snake.size(); i++){
                 drawRect(gc, snake.get(i), cellSize, offsetX, offsetY);
             }
             gc.setFill(Color.WHITE);
             drawRect(gc, snake.get(0), cellSize, offsetX, offsetY);
         }
-        // obstacles
-        gc.setFill(Color.rgb(210, 45, 45));
-        for (Point p : model.getObstacles()) {
-            drawRect(gc, p, cellSize, offsetX, offsetY);
-        }
 
-        if (model.getState() != GameState.RUNNING) {
+        if (state != GameState.RUNNING) {
             gc.setFill(Color.rgb(0, 0, 0, 0.6));
             gc.fillRect(offsetX, offsetY, cols * cellSize, rows * cellSize);
             gc.setFill(Color.WHITE);
             gc.setFont(Font.font("System Bold", 22));
-            String msg = switch (model.getState()) {
+            String msg = switch (state) {
                 case READY -> "Press «Start»";
                 case WON -> "You won!";
                 case LOST -> "You lose";

@@ -1,5 +1,6 @@
-package ru.nsu.pisarev;
+package ru.nsu.pisarev.controller;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -7,7 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.beans.binding.Bindings;
+import ru.nsu.pisarev.model.Direction;
+import ru.nsu.pisarev.model.GameState;
+import ru.nsu.pisarev.model.SnakeModel;
+import ru.nsu.pisarev.view.SnakeView;
 
 public class SnakeController {
     @FXML
@@ -31,17 +35,12 @@ public class SnakeController {
     private SnakeView view;
     private GameLoop gameLoop;
     private long stepInterval = 120_000_000;
-    private long lastUpdate = 0;
     private int levelCounter = 1;
-
-    public int getLevelCounter() {
-        return levelCounter;
-    }
 
     @FXML
     public void initialize() {
         int cols = 30, rows = 20;
-        model = new SnakeModel(cols, rows,this);
+        model = new SnakeModel(cols, rows);
         view = new SnakeView();
 
         gameCanvas.widthProperty().bind(rootPane.widthProperty());
@@ -51,56 +50,48 @@ public class SnakeController {
         rootPane.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPress);
         gameCanvas.setOnMouseClicked(e -> rootPane.requestFocus());
 
-
         gameLoop = new GameLoop(this, gameCanvas, model, view, stepInterval);
 
         startBtn.setOnAction(e -> startGame());
         pauseBtn.setOnAction(e -> togglePause());
         nextLevelBtn.setDisable(true);
-        nextLevelBtn.setOnAction(e -> nexLevel());
-        gameCanvas.widthProperty().addListener((obs, old, val) -> view.render(gameCanvas, model));
-        gameCanvas.heightProperty().addListener((obs, old, val) -> view.render(gameCanvas, model));
+        nextLevelBtn.setOnAction(e -> nextLevel());
+
+        gameCanvas.widthProperty().addListener((obs, old, val) -> render());
+        gameCanvas.heightProperty().addListener((obs, old, val) -> render());
 
         updateUI();
-        view.render(gameCanvas, model);
+        render();
     }
 
-    private void nexLevel() {
+    private void render() {
+        view.render(gameCanvas, model.getWidth(), model.getHeight(),
+                model.getSnake(), model.getObstacles(), model.getFood(), model.getState());
+    }
+
+    private void nextLevel() {
         nextLevelBtn.setDisable(true);
         levelCounter++;
-        levelLabel.setText("Level "+levelCounter);
-        model.init();
+        levelLabel.setText("Level " + levelCounter);
+        model.init(levelCounter);
+        gameLoop.setSpeed(1 + (levelCounter - 1) * 0.2);
         updateUI();
-        view.render(gameCanvas, model);
+        render();
     }
 
-
     public void updateUI() {
-        scoreLabel.setText("Length: " + model.getScore() + " / " + 10);
-        String result = switch (model.getState()) {
+        scoreLabel.setText("Length: " + model.getScore() + " / 10");
+        statusLabel.setText(switch (model.getState()) {
             case READY -> "Ready to play";
             case RUNNING -> "Playing";
             case WON -> "You win!";
             case LOST -> "You lose";
             default -> "";
-        };
-        statusLabel.setText(result);
+        });
         nextLevelBtn.setDisable(model.getState() != GameState.WON);
         startBtn.setText(model.getState() == GameState.RUNNING ? "Restart" : "Start");
-        pauseBtn.setDisable(model.getState()!= GameState.RUNNING);
-        pauseBtn.setText(model.getState()!= GameState.RUNNING ? "" :(gameLoop.isRunning() ? "Pause" : "Resume"));
-    }
-
-    public SnakeModel getModel() {
-        return model;
-    }
-
-    public long getStepInterval() {
-        return stepInterval;
-    }
-
-    public long getLastUpdate() {
-        return lastUpdate;
+        pauseBtn.setDisable(model.getState() != GameState.RUNNING);
+        pauseBtn.setText(model.getState() != GameState.RUNNING ? "" : (gameLoop.isRunning() ? "Pause" : "Resume"));
     }
 
     private void handleKeyPress(KeyEvent event) {
@@ -138,30 +129,32 @@ public class SnakeController {
     }
 
     private void startGame() {
-        model.init();
-
-
+        model.init(levelCounter);
         if (gameLoop.isRunning()) {
             gameLoop.stop();
         }
         gameLoop.reset();
         gameLoop.start();
-
         rootPane.requestFocus();
         updateUI();
-        view.render(gameCanvas, model);
+        render();
     }
 
     private void togglePause() {
         if (gameLoop.isRunning()) {
             gameLoop.stop();
-            statusLabel.setText("Pause");
-        } else {
-            if (model.getState() == GameState.RUNNING) {
-                gameLoop.start();
-                statusLabel.setText("Playing");
-            }
+            model.setState(GameState.PAUSED);
+            statusLabel.setText("⏸ Pause");
+        } else if (model.getState() == GameState.PAUSED) {
+            model.setState(GameState.RUNNING);
+            gameLoop.start();
+            statusLabel.setText("Playing");
         }
+        updateUI();
+        render();
     }
 
+    public SnakeModel getModel() {
+        return model;
+    }
 }
