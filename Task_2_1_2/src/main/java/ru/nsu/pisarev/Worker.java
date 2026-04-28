@@ -1,10 +1,23 @@
 package ru.nsu.pisarev;
-import ru.nsu.pisarev.dto.*;
+
+import ru.nsu.pisarev.dto.AssignTask;
+import ru.nsu.pisarev.dto.BaseDTO;
+import ru.nsu.pisarev.dto.ErrorDTO;
+import ru.nsu.pisarev.dto.Heartbeat;
+import ru.nsu.pisarev.dto.Ping;
+import ru.nsu.pisarev.dto.Pong;
+import ru.nsu.pisarev.dto.Result;
+import ru.nsu.pisarev.dto.Shutdown;
 
 import java.io.IOException;
 import java.net.Socket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 public class Worker {
+    private static final Logger log = LoggerFactory.getLogger(Worker.class);
     private final int id;
     private final String masterHost;
     private final int masterPort;
@@ -92,22 +105,19 @@ public class Worker {
         t.start();
         return t;
     }
-
     private void processMessage(Object msg, java.io.ObjectOutputStream out) {
         try {
             if (msg instanceof AssignTask msgAssignTask) {
                 processTask(msgAssignTask, out);
             } else if (msg instanceof Shutdown) {
-                System.out.println("Worker " + id + " received SHUTDOWN");
+                log.info("Worker {} received SHUTDOWN", id);
                 running = false;
             } else if (msg instanceof Ping msgPing) {
-                MessageProtocol.sendObject(out,
-                        new Pong(msgPing.getTaskId(), id));
+                MessageProtocol.sendObject(out, new Pong(msgPing.getTaskId(), id));
             }
         } catch (Exception e) {
-            //TODO chage t slf4j + log4j(lagback)
-            System.err.println("Worker " + id + " error processing message: " + e.getMessage());
-            if(msg instanceof DataTransferObject msgDTO) {
+            log.error("Worker {} error processing message: {}", id, e.getMessage(), e);
+            if (msg instanceof BaseDTO msgDTO) {
                 sendError(msgDTO.getTaskId(), out, e.getMessage());
             }
         }
@@ -122,7 +132,7 @@ public class Worker {
         boolean isPrime = Utils.isPrime(number);
         boolean isNonPrime = !isPrime;
 
-        DataTransferObject result = new Result(taskId, id, isNonPrime, number);
+        Result result = new Result(taskId, id, number, isNonPrime);
         result.setSequenceNumber(assignTask.getSequenceNumber());
 
         MessageProtocol.sendObject(out, result);
@@ -136,7 +146,7 @@ public class Worker {
 
     private void sendError(String taskId, java.io.ObjectOutputStream out, String error) {
         try {
-            DataTransferObject errorDTO = new ErrorDTO(taskId, id);
+            BaseDTO errorDTO = new ErrorDTO(taskId, id);
             MessageProtocol.sendObject(out, errorDTO);
         } catch (IOException e) {
             System.err.println("Failed to send error: " + e.getMessage());

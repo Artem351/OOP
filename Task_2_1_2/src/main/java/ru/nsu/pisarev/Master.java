@@ -1,7 +1,15 @@
 package ru.nsu.pisarev;
 
 
-import ru.nsu.pisarev.dto.*;
+import ru.nsu.pisarev.dto.Ack;
+import ru.nsu.pisarev.dto.AssignTask;
+import ru.nsu.pisarev.dto.BaseDTO;
+import ru.nsu.pisarev.dto.ErrorDTO;
+import ru.nsu.pisarev.dto.Heartbeat;
+import ru.nsu.pisarev.dto.Ping;
+import ru.nsu.pisarev.dto.Pong;
+import ru.nsu.pisarev.dto.Result;
+import ru.nsu.pisarev.dto.Shutdown;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -136,7 +144,7 @@ public class Master {
         }
     }
 
-    private void handleResult(WorkerInfo worker, DataTransferObject msg) {
+    private void handleResult(WorkerInfo worker, Result msg) {
         Task completed = activeTasks.remove(msg.getTaskId());
         if (completed == null) {
             System.out.println("Unknown task completed: " + msg.getTaskId());
@@ -168,7 +176,7 @@ public class Master {
         task.setAssignedTime(System.currentTimeMillis());
         activeTasks.put(task.getId(), task);
 
-        DataTransferObject dto = new AssignTask(task.getId(), worker.getId());
+        AssignTask dto = new AssignTask(task.getId(), worker.getId());
         dto.setNumber(task.getNumber());
         dto.setSequenceNumber(task.getIndex());
 
