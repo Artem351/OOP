@@ -25,7 +25,9 @@ public class SnakeView {
                        List<Point> snake, Set<Point> obstacles,
                        List<Point> food, GameState state) {
         double w = canvas.getWidth(), h = canvas.getHeight();
-        if (w <= 0 || h <= 0) return;
+        if (w <= 0 || h <= 0) {
+            return;
+        }
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 

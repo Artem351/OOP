@@ -119,16 +119,14 @@ public class SnakeModel {
         }
         if (dir == Direction.UP && direction != Direction.DOWN) {
             direction = dir;
+        } else if (dir == Direction.DOWN && direction != Direction.UP) {
+            direction = dir;
         } else {
-            if (dir == Direction.DOWN && direction != Direction.UP) {
+            if (dir == Direction.LEFT && direction != Direction.RIGHT) {
                 direction = dir;
             } else {
-                if (dir == Direction.LEFT && direction != Direction.RIGHT) {
+                if (dir == Direction.RIGHT && direction != Direction.LEFT) {
                     direction = dir;
-                } else {
-                    if (dir == Direction.RIGHT && direction != Direction.LEFT) {
-                        direction = dir;
-                    }
                 }
             }
         }

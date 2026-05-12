@@ -1,4 +1,4 @@
-package ru.nsu.pisarev.controller;
+package ru.nsu.pisarev.view;
 
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -11,7 +11,6 @@ import javafx.scene.layout.BorderPane;
 import ru.nsu.pisarev.model.Direction;
 import ru.nsu.pisarev.model.GameState;
 import ru.nsu.pisarev.model.SnakeModel;
-import ru.nsu.pisarev.view.SnakeView;
 
 public class SnakeController {
     @FXML
@@ -40,26 +39,49 @@ public class SnakeController {
     @FXML
     public void initialize() {
         int cols = 30, rows = 20;
+
+        initModelAndView(cols, rows);
+        setupCanvasLayout();
+        setupInputHandling();
+        initGameLoop();
+        setupButtonActions();
+        setupResizeListeners();
+        renderInitialFrame();
+    }
+
+    private void initModelAndView(int cols, int rows) {
         model = new SnakeModel(cols, rows);
         view = new SnakeView();
+    }
 
+    private void setupCanvasLayout() {
         gameCanvas.widthProperty().bind(rootPane.widthProperty());
-        gameCanvas.heightProperty().bind(Bindings.subtract(rootPane.heightProperty(), 65));
+        gameCanvas.heightProperty().bind(Bindings.subtract(rootPane.heightProperty(), 65)); // 65px под тулбар
+    }
 
+    private void setupInputHandling() {
         rootPane.setFocusTraversable(true);
         rootPane.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPress);
         gameCanvas.setOnMouseClicked(e -> rootPane.requestFocus());
+    }
 
+    private void initGameLoop() {
         gameLoop = new GameLoop(this, gameCanvas, model, view, stepInterval);
+    }
 
+    private void setupButtonActions() {
         startBtn.setOnAction(e -> startGame());
         pauseBtn.setOnAction(e -> togglePause());
         nextLevelBtn.setDisable(true);
         nextLevelBtn.setOnAction(e -> nextLevel());
+    }
 
+    private void setupResizeListeners() {
         gameCanvas.widthProperty().addListener((obs, old, val) -> render());
         gameCanvas.heightProperty().addListener((obs, old, val) -> render());
+    }
 
+    private void renderInitialFrame() {
         updateUI();
         render();
     }

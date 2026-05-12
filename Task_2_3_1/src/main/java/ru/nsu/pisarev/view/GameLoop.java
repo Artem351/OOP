@@ -1,10 +1,9 @@
-package ru.nsu.pisarev.controller;
+package ru.nsu.pisarev.view;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import ru.nsu.pisarev.model.GameState;
 import ru.nsu.pisarev.model.SnakeModel;
-import ru.nsu.pisarev.view.SnakeView;
 
 public class GameLoop extends AnimationTimer {
     private final SnakeController controller;
