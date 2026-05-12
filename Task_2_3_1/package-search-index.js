@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"TaskSnake","l":"ru.nsu.pisarev"},{"m":"TaskSnake","l":"ru.nsu.pisarev.model"},{"m":"TaskSnake","l":"ru.nsu.pisarev.view"}];updateSearchResults();
