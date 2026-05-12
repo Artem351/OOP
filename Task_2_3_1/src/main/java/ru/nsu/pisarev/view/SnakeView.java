@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import ru.nsu.pisarev.controller.SnakeController;
 import ru.nsu.pisarev.model.GameState;
 import ru.nsu.pisarev.model.Point;
 
@@ -21,7 +22,7 @@ public class SnakeView {
     private static final Color COLOR_OVERLAY_BACKGROUND = Color.rgb(0, 0, 0, 0.6);
     private static final Color COLOR_OVERLAY_TEXT = Color.WHITE;
 
-    public void render(Canvas canvas, int cols, int rows,
+    public void render(Canvas canvas,
                        List<Point> snake, Set<Point> obstacles,
                        List<Point> food, GameState state) {
         double w = canvas.getWidth(), h = canvas.getHeight();
@@ -31,7 +32,7 @@ public class SnakeView {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Layout layout = calculateLayout(w, h, cols, rows);
+        Layout layout = calculateLayout(w, h, SnakeController.COLS, SnakeController.ROWS);
 
         drawBackground(gc, w, h);
         drawGrid(gc, layout);
