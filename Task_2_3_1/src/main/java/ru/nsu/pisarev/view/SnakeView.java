@@ -32,7 +32,7 @@ public class SnakeView {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Layout layout = calculateLayout(w, h, SnakeController.COLS, SnakeController.ROWS);
+        Layout layout = calculateLayout(w, h);
 
         drawBackground(gc, w, h);
         drawGrid(gc, layout);
@@ -45,11 +45,11 @@ public class SnakeView {
     private record Layout(double cellSize, double offsetX, double offsetY, int cols, int rows) {
     }
 
-    private Layout calculateLayout(double canvasW, double canvasH, int cols, int rows) {
-        double cellSize = Math.min(canvasW / cols, canvasH / rows);
-        double offsetX = (canvasW - cols * cellSize) / 2;
-        double offsetY = (canvasH - rows * cellSize) / 2;
-        return new Layout(cellSize, offsetX, offsetY, cols, rows);
+    private Layout calculateLayout(double canvasW, double canvasH) {
+        double cellSize = Math.min(canvasW / SnakeController.COLS, canvasH / SnakeController.ROWS);
+        double offsetX = (canvasW - SnakeController.COLS * cellSize) / 2;
+        double offsetY = (canvasH - SnakeController.ROWS * cellSize) / 2;
+        return new Layout(cellSize, offsetX, offsetY, SnakeController.COLS, SnakeController.ROWS);
     }
 
     private void drawBackground(GraphicsContext gc, double width, double height) {
@@ -62,16 +62,15 @@ public class SnakeView {
         gc.setLineWidth(1);
 
         for (int x = 0; x <= layout.cols(); x++) {
-            gc.strokeLine(
-                    layout.offsetX() + x * layout.cellSize(), layout.offsetY(),
-                    layout.offsetX() + x * layout.cellSize(), layout.offsetY() + layout.rows() * layout.cellSize()
+            double offsetLayoutX = layout.offsetX() + x * layout.cellSize();
+            gc.strokeLine(offsetLayoutX, layout.offsetY(),
+                    offsetLayoutX, layout.offsetY() + layout.rows() * layout.cellSize()
             );
         }
         for (int y = 0; y <= layout.rows(); y++) {
-            gc.strokeLine(
-                    layout.offsetX(), layout.offsetY() + y * layout.cellSize(),
-                    layout.offsetX() + layout.cols() * layout.cellSize(), layout.offsetY() + y * layout.cellSize()
-            );
+            double offsetLayoutY = layout.offsetY() + y * layout.cellSize();
+            gc.strokeLine(layout.offsetX(), offsetLayoutY,
+                    layout.offsetX() + layout.cols() * layout.cellSize(), offsetLayoutY);
         }
     }
 
@@ -151,13 +150,5 @@ public class SnakeView {
                 layout.cellSize() - 4,
                 layout.cellSize() - 4
         );
-    }
-
-    private void drawRect(GraphicsContext gc, Point p, double cellSize, double ox, double oy) {
-        gc.fillRect(ox + p.x() * cellSize + 1, oy + p.y() * cellSize + 1, cellSize - 2, cellSize - 2);
-    }
-
-    private void drawOval(GraphicsContext gc, Point p, double cellSize, double ox, double oy) {
-        gc.fillOval(ox + p.x() * cellSize + 2, oy + p.y() * cellSize + 2, cellSize - 4, cellSize - 4);
     }
 }

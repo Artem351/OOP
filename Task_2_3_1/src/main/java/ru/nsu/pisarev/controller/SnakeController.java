@@ -4,36 +4,41 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import ru.nsu.pisarev.model.Direction;
 import ru.nsu.pisarev.model.GameState;
-import ru.nsu.pisarev.model.Point;
 import ru.nsu.pisarev.model.SnakeModel;
 import ru.nsu.pisarev.view.GameLoop;
 import ru.nsu.pisarev.view.MainWindow;
-import ru.nsu.pisarev.view.SnakeView;
-
-import java.util.List;
-import java.util.Set;
 
 public class SnakeController {
     public final static int COLS = 30;
     public final static int ROWS = 20;
 
     private SnakeModel model;
-    private SnakeView view;
-    private GameLoop gameLoop;
 
     private MainWindow mainWindow;
     private GameController gameController;
     private int levelCounter = 1;
 
-    public void initialize() {
-        model = new SnakeModel(COLS, ROWS);
-        view = new SnakeView();
-        gameLoop = new GameLoop()
-        gameController = new GameController(view, );
-        mainWindow = new MainWindow(view, gameController, this);
-        mainWindow.initialize();
+
+    public void setMainWindow(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
     }
 
+    public void gameLoopTick(long now) {
+        if (gameController != null) {
+            gameController.handle(now);
+        }
+    }
+
+
+    public void initialize() {
+        model = new SnakeModel(COLS, ROWS);
+
+        GameLoop gameLoop = new GameLoop(this);
+        gameController = new GameController(gameLoop, model, mainWindow, mainWindow.STEP_INTERVAL);
+
+        updateUI();
+        render();
+    }
 
     public void startGame() {
         model.init(levelCounter);
@@ -103,10 +108,10 @@ public class SnakeController {
     }
 
     public void render() {
-        mainWindow.render(model.getSnake(),model.getObstacles(),model.getFood(),model.getState());
+        mainWindow.render(model.getSnake(), model.getObstacles(), model.getFood(), model.getState());
     }
 
     private void updateUI() {
-        mainWindow.updateUI(model.getScore(),model.getState(), gameController.isRunning());
+        mainWindow.updateUI(model.getScore(), model.getState(), gameController.isRunning());
     }
 }

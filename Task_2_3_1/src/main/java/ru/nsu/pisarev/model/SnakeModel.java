@@ -13,13 +13,13 @@ public class SnakeModel {
     private int foodCount = 3;
     private int winLength = 10;
     private Direction direction = Direction.RIGHT;
-    private LinkedList<Point> snake = new LinkedList<>();
-    private Set<Point> bodySet = new HashSet<>();
-    private Set<Point> obstacles = new HashSet<>();
-    private List<Point> food = new ArrayList<>();
+    private final LinkedList<Point> snake = new LinkedList<>();
+    private final Set<Point> bodySet = new HashSet<>();
+    private final Set<Point> obstacles = new HashSet<>();
+    private final List<Point> food = new ArrayList<>();
     private GameState state = GameState.READY;
     private final Random random = new Random();
-
+    private Direction pendingDirection = null;
 
     public SnakeModel(int width, int height) {
         this.width = width;
@@ -63,6 +63,10 @@ public class SnakeModel {
     public void step() {
         if (state != GameState.RUNNING) {
             return;
+        }
+        if (pendingDirection != null) {
+            direction = pendingDirection;
+            pendingDirection = null;
         }
         Point newHead = calculateNextHead();
 
@@ -118,18 +122,16 @@ public class SnakeModel {
             return;
         }
         if (dir == Direction.UP && direction != Direction.DOWN) {
-            direction = dir;
+            pendingDirection = dir;
         } else if (dir == Direction.DOWN && direction != Direction.UP) {
-            direction = dir;
-        } else {
-            if (dir == Direction.LEFT && direction != Direction.RIGHT) {
-                direction = dir;
-            } else {
-                if (dir == Direction.RIGHT && direction != Direction.LEFT) {
-                    direction = dir;
-                }
-            }
+            pendingDirection = dir;
+        } else if (dir == Direction.LEFT && direction != Direction.RIGHT) {
+            pendingDirection = dir;
+        } else if (dir == Direction.RIGHT && direction != Direction.LEFT) {
+            pendingDirection = dir;
         }
+
+
     }
 
     private void spawnFood() {
@@ -139,14 +141,6 @@ public class SnakeModel {
         }
         while (bodySet.contains(p) || obstacles.contains(p) || food.contains(p));
         food.add(p);
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public List<Point> getSnake() {

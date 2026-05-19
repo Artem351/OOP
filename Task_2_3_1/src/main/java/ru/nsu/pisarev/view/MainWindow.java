@@ -5,25 +5,20 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import ru.nsu.pisarev.controller.GameController;
 import ru.nsu.pisarev.controller.SnakeController;
-import ru.nsu.pisarev.model.Direction;
 import ru.nsu.pisarev.model.GameState;
 import ru.nsu.pisarev.model.Point;
-import ru.nsu.pisarev.model.SnakeModel;
 
 import java.util.List;
 import java.util.Set;
 
 public class MainWindow {
-    private final long STEP_INTERVAL = 120_000_000;
+    public final long STEP_INTERVAL = 120_000_000;
 
-    private final SnakeView view;
-    private final GameController gameController;
-    private final SnakeController snakeController;
+    private final SnakeView view;//final field, specific constructor for application
+    private SnakeController snakeController;//final field, specific constructor for application
     @FXML
     public Button nextLevelBtn;
     @FXML
@@ -41,17 +36,30 @@ public class MainWindow {
     @FXML
     private Button startBtn;
 
-    private GameLoop gameLoop;
 
+    private boolean initialized = false;
 
-    public MainWindow(SnakeView view, GameController gameController, SnakeController snakeController) {
-        this.view = view;
-        this.gameController = gameController;
+    public MainWindow() {
+        this.view = new SnakeView();
+    }
+
+    public void injectDependencies(SnakeController snakeController) {
         this.snakeController = snakeController;
+        if (initialized) {
+            finishInitialization();
+        }
     }
 
     @FXML
     public void initialize() {
+        initialized = true;
+        if (snakeController == null) { //do it later
+            return;
+        }
+        finishInitialization();
+    }
+
+    public void finishInitialization() {
         setupCanvasLayout();
         setupInputHandling();
         setupButtonActions();
@@ -84,8 +92,8 @@ public class MainWindow {
 
 
     public void render(
-                       List<Point> snake, Set<Point> obstacles,
-                       List<Point> food, GameState state) {
+            List<Point> snake, Set<Point> obstacles,
+            List<Point> food, GameState state) {
         view.render(gameCanvas, snake, obstacles, food, state);
     }
 
@@ -132,4 +140,5 @@ public class MainWindow {
     public void requestFocus() {
         rootPane.requestFocus();
     }
+
 }

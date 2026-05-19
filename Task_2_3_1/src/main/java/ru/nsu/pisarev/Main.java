@@ -5,12 +5,24 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ru.nsu.pisarev.controller.SnakeController;
+import ru.nsu.pisarev.view.MainWindow;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("snake.fxml"));
         Parent root = loader.load();
+
+        MainWindow mainWindow = loader.getController();
+        SnakeController snakeController = new SnakeController();
+
+        mainWindow.injectDependencies(snakeController);
+        snakeController.setMainWindow(mainWindow);
+
+        mainWindow.finishInitialization();
+        snakeController.initialize();
+
         primaryStage.setTitle("JavaFX Snake");
         primaryStage.setScene(new Scene(root));
         primaryStage.setWidth(850);
@@ -20,5 +32,5 @@ public class Main extends Application {
         primaryStage.setResizable(true);
         primaryStage.show();
     }
-    public static void main(String[] args) { launch(args); }
+
 }

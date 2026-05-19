@@ -1,65 +1,56 @@
 package ru.nsu.pisarev.controller;
 
 import ru.nsu.pisarev.model.GameState;
-import ru.nsu.pisarev.model.Point;
 import ru.nsu.pisarev.model.SnakeModel;
 import ru.nsu.pisarev.view.GameLoop;
 import ru.nsu.pisarev.view.MainWindow;
-import ru.nsu.pisarev.view.SnakeView;
-
-import java.util.List;
-import java.util.Set;
 
 public class GameController {
-    private final SnakeView view;
     private final GameLoop gameLoop;
     private final SnakeModel model;
     private final MainWindow mainWindow;
     private long stepInterval;
     private long lastUpdate = 0;
-
     private boolean running = false;
 
-    public GameController(SnakeView view, GameLoop gameLoop, SnakeModel model, MainWindow mainWindow, long initStepInterval) {
-        this.view = view;
+    public GameController(GameLoop gameLoop, SnakeModel model, MainWindow mainWindow, long initStepInterval) {
         this.gameLoop = gameLoop;
         this.model = model;
         this.mainWindow = mainWindow;
         this.stepInterval = initStepInterval;
     }
 
-    public void initialize(int cols, int rows,
-                           List<Point> snake, Set<Point> obstacles,
-                           List<Point> food, int score, GameState state, boolean isRunning) {
-        mainWindow.initialize();
-        mainWindow.updateUI(score, state, isRunning);
-        mainWindow.render(snake, obstacles,food, state);
-    }
-
-
     public void handle(long now) {
+        if (!running) {
+            return;
+        }
+
         if (lastUpdate == 0) {
             lastUpdate = now;
             return;
         }
+
         if (now - lastUpdate >= stepInterval) {
             if (model.getState() == GameState.RUNNING) {
-                model.step();
+                model.step();  // Логика движения
             }
-            mainWindow.updateUI(model.getScore(), model.getState(), running);
-            mainWindow.render(model.getSnake(), model.getObstacles(), model.getFood(), model.getState());
+            if (mainWindow != null) {
+                mainWindow.updateUI(model.getScore(), model.getState(), running);
+                mainWindow.render(model.getSnake(), model.getObstacles(), model.getFood(), model.getState());
+            }
             lastUpdate = now;
         }
     }
 
     public void start() {
         running = true;
+        lastUpdate = 0;
         gameLoop.start();
     }
 
     public void stop() {
-        lastUpdate = 0;
         running = false;
+        lastUpdate = 0;
         gameLoop.stop();
     }
 
@@ -69,10 +60,6 @@ public class GameController {
 
     public boolean isRunning() {
         return running;
-    }
-
-    public void setRunning(boolean running) {
-        this.running = running;
     }
 
     public void setSpeed(double factor) {
